@@ -2,35 +2,38 @@
 #define __WINDOW_HPP__
 #include "../Config/OSInfo.hpp"
 
-#include <memory>
-
+#include <unordered_map>
 #ifdef __OS_WINDOWS_64__
 #include <Windows.h>
 #endif
 
-#include "../Utilities/NonCopyable.hpp"
-
+#include "../Utilities/Utilities.hpp"
+#include "../EventManager/EventManager.hpp"
 
 
 namespace RedLightbulb
 {
-	class Window : public NonCopyable
+	class Window
 	{
-	private:
-		Window() = default;
 	public:
-		static Window& create();
-		static void destroy();
+		void create();
+		void destroy();
 
+	#ifdef __OS_WINDOWS_64__
+		static Window* getInstancePtr(HWND);
+	#endif
+
+		EventManager& getEventManager();
 	private:
 		void init();
 		void deinit();
 
 	#ifdef __OS_WINDOWS_64__
-		//LRESULT Wndproc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+		static std::unordered_map<HWND, Window*> s_instances;
+		HWND hWnd;
 	#endif
-
-		static std::unique_ptr<Window> s_instance;
+		bool bIsInitialised = false;
+		EventManager m_eventManager;
 	};
 }
 

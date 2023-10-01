@@ -7,9 +7,12 @@ add_library(RedLightbulb
 
 	"src/Config/OSInfo.hpp"
 
-	"src/Utilities/NonCopyable.hpp"
+	"src/Utilities/Utilities.hpp"
 
 	"src/Window/Window.hpp"
 	"src/Window/Window.cpp"
 
+	"src/EventManager/Event.hpp"
+	"src/EventManager/EventManager.hpp"
+	"src/EventManager/EventManager.cpp"
 )

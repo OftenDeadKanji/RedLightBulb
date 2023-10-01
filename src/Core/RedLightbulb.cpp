@@ -1,28 +1,35 @@
 #include "RedLightbulb.hpp"
-#include "../Window/Window.hpp"
 
-RedLightbulb::RedLighbulb::~RedLighbulb()
+namespace RedLightbulb
 {
-	deinit();
-}
 
-void RedLightbulb::RedLighbulb::init()
-{
-	if (m_isInitialised)
+	RedLighbulb::~RedLighbulb()
 	{
-		//deinit?
+		deinit();
 	}
-	else
+
+	Window& RedLighbulb::getWindow()
 	{
-		auto& window = Window::create();
-		
+		return m_mainWindow;
 	}
-}
 
-void RedLightbulb::RedLighbulb::deinit()
-{
-	if (m_isInitialised)
+	void RedLighbulb::init()
 	{
+		if (m_isInitialised)
+		{
+			//deinit?
+		}
+		else
+		{
+			m_mainWindow.create();
+		}
+	}
 
+	void RedLighbulb::deinit()
+	{
+		if (m_isInitialised)
+		{
+			m_mainWindow.destroy();
+		}
 	}
 }

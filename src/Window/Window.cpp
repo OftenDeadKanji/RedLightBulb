@@ -2,34 +2,45 @@
 
 namespace RedLightbulb
 {
-	std::unique_ptr<Window> Window::s_instance = nullptr;
+	std::unordered_map<HWND, Window*> Window::s_instances;
 
-	Window& Window::create()
+	void Window::create()
 	{
-		if (s_instance)
+		if (bIsInitialised)
 		{
 			//destroy?
 		}
 
-		s_instance = std::unique_ptr<Window>(new Window());
-		s_instance->init();
+		init();
+		s_instances[hWnd] = this;
+		m_eventManager.m_window = this;
 
-		return *s_instance;
+		bIsInitialised = true;
 	}
 
 	void Window::destroy()
 	{
-		if (s_instance)
+		if (bIsInitialised)
 		{
-			s_instance->deinit();
-			s_instance.release();
-			s_instance = nullptr;
+			deinit();
+			s_instances.erase(hWnd);
+
+			bIsInitialised = false;
 		}
 	}
 
-	LRESULT Wndproc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+	Window* Window::getInstancePtr(HWND hWnd)
 	{
-		return DefWindowProc(hWnd, uMsg, wParam, lParam);
+	#ifdef _SHIPPING
+		return s_instances[hWnd];
+	#else
+		return s_instances.contains(hWnd) ? s_instances[hWnd] : nullptr;
+	#endif
+	}
+
+	EventManager& Window::getEventManager()
+	{
+		return m_eventManager;
 	}
 
 	void Window::init()
@@ -39,11 +50,10 @@ namespace RedLightbulb
 		HINSTANCE hInstance = GetModuleHandle(NULL);
 		
 		const char wndClassName[] = "WindowClass1";
-		//RegisterClassExA()
 
 		WNDCLASSEXA wndClass{};
 		wndClass.cbSize = sizeof(WNDCLASSEX);
-		wndClass.lpfnWndProc = Wndproc;
+		wndClass.lpfnWndProc = EventManager::WndProc;
 		wndClass.hInstance = hInstance;
 		wndClass.lpszClassName = wndClassName;
 
@@ -54,12 +64,21 @@ namespace RedLightbulb
 			return;
 		}
 
-		HWND hWnd = CreateWindowExA(
+		int width = 800;
+		int height = 800;
+
+		int screenWidth = GetSystemMetrics(SM_CXSCREEN);
+		int screenHeight = GetSystemMetrics(SM_CYSCREEN);
+
+		int x = (screenWidth - width) / 2;
+		int y = (screenHeight - height) / 2;
+
+		hWnd = CreateWindowExA(
 			0,
 			wndClassName,
 			"RedLightbulb",
 			WS_CAPTION | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_SYSMENU,
-			0, 0,
+			x, y,
 			800, 800,
 			NULL,
 			NULL,
@@ -80,10 +99,5 @@ namespace RedLightbulb
 	}
 
 	void Window::deinit()
-	{
-	
-	}
-
-
-
+	{}
 }
