@@ -4,14 +4,17 @@ namespace RedLightbulb
 {
 	std::unordered_map<HWND, Window*> Window::s_instances;
 
-	void Window::create()
+	void Window::create(const WindowProperties& properties)
 	{
 		if (bIsInitialised)
 		{
 			//destroy?
 		}
 
+		m_properties = properties;
+		
 		init();
+
 		s_instances[hWnd] = this;
 		m_eventManager.m_window = this;
 
@@ -64,22 +67,36 @@ namespace RedLightbulb
 			return;
 		}
 
-		int width = 800;
-		int height = 800;
-
 		int screenWidth = GetSystemMetrics(SM_CXSCREEN);
 		int screenHeight = GetSystemMetrics(SM_CYSCREEN);
 
-		int x = (screenWidth - width) / 2;
-		int y = (screenHeight - height) / 2;
+		DWORD dwStyle{};
+		int x = 0, y = 0;
+
+		if (m_properties.mode == WindowProperties::Mode::Windowed)
+		{
+			dwStyle |= WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU;
+			if (m_properties.isResizeable)
+			{
+				dwStyle |= WS_MAXIMIZEBOX;
+			}
+
+			x = (screenWidth - m_properties.width) / 2;
+			y = (screenHeight - m_properties.height) / 2;
+		}
+		else
+		{
+			m_properties.width = screenWidth;
+			m_properties.height = screenHeight;
+		}
 
 		hWnd = CreateWindowExA(
 			0,
 			wndClassName,
-			"RedLightbulb",
-			WS_CAPTION | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_SYSMENU,
+			m_properties.title.c_str(),
+			dwStyle,
 			x, y,
-			800, 800,
+			m_properties.width, m_properties.height,
 			NULL,
 			NULL,
 			hInstance,

@@ -7,7 +7,7 @@
 #include <Windows.h>
 #endif
 
-#include "../Utilities/Utilities.hpp"
+#include "../Window/WindowProperties.hpp"
 #include "../EventManager/EventManager.hpp"
 
 
@@ -16,7 +16,7 @@ namespace RedLightbulb
 	class Window
 	{
 	public:
-		void create();
+		void create(const WindowProperties&);
 		void destroy();
 
 	#ifdef __OS_WINDOWS_64__
@@ -33,6 +33,8 @@ namespace RedLightbulb
 		HWND hWnd;
 	#endif
 		bool bIsInitialised = false;
+		WindowProperties m_properties;
+
 		EventManager m_eventManager;
 	};
 }

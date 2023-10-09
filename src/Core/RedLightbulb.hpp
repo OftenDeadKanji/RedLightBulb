@@ -4,12 +4,13 @@
 
 namespace RedLightbulb
 {
+	struct WindowProperties;
 	class RedLighbulb
 	{
 	public:
 		~RedLighbulb();
 
-		void init();
+		void init(const WindowProperties&);
 		void deinit();
 
 		Window& getWindow();

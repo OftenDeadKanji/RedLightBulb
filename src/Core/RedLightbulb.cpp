@@ -13,7 +13,7 @@ namespace RedLightbulb
 		return m_mainWindow;
 	}
 
-	void RedLighbulb::init()
+	void RedLighbulb::init(const WindowProperties& properties)
 	{
 		if (m_isInitialised)
 		{
@@ -21,7 +21,7 @@ namespace RedLightbulb
 		}
 		else
 		{
-			m_mainWindow.create();
+			m_mainWindow.create(properties);
 		}
 	}
 
