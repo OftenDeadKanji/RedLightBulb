@@ -1,41 +1,33 @@
 #ifndef __WINDOW_HPP__
 #define __WINDOW_HPP__
-#include "../Config/OSInfo.hpp"
-
-#include <unordered_map>
-#ifdef __OS_WINDOWS_64__
-#include <Windows.h>
-#endif
-
 #include "../Window/WindowProperties.hpp"
 #include "../EventManager/EventManager.hpp"
-
 
 namespace RedLightbulb
 {
 	class Window
 	{
 	public:
-		void create(const WindowProperties&);
-		void destroy();
+		virtual ~Window();
 
-	#ifdef __OS_WINDOWS_64__
-		static Window* getInstancePtr(HWND);
-	#endif
+		virtual void create(const WindowProperties&);
+		virtual void destroy();
+
+		virtual void showWindow() = 0;
+		virtual void hideWindow() = 0;
+
+		virtual void swapBuffers() = 0;
 
 		EventManager& getEventManager();
-	private:
-		void init();
-		void deinit();
 
-	#ifdef __OS_WINDOWS_64__
-		static std::unordered_map<HWND, Window*> s_instances;
-		HWND hWnd;
-	#endif
-		bool bIsInitialised = false;
+	protected:
+		virtual void init() = 0;
+		virtual void deinit() = 0;
+
+		bool m_isInitialised = false;
 		WindowProperties m_properties;
 
-		EventManager m_eventManager;
+		EventManager* m_eventManager;
 	};
 }
 

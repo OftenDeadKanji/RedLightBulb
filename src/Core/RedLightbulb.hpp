@@ -13,10 +13,12 @@ namespace RedLightbulb
 		void init(const WindowProperties&);
 		void deinit();
 
+		void render();
+
 		Window& getWindow();
 	private:
 		bool m_isInitialised = false;
-		Window m_mainWindow;
+		Window* m_mainWindow;
 	};
 }
 

@@ -1,4 +1,7 @@
 #include "RedLightbulb.hpp"
+#include "../Window/WindowWindows.hpp"
+#include "../Renderer/RendererOpenGL.hpp"
+#include "../Config/OSInfo.hpp"
 
 namespace RedLightbulb
 {
@@ -10,7 +13,7 @@ namespace RedLightbulb
 
 	Window& RedLighbulb::getWindow()
 	{
-		return m_mainWindow;
+		return *m_mainWindow;
 	}
 
 	void RedLighbulb::init(const WindowProperties& properties)
@@ -21,7 +24,11 @@ namespace RedLightbulb
 		}
 		else
 		{
-			m_mainWindow.create(properties);
+		#ifdef __OS_WINDOWS_64__
+			m_mainWindow = new WindowWindows();
+			m_mainWindow->create(properties);
+		#endif
+			Renderer::createInstance(*m_mainWindow);
 		}
 	}
 
@@ -29,7 +36,12 @@ namespace RedLightbulb
 	{
 		if (m_isInitialised)
 		{
-			m_mainWindow.destroy();
+			m_mainWindow->destroy();
+			delete m_mainWindow;
 		}
+	}
+	void RedLighbulb::render()
+	{
+		Renderer::getInstance().render(1.0f);
 	}
 }
