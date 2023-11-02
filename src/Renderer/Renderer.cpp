@@ -1,5 +1,5 @@
 #include "Renderer.hpp"
-#include "RendererOpenGL.hpp"
+#include "OpenGL/RendererOpenGL.hpp"
 
 namespace RedLightbulb
 {
@@ -22,6 +22,7 @@ namespace RedLightbulb
 
     void Renderer::destroyInstance()
     {
+        s_instance->deinit();
         s_instance.release();
     }
 }

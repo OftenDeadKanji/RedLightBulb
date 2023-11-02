@@ -1,18 +1,20 @@
 #ifndef __RENDERER_HPP__
 #define __RENDERER_HPP__
 #include <memory>
+#include "../Utilities/Utilities.hpp"
+#include "../Math/Math.hpp"
 
 namespace RedLightbulb
 {
 	class Window;
 
-	class Renderer
+	class Renderer : public NonCopyable
 	{
 	protected:
 		Renderer() = default;
 	public:
-		static Renderer& getInstance();
 		static Renderer& createInstance(Window&);
+		static Renderer& getInstance();
 		static void destroyInstance();
 
 		virtual void init() = 0;

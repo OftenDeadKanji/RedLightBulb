@@ -1,5 +1,6 @@
 #ifndef __RED_LIGHTBULB_HPP__
 #define __RED_LIGHTBULB_HPP__
+#include <memory>
 #include "../Window/Window.hpp"
 
 namespace RedLightbulb
@@ -18,7 +19,7 @@ namespace RedLightbulb
 		Window& getWindow();
 	private:
 		bool m_isInitialised = false;
-		Window* m_mainWindow;
+		std::unique_ptr<Window> m_mainWindow;
 	};
 }
 

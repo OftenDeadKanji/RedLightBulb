@@ -39,7 +39,7 @@
     <ClInclude Include="src\Renderer\Renderer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Renderer\RendererOpenGL.hpp">
+    <ClInclude Include="src\Renderer\OpenGL\RendererOpenGL.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Dependencies\OS\Windows.hpp">
@@ -49,6 +49,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\EventManager\EventManagerWindows.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Math\Math.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Renderer\General\Vertex\Vertex.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Renderer\General\Mesh\Mesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Renderer\General\Mesh\SubMesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ResourceManagers\MeshManager\MeshManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -65,7 +80,7 @@
     <ClCompile Include="src\Renderer\Renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Renderer\RendererOpenGL.cpp">
+    <ClCompile Include="src\Renderer\OpenGL\RendererOpenGL.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Dependencies\glad\gl.c">
@@ -80,5 +95,20 @@
     <ClCompile Include="src\EventManager\EventManagerWindows.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Renderer\General\Mesh\Mesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderer\General\Mesh\SubMesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ResourceManagers\MeshManager\MeshManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\Unlit\UnlitVS.glsl" />
   </ItemGroup>
 </Project>

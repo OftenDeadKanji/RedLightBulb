@@ -1,14 +1,18 @@
 #include "RedLightbulb.hpp"
+#include <iostream>
 #include "../Window/WindowWindows.hpp"
-#include "../Renderer/RendererOpenGL.hpp"
+#include "../Renderer/OpenGL/RendererOpenGL.hpp"
 #include "../Config/OSInfo.hpp"
+#include "../ResourceManagers/MeshManager/MeshManager.h"
 
 namespace RedLightbulb
 {
-
 	RedLighbulb::~RedLighbulb()
 	{
-		deinit();
+		if (m_isInitialised)
+		{
+			std::cout << "[WARNING] RedLightbulb is being destroyed without deinit() before!" << std::endl;
+		}
 	}
 
 	Window& RedLighbulb::getWindow()
@@ -25,10 +29,14 @@ namespace RedLightbulb
 		else
 		{
 		#ifdef __OS_WINDOWS_64__
-			m_mainWindow = new WindowWindows();
-			m_mainWindow->create(properties);
+			m_mainWindow = std::unique_ptr<Window>(new WindowWindows());
 		#endif
+			m_mainWindow->create(properties);
+
 			Renderer::createInstance(*m_mainWindow);
+			MeshManager::createInstance();
+
+			m_isInitialised = true;
 		}
 	}
 
@@ -36,8 +44,13 @@ namespace RedLightbulb
 	{
 		if (m_isInitialised)
 		{
+			MeshManager::destroy();
+			Renderer::destroyInstance();
+
 			m_mainWindow->destroy();
-			delete m_mainWindow;
+			m_mainWindow.release();
+
+			m_isInitialised = false;
 		}
 	}
 	void RedLighbulb::render()

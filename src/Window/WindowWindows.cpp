@@ -55,7 +55,6 @@ namespace RedLightbulb
 
 	void WindowWindows::init()
 	{
-
 		HINSTANCE hInstance = GetModuleHandle(NULL);
 
 		const char wndClassName[] = "WindowClass1";
@@ -126,6 +125,8 @@ namespace RedLightbulb
 
 	void WindowWindows::deinit()
 	{
-		delete m_eventManager;
+		DestroyWindow(m_hWnd);
+		m_eventManager->pollEvents();
+		//delete m_eventManager;
 	}
 }

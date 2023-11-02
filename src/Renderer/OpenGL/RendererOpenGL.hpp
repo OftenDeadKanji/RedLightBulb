@@ -1,9 +1,9 @@
 #ifndef __RENDERER_OPENGL_HPP__
 #define __RENDERER_OPENGL_HPP__
-#include "Renderer.hpp"
-#include "../Config/OSInfo.hpp"
+#include "../Renderer.hpp"
+#include "../../Config/OSInfo.hpp"
 
-#include "../Dependencies/OS/Windows.hpp"
+#include "../../Dependencies/OS/Windows.hpp"
 
 
 namespace RedLightbulb
@@ -16,7 +16,17 @@ namespace RedLightbulb
 
 		void render(float deltaTime) override;
 	private:
+		void createContext();
+		void initClearColors();
+
+		void clearBuffers();
+
 		HGLRC m_context;
+
+		struct
+		{
+			Vec4 mainColorBuffer;
+		} m_clearColors;
 	};
 }
 #endif

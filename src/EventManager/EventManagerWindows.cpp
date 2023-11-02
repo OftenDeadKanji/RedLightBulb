@@ -28,6 +28,10 @@ namespace RedLightbulb
 				receivedEvent.type = Event::Type::WindowClose;
 				eventManager.m_eventsQueue.emplace(receivedEvent);
 				break;
+			case WM_DESTROY:
+				DeleteDC(window->getHDC());
+				PostQuitMessage(0);
+				break;
 			default:
 				return DefWindowProcA(hWnd, uMsg, wParam, lParam);
 		}

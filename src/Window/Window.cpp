@@ -1,4 +1,5 @@
 #include "Window.hpp"
+#include <iostream>
 
 namespace RedLightbulb
 {
@@ -6,7 +7,7 @@ namespace RedLightbulb
 	{
 		if (m_isInitialised)
 		{
-			destroy();
+			std::cout << "[WARNING] Window is being destroyed without deinit() before!" << std::endl;
 		}
 	}
 
@@ -15,6 +16,7 @@ namespace RedLightbulb
 		if (m_isInitialised)
 		{
 			//destroy?
+			return;
 		}
 
 		m_properties = properties;

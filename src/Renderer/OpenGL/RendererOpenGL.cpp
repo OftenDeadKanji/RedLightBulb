@@ -1,13 +1,37 @@
 #include "RendererOpenGL.hpp"
-#include "../Config/OSInfo.hpp"
+#include "../../Config/OSInfo.hpp"
 
-#include "../Window/WindowWindows.hpp"
-#include "glad/glad/wgl.h"
-#include "glad/glad/gl.h"
 #include <iostream>
+
+#include "../../Dependencies/glad/glad/wgl.h"
+#include "../../Dependencies/glad/glad/gl.h"
+
+#include "../../Window/WindowWindows.hpp"
+
 namespace RedLightbulb
 {
 	void RendererOpenGL::init()
+	{
+		createContext();
+		initClearColors();
+	}
+
+	void RendererOpenGL::deinit()
+	{
+	#ifdef __OS_WINDOWS_64__
+		WindowWindows* window = static_cast<WindowWindows*>(m_window);
+
+		wglMakeCurrent(window->getHDC(), NULL);
+		wglDeleteContext(m_context);
+	#endif
+	}
+
+	void RendererOpenGL::render(float deltaTime)
+	{
+		clearBuffers();
+	}
+
+	void RendererOpenGL::createContext()
 	{
 	#ifdef __OS_WINDOWS_64__
 		WindowWindows* window = static_cast<WindowWindows*>(m_window);
@@ -37,7 +61,7 @@ namespace RedLightbulb
 
 		m_context = wglCreateContext(window->getHDC());
 		wglMakeCurrent(window->getHDC(), m_context);
-		
+
 		gladLoaderLoadWGL(window->getHDC());
 
 		const int pixelFormatAttribList[] =
@@ -56,7 +80,7 @@ namespace RedLightbulb
 		UINT numFormats;
 
 		wglChoosePixelFormatARB(window->getHDC(), pixelFormatAttribList, NULL, 1, &pixelFormat, &numFormats);
-		
+
 		const int contextAttribList[] =
 		{
 			WGL_CONTEXT_MAJOR_VERSION_ARB, 4,
@@ -76,24 +100,19 @@ namespace RedLightbulb
 
 		wglMakeCurrent(window->getHDC(), context);
 		gladLoaderLoadGL();
-		
+
 		m_context = context;
 	#endif
 	}
-
-	void RendererOpenGL::deinit()
+	
+	void RendererOpenGL::initClearColors()
 	{
-	#ifdef __OS_WINDOWS_64__
-		WindowWindows* window = static_cast<WindowWindows*>(m_window);
-
-		wglMakeCurrent(window->getHDC(), NULL);
-		wglDeleteContext(m_context);
-	#endif
+		m_clearColors.mainColorBuffer = Vec4(0.0f, 0.0f, 0.0f, 1.0f);
 	}
-
-	void RendererOpenGL::render(float deltaTime)
+	
+	void RendererOpenGL::clearBuffers()
 	{
-		glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+		glClearColor(m_clearColors.mainColorBuffer.r, m_clearColors.mainColorBuffer.g, m_clearColors.mainColorBuffer.b, m_clearColors.mainColorBuffer.a);
 		glClear(GL_COLOR_BUFFER_BIT);
 	}
 }
