@@ -63,7 +63,16 @@
     <ClInclude Include="src\Renderer\General\Mesh\SubMesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ResourceManagers\MeshManager\MeshManager.h">
+    <ClInclude Include="src\ResourceManagers\MeshManager\MeshManager.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Renderer\General\ShadingModels\ShadingModel.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Renderer\General\Shader\Shader.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Renderer\OpenGL\Shader\ShaderOpenGL.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -107,8 +116,18 @@
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Renderer\General\ShadingModels\ShadingModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderer\General\Shader\Shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderer\OpenGL\Shader\ShaderOpenGL.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Unlit\UnlitVS.glsl" />
+    <None Include="Shaders\Unlit\UnlitPS.glsl" />
   </ItemGroup>
 </Project>

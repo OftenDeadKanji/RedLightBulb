@@ -141,7 +141,10 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\ResourceManagers\MeshManager\MeshManager.h" />
+    <ClInclude Include="src\Renderer\OpenGL\Shader\ShaderOpenGL.hpp" />
+    <ClInclude Include="src\Renderer\General\Shader\Shader.hpp" />
+    <ClInclude Include="src\Renderer\General\ShadingModels\ShadingModel.hpp" />
+    <ClInclude Include="src\ResourceManagers\MeshManager\MeshManager.hpp" />
     <ClInclude Include="src\Renderer\General\Mesh\Mesh.h" />
     <ClInclude Include="src\EventManager\EventManagerWindows.h" />
     <ClInclude Include="src\Dependencies\OS\Windows.hpp" />
@@ -160,6 +163,9 @@
     <ClInclude Include="src\Renderer\General\Mesh\SubMesh.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Renderer\OpenGL\Shader\ShaderOpenGL.cpp" />
+    <ClCompile Include="src\Renderer\General\Shader\Shader.cpp" />
+    <ClCompile Include="src\Renderer\General\ShadingModels\ShadingModel.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ResourceManagers\MeshManager\MeshManager.cpp">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)src\Dependencies\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -179,6 +185,7 @@
     <ClCompile Include="src\Renderer\General\Mesh\SubMesh.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Shaders\Unlit\UnlitPS.glsl" />
     <None Include="Shaders\Unlit\UnlitVS.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
