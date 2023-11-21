@@ -2,7 +2,7 @@
 
 namespace RedLightbulb
 {
-	class ShadingModel
+	class ShadingModelOpenGL
 	{
 	public:
 

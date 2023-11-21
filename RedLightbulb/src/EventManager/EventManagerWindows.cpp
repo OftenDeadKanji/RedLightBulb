@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "EventManagerWindows.h"
 #include "../Window/WindowWindows.hpp"
 
@@ -32,8 +33,8 @@ namespace RedLightbulb
 				DeleteDC(window->getHDC());
 				PostQuitMessage(0);
 				break;
-			default:
-				return DefWindowProcA(hWnd, uMsg, wParam, lParam);
 		}
+
+		return DefWindowProcA(hWnd, uMsg, wParam, lParam);
 	}
 }

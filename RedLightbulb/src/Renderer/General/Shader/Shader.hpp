@@ -9,7 +9,7 @@ namespace RedLightbulb
 	public:
 		virtual ~Shader();
 
-		virtual void create(const std::string& vertexShaderFile, const std::string& fragmentShaderFile) = 0;
+		virtual void create(std::string name, const std::string& vertexShaderFile, const std::string& fragmentShaderFile);
 		virtual void destroy() = 0;
 
 		virtual void setIntUniform(int value) = 0;
@@ -21,9 +21,8 @@ namespace RedLightbulb
 		virtual void setMat4Uniform(const Mat4& value) = 0;
 	protected:
 		bool m_isInitialized = false;
+		std::string m_name;
 
-		virtual void loadVertexShaderFile(const std::string& vertexShaderFile) = 0;
-		virtual void loadFragmentShaderFile(const std::string& vertexShaderFile) = 0;
 
 	};
 }

@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "RendererOpenGL.hpp"
 #include "../../Config/OSInfo.hpp"
 

@@ -25,7 +25,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -84,7 +84,9 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
-      <AdditionalIncludeDirectories>$(ProjectDir)src\Dependencies\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src\;$(ProjectDir)src\Dependencies\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -104,7 +106,9 @@
       <PreprocessorDefinitions>_RELEASE;_CONSOLE;%(PreprocessorDefinitions);GLEW_STATIC</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)src\Dependencies\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src\;$(ProjectDir)src\Dependencies\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -127,7 +131,9 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
-      <AdditionalIncludeDirectories>$(ProjectDir)src\Dependencies\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src\;$(ProjectDir)src\Dependencies\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -141,9 +147,12 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\Renderer\OpenGL\Shader\ShaderOpenGL.hpp" />
     <ClInclude Include="src\Renderer\General\Shader\Shader.hpp" />
     <ClInclude Include="src\Renderer\General\ShadingModels\ShadingModel.hpp" />
+    <ClInclude Include="src\Renderer\OpenGL\ShadingModel.hpp" />
+    <ClInclude Include="src\Renderer\OpenGL\ShadingModels\ShadingModelOpenGL.hpp" />
     <ClInclude Include="src\ResourceManagers\MeshManager\MeshManager.hpp" />
     <ClInclude Include="src\Renderer\General\Mesh\Mesh.h" />
     <ClInclude Include="src\EventManager\EventManagerWindows.h" />
@@ -163,10 +172,18 @@
     <ClInclude Include="src\Renderer\General\Mesh\SubMesh.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\pch.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Shipping|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\Renderer\OpenGL\Shader\ShaderOpenGL.cpp" />
     <ClCompile Include="src\Renderer\General\Shader\Shader.cpp" />
     <ClCompile Include="src\Renderer\General\ShadingModels\ShadingModel.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Renderer\OpenGL\ShadingModel.cpp" />
+    <ClCompile Include="src\Renderer\OpenGL\ShadingModels\ShadingModelOpenGL.cpp" />
     <ClCompile Include="src\ResourceManagers\MeshManager\MeshManager.cpp">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)src\Dependencies\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Shipping|x64'">$(ProjectDir)src\Dependencies\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -174,12 +191,21 @@
     </ClCompile>
     <ClCompile Include="src\Renderer\General\Mesh\Mesh.cpp" />
     <ClCompile Include="src\EventManager\EventManagerWindows.cpp" />
-    <ClCompile Include="src\Dependencies\glad\gl.c" />
-    <ClCompile Include="src\Dependencies\glad\wgl.c" />
+    <ClCompile Include="src\Dependencies\glad\gl.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Shipping|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\Dependencies\glad\wgl.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Shipping|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\Renderer\OpenGL\RendererOpenGL.cpp" />
     <ClCompile Include="src\Renderer\Renderer.cpp" />
     <ClCompile Include="src\Core\RedLightbulb.cpp" />
     <ClCompile Include="src\EventManager\EventManager.cpp" />
+    <ClCompile Include="src\Utilities\Utilities.cpp" />
     <ClCompile Include="src\Window\Window.cpp" />
     <ClCompile Include="src\Window\WindowWindows.cpp" />
     <ClCompile Include="src\Renderer\General\Mesh\SubMesh.cpp" />

@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "EventManager.hpp"
 #include "../Config/OSInfo.hpp"
 #include "../Window/Window.hpp"

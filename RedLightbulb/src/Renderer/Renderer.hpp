@@ -8,7 +8,7 @@ namespace RedLightbulb
 {
 	class Window;
 
-	class Renderer : public NonCopyable
+	class Renderer : public Utilities::NonCopyable
 	{
 	protected:
 		Renderer() = default;

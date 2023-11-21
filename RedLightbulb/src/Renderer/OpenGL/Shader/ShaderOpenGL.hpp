@@ -1,12 +1,13 @@
 #pragma once
 #include "../../General/Shader/Shader.hpp"
 
+
 namespace RedLightbulb
 {
 	class ShaderOpenGL : public Shader
 	{
 	public:
-		void create(const std::string& vertexShaderFile, const std::string& fragmentShaderFile) override;
+		void create(std::string name, const std::string& vertexShaderFile, const std::string& fragmentShaderFile) override;
 		void destroy() override;
 
 		void setIntUniform(int value) override;
@@ -17,7 +18,9 @@ namespace RedLightbulb
 		void setVec4Uniform(const Vec4& value) override;
 		void setMat4Uniform(const Mat4& value) override;
 	private:
-		void loadVertexShaderFile(const std::string& vertexShaderFile) override;
-		void loadFragmentShaderFile(const std::string& vertexShaderFile) override;
+		void loadVertexShaderFile(const std::string& vertexShaderFile);
+		void loadFragmentShaderFile(const std::string& vertexShaderFile);
+
+		GLuint shaderProgram;
 	};
 }

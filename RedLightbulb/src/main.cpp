@@ -1,7 +1,8 @@
+#include "pch.h"
 #include <iostream>
 #include "Core/RedLightbulb.hpp"
 #include "EventManager/EventManager.hpp"
-#include "ResourceManagers/MeshManager/MeshManager.h"
+#include "ResourceManagers/MeshManager/MeshManager.hpp"
 
 using namespace RedLightbulb;
 
