@@ -148,10 +148,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\pch.h" />
+    <ClInclude Include="src\Renderer\General\ShadingModels\UnlitShadingModel.hpp" />
     <ClInclude Include="src\Renderer\OpenGL\Shader\ShaderOpenGL.hpp" />
     <ClInclude Include="src\Renderer\General\Shader\Shader.hpp" />
     <ClInclude Include="src\Renderer\General\ShadingModels\ShadingModel.hpp" />
-    <ClInclude Include="src\Renderer\OpenGL\ShadingModel.hpp" />
     <ClInclude Include="src\Renderer\OpenGL\ShadingModels\ShadingModelOpenGL.hpp" />
     <ClInclude Include="src\ResourceManagers\MeshManager\MeshManager.hpp" />
     <ClInclude Include="src\Renderer\General\Mesh\Mesh.h" />
@@ -178,11 +178,11 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Shipping|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\Renderer\General\ShadingModels\UnlitShadingModel.cpp" />
     <ClCompile Include="src\Renderer\OpenGL\Shader\ShaderOpenGL.cpp" />
     <ClCompile Include="src\Renderer\General\Shader\Shader.cpp" />
     <ClCompile Include="src\Renderer\General\ShadingModels\ShadingModel.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\Renderer\OpenGL\ShadingModel.cpp" />
     <ClCompile Include="src\Renderer\OpenGL\ShadingModels\ShadingModelOpenGL.cpp" />
     <ClCompile Include="src\ResourceManagers\MeshManager\MeshManager.cpp">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)src\Dependencies\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
