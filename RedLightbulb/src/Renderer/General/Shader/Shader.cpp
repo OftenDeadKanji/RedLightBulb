@@ -3,15 +3,15 @@
 
 namespace RedLightbulb
 {
+	Shader::Shader(std::string name)
+		: m_name(std::move(name))
+	{}
+
 	Shader::~Shader()
 	{
 		if (m_isInitialized)
 		{
 			std::cout << "[WARNING] Shader is being destroyed without explicit destroy() before." << std::endl;
 		}
-	}
-	void Shader::create(std::string name, const std::string& vertexShaderFile, const std::string& fragmentShaderFile)
-	{
-		m_name = std::move(name);
 	}
 }

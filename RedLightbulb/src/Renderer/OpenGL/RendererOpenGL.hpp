@@ -4,7 +4,7 @@
 #include "../../Config/OSInfo.hpp"
 
 #include "../../Dependencies/OS/Windows.hpp"
-
+#include "ShadingModels/ShadingModelOpenGL.hpp"
 
 namespace RedLightbulb
 {
@@ -27,6 +27,11 @@ namespace RedLightbulb
 		{
 			Vec4 mainColorBuffer;
 		} m_clearColors;
+
+		//------------------------------------------------------
+		// Shading models
+		//------------------------------------------------------
+		ShadingModelOpenGL m_unlitShadingModel;
 	};
 }
 #endif

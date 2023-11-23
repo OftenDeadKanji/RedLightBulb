@@ -7,9 +7,11 @@ namespace RedLightbulb
 	class Shader
 	{
 	public:
+		Shader() = default;
+		explicit Shader(std::string name);
 		virtual ~Shader();
 
-		virtual void create(std::string name, const std::string& vertexShaderFile, const std::string& fragmentShaderFile);
+		virtual void create(const std::string& vertexShaderFile, const std::string& fragmentShaderFile) = 0;
 		virtual void destroy() = 0;
 
 		virtual void setIntUniform(int value) = 0;

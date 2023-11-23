@@ -5,7 +5,11 @@
 
 namespace RedLightbulb
 {
-	void ShaderOpenGL::create(std::string name, const std::string& vertexShaderFile, const std::string& fragmentShaderFile)
+	ShaderOpenGL::ShaderOpenGL(std::string name)
+		: Shader(name)
+	{}
+
+	void ShaderOpenGL::create(const std::string& vertexShaderFile, const std::string& fragmentShaderFile)
 	{
 		if (m_isInitialized)
 		{

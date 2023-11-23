@@ -7,7 +7,10 @@ namespace RedLightbulb
 	class ShaderOpenGL : public Shader
 	{
 	public:
-		void create(std::string name, const std::string& vertexShaderFile, const std::string& fragmentShaderFile) override;
+		ShaderOpenGL() = default;
+		explicit ShaderOpenGL(std::string name);
+
+		void create(const std::string& vertexShaderFile, const std::string& fragmentShaderFile) override;
 		void destroy() override;
 
 		void setIntUniform(int value) override;
