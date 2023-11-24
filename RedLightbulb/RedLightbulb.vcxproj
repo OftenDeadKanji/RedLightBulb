@@ -25,20 +25,20 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Shipping|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -149,6 +149,7 @@
   <ItemGroup>
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\Renderer\General\ShadingModels\UnlitShadingModel.hpp" />
+    <ClInclude Include="src\Renderer\OpenGL\Objetcs\VAO.hpp" />
     <ClInclude Include="src\Renderer\OpenGL\Objetcs\VBO.hpp" />
     <ClInclude Include="src\Renderer\OpenGL\Shader\ShaderOpenGL.hpp" />
     <ClInclude Include="src\Renderer\General\Shader\Shader.hpp" />
@@ -161,7 +162,7 @@
     <ClInclude Include="src\Math\Math.hpp" />
     <ClInclude Include="src\Renderer\General\Vertex\Vertex.hpp" />
     <ClInclude Include="src\Renderer\OpenGL\RendererOpenGL.hpp" />
-    <ClInclude Include="src\Renderer\Renderer.hpp" />
+    <ClInclude Include="src\Renderer\General\Renderer.hpp" />
     <ClInclude Include="src\Config\OSInfo.hpp" />
     <ClInclude Include="src\Core\RedLightbulb.hpp" />
     <ClInclude Include="src\EventManager\Event.hpp" />
@@ -170,7 +171,6 @@
     <ClInclude Include="src\Window\Window.hpp" />
     <ClInclude Include="src\Window\WindowProperties.hpp" />
     <ClInclude Include="src\Window\WindowWindows.hpp" />
-    <ClInclude Include="src\Renderer\General\Mesh\SubMesh.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\pch.cpp">
@@ -180,6 +180,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\Renderer\General\ShadingModels\UnlitShadingModel.cpp" />
+    <ClCompile Include="src\Renderer\OpenGL\Objetcs\VAO.cpp" />
     <ClCompile Include="src\Renderer\OpenGL\Objetcs\VBO.cpp" />
     <ClCompile Include="src\Renderer\OpenGL\Shader\ShaderOpenGL.cpp" />
     <ClCompile Include="src\Renderer\General\Shader\Shader.cpp" />
@@ -204,13 +205,12 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\Renderer\OpenGL\RendererOpenGL.cpp" />
-    <ClCompile Include="src\Renderer\Renderer.cpp" />
+    <ClCompile Include="src\Renderer\General\Renderer.cpp" />
     <ClCompile Include="src\Core\RedLightbulb.cpp" />
     <ClCompile Include="src\EventManager\EventManager.cpp" />
     <ClCompile Include="src\Utilities\Utilities.cpp" />
     <ClCompile Include="src\Window\Window.cpp" />
     <ClCompile Include="src\Window\WindowWindows.cpp" />
-    <ClCompile Include="src\Renderer\General\Mesh\SubMesh.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Unlit\UnlitFS.glsl" />

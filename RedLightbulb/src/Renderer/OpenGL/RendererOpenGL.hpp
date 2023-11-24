@@ -1,6 +1,6 @@
 #ifndef __RENDERER_OPENGL_HPP__
 #define __RENDERER_OPENGL_HPP__
-#include "../Renderer.hpp"
+#include "../General/Renderer.hpp"
 #include "../../Config/OSInfo.hpp"
 
 #include "../../Dependencies/OS/Windows.hpp"
@@ -15,6 +15,8 @@ namespace RedLightbulb
 		void deinit() override;
 
 		void render(float deltaTime) override;
+
+		void addUnlitMesh(UnlitShadingModelOpenGL::);
 	private:
 		void createContext();
 		void initClearColors();

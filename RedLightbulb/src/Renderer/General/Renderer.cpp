@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "Renderer.hpp"
-#include "OpenGL/RendererOpenGL.hpp"
+#include "../OpenGL/RendererOpenGL.hpp"
 
 namespace RedLightbulb
 {
@@ -25,5 +25,8 @@ namespace RedLightbulb
     {
         s_instance->deinit();
         s_instance.release();
+    }
+    void Renderer::addUnlitMesh(const Mesh* mesh, const std::vector<std::pair<Mesh::SubMesh*, UnlitShadingModel::Material*>>& subMeshesMaterials, UnlitShadingModel::Instance instance)
+    {
     }
 }

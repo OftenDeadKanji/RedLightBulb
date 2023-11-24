@@ -46,17 +46,17 @@ namespace RedLightbulb
 			std::cout << "[ERROR] " << m_name << " - Fragment shader compilation failed: " << log << "\n";
 		}
 
-		shaderProgram = glCreateProgram();
+		m_id = glCreateProgram();
 
-		glAttachShader(shaderProgram, vertexShader);
-		glAttachShader(shaderProgram, fragmentShader);
-		glLinkProgram(shaderProgram);
+		glAttachShader(m_id, vertexShader);
+		glAttachShader(m_id, fragmentShader);
+		glLinkProgram(m_id);
 
-		glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
+		glGetProgramiv(m_id, GL_LINK_STATUS, &success);
 		if (!success)
 		{
 			char log[1024];
-			glGetProgramInfoLog(shaderProgram, 1024, nullptr, log);
+			glGetProgramInfoLog(m_id, 1024, nullptr, log);
 			std::cout << "[ERROR] " << m_name << " - shader linkage failed: " << log << "\n";
 		}
 
@@ -87,6 +87,11 @@ namespace RedLightbulb
 
 	void ShaderOpenGL::setMat4Uniform(const Mat4& value)
 	{}
+
+	void ShaderOpenGL::bind()
+	{
+		glUseProgram(m_id);
+	}
 
 	void ShaderOpenGL::loadVertexShaderFile(const std::string& vertexShaderFile)
 	{

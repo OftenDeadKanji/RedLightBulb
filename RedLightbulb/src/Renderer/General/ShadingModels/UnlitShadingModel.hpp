@@ -4,7 +4,7 @@
 namespace RedLightbulb
 {
 	class UnlitShadingModel
-		: public ShadingModel
+		: public ShadingModel<int, int>
 	{
 	public:
 		virtual void create() override;

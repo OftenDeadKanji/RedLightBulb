@@ -21,10 +21,10 @@ namespace RedLightbulb
 		virtual void setVec3Uniform(const Vec3& value) = 0;
 		virtual void setVec4Uniform(const Vec4& value) = 0;
 		virtual void setMat4Uniform(const Mat4& value) = 0;
+
+		virtual void bind() = 0;
 	protected:
 		bool m_isInitialized = false;
 		std::string m_name;
-
-
 	};
 }

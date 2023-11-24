@@ -3,9 +3,13 @@
 
 namespace RedLightbulb
 {
+	VBO::~VBO()
+	{
+		destroy();
+	}
 	void VBO::create()
 	{
-		if (id == 0)
+		if (id != 0)
 		{
 			// ??
 		}
@@ -27,11 +31,11 @@ namespace RedLightbulb
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
-	void VBO::bufferData(void* data, unsigned int size)
+	void VBO::bufferData(const void* data, unsigned int size)
 	{
 		glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
 	}
-	void VBO::bufferSubData(void* data, unsigned int size, unsigned int offset)
+	void VBO::bufferSubData(const void* data, unsigned int size, unsigned int offset)
 	{
 		glBufferSubData(GL_ARRAY_BUFFER, offset, size, data);
 	}

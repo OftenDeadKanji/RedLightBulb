@@ -20,10 +20,12 @@ namespace RedLightbulb
 		void setVec3Uniform(const Vec3& value) override;
 		void setVec4Uniform(const Vec4& value) override;
 		void setMat4Uniform(const Mat4& value) override;
+
+		void bind() override;
 	private:
 		void loadVertexShaderFile(const std::string& vertexShaderFile);
 		void loadFragmentShaderFile(const std::string& vertexShaderFile);
 
-		GLuint shaderProgram;
+		GLuint m_id;
 	};
 }
