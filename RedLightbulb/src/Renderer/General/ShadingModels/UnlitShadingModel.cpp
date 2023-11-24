@@ -1,15 +1,17 @@
 #include "pch.h"
-#include "ShadingModelOpenGL.hpp"
+#include "UnlitShadingModel.hpp"
 
 namespace RedLightbulb
 {
-	void ShadingModelOpenGL::create()
+	void UnlitShadingModel::create()
 	{
 
 	}
 
-	void ShadingModelOpenGL::destroy()
+	void UnlitShadingModel::destroy()
 	{
 
 	}
+	void UnlitShadingModel::render()
+	{}
 }

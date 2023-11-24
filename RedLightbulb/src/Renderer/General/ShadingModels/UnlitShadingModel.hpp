@@ -10,7 +10,7 @@ namespace RedLightbulb
 		virtual void create() override;
 		virtual void destroy() override;
 
-		virtual void render();
+		virtual void render() override;
 	private:
 		
 	};

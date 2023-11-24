@@ -78,10 +78,13 @@
     <ClInclude Include="src\pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Renderer\OpenGL\ShadingModels\ShadingModelOpenGL.hpp">
+    <ClInclude Include="src\Renderer\OpenGL\ShadingModels\UnlitShadingModelOpenGL.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Renderer\General\ShadingModels\UnlitShadingModel.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Renderer\OpenGL\Objetcs\VBO.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -140,15 +143,18 @@
     <ClCompile Include="src\pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Renderer\OpenGL\ShadingModels\ShadingModelOpenGL.cpp">
+    <ClCompile Include="src\Renderer\OpenGL\ShadingModels\UnlitShadingModelOpenGL.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Renderer\General\ShadingModels\UnlitShadingModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Renderer\OpenGL\Objetcs\VBO.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Unlit\UnlitVS.glsl" />
-    <None Include="Shaders\Unlit\UnlitPS.glsl" />
+    <None Include="Shaders\Unlit\UnlitFS.glsl" />
   </ItemGroup>
 </Project>

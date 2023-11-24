@@ -4,7 +4,7 @@
 #include "../../Config/OSInfo.hpp"
 
 #include "../../Dependencies/OS/Windows.hpp"
-#include "ShadingModels/ShadingModelOpenGL.hpp"
+#include "ShadingModels/UnlitShadingModelOpenGL.hpp"
 
 namespace RedLightbulb
 {
@@ -31,7 +31,7 @@ namespace RedLightbulb
 		//------------------------------------------------------
 		// Shading models
 		//------------------------------------------------------
-		ShadingModelOpenGL m_unlitShadingModel;
+		UnlitShadingModelOpenGL m_unlitShadingModel;
 	};
 }
 #endif

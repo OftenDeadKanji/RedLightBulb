@@ -25,7 +25,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -149,10 +149,11 @@
   <ItemGroup>
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\Renderer\General\ShadingModels\UnlitShadingModel.hpp" />
+    <ClInclude Include="src\Renderer\OpenGL\Objetcs\VBO.hpp" />
     <ClInclude Include="src\Renderer\OpenGL\Shader\ShaderOpenGL.hpp" />
     <ClInclude Include="src\Renderer\General\Shader\Shader.hpp" />
     <ClInclude Include="src\Renderer\General\ShadingModels\ShadingModel.hpp" />
-    <ClInclude Include="src\Renderer\OpenGL\ShadingModels\ShadingModelOpenGL.hpp" />
+    <ClInclude Include="src\Renderer\OpenGL\ShadingModels\UnlitShadingModelOpenGL.hpp" />
     <ClInclude Include="src\ResourceManagers\MeshManager\MeshManager.hpp" />
     <ClInclude Include="src\Renderer\General\Mesh\Mesh.h" />
     <ClInclude Include="src\EventManager\EventManagerWindows.h" />
@@ -179,11 +180,12 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\Renderer\General\ShadingModels\UnlitShadingModel.cpp" />
+    <ClCompile Include="src\Renderer\OpenGL\Objetcs\VBO.cpp" />
     <ClCompile Include="src\Renderer\OpenGL\Shader\ShaderOpenGL.cpp" />
     <ClCompile Include="src\Renderer\General\Shader\Shader.cpp" />
     <ClCompile Include="src\Renderer\General\ShadingModels\ShadingModel.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\Renderer\OpenGL\ShadingModels\ShadingModelOpenGL.cpp" />
+    <ClCompile Include="src\Renderer\OpenGL\ShadingModels\UnlitShadingModelOpenGL.cpp" />
     <ClCompile Include="src\ResourceManagers\MeshManager\MeshManager.cpp">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)src\Dependencies\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Shipping|x64'">$(ProjectDir)src\Dependencies\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -211,7 +213,7 @@
     <ClCompile Include="src\Renderer\General\Mesh\SubMesh.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Shaders\Unlit\UnlitPS.glsl" />
+    <None Include="Shaders\Unlit\UnlitFS.glsl" />
     <None Include="Shaders\Unlit\UnlitVS.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
