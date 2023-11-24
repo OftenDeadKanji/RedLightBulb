@@ -16,7 +16,7 @@ namespace RedLightbulb
 
 		void render(float deltaTime) override;
 
-		void addUnlitMesh(UnlitShadingModelOpenGL::);
+		//void addUnlitMesh(UnlitShadingModelOpenGL::);
 	private:
 		void createContext();
 		void initClearColors();
@@ -29,11 +29,6 @@ namespace RedLightbulb
 		{
 			Vec4 mainColorBuffer;
 		} m_clearColors;
-
-		//------------------------------------------------------
-		// Shading models
-		//------------------------------------------------------
-		UnlitShadingModelOpenGL m_unlitShadingModel;
 	};
 }
 #endif

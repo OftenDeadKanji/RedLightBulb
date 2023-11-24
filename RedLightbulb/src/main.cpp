@@ -3,6 +3,7 @@
 #include "Core/RedLightbulb.hpp"
 #include "EventManager/EventManager.hpp"
 #include "ResourceManagers/MeshManager/MeshManager.hpp"
+#include "Renderer/General/Renderer.hpp"
 
 using namespace RedLightbulb;
 
@@ -23,6 +24,8 @@ int main()
 	Window& window = engine.getWindow();
 	EventManager& eventManager = window.getEventManager();
 
+	Renderer& renderer = Renderer::getInstance();
+
 	MeshManager& meshManager = MeshManager::getInstance();
 
 	Mesh mesh;
@@ -31,6 +34,8 @@ int main()
 
 	}
 	
+	//renderer.addUnlitMesh(mesh, )
+
 	bool loopCondition = true;
 	while (loopCondition)
 	{

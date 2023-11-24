@@ -28,5 +28,6 @@ namespace RedLightbulb
     }
     void Renderer::addUnlitMesh(const Mesh* mesh, const std::vector<std::pair<Mesh::SubMesh*, UnlitShadingModel::Material*>>& subMeshesMaterials, UnlitShadingModel::Instance instance)
     {
+        m_unlitShadingModels->addMesh(mesh, subMeshesMaterials, instance);
     }
 }

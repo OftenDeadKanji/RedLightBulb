@@ -24,6 +24,11 @@ namespace RedLightbulb
 	protected:
 		static std::unique_ptr<Renderer> s_instance;
 		Window* m_window;
+
+		//------------------------------------------------------
+		// Shading models
+		//------------------------------------------------------
+		UnlitShadingModel* m_unlitShadingModels;
 	};
 }
 #endif

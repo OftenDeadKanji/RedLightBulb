@@ -33,7 +33,7 @@ namespace RedLightbulb
 
 		for (auto& mesh : m_meshes)
 		{
-			VAO* vao;
+			VAO* vao{};
 			for (auto& buffer : m_buffers)
 			{
 				if (buffer.first == &mesh)
