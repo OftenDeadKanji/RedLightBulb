@@ -12,6 +12,6 @@ namespace RedLightbulb
 	{
 
 	}
-	void UnlitShadingModel::render()
+	void UnlitShadingModel::render(const Camera& camera)
 	{}
 }

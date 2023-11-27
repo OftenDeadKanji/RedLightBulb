@@ -14,7 +14,7 @@
 // RedLightbulb
 #include "Utilities/Utilities.hpp"
 #include "Math/Math.hpp"
-#include "Renderer/General/Vertex/Vertex.hpp"
-#include "Renderer/General/Mesh/Mesh.h"
+#include "Render/General/Vertex/Vertex.hpp"
+#include "Render/General/Mesh/Mesh.h"
 
 #endif

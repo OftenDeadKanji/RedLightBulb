@@ -3,7 +3,7 @@
 #include "Core/RedLightbulb.hpp"
 #include "EventManager/EventManager.hpp"
 #include "ResourceManagers/MeshManager/MeshManager.hpp"
-#include "Renderer/General/Renderer.hpp"
+#include "Render/General/Renderer.hpp"
 
 using namespace RedLightbulb;
 
@@ -29,12 +29,12 @@ int main()
 	MeshManager& meshManager = MeshManager::getInstance();
 
 	Mesh mesh;
-	if (!meshManager.load("res/Meshes/key.fbx", "", mesh))
+	if (!meshManager.load("res/Meshes/key.glb", "Key", mesh))
 	{
 
 	}
-	
-	//renderer.addUnlitMesh(mesh, )
+	UnlitShadingModel::Instance instance{};
+	renderer.addUnlitMesh(&mesh, instance);
 
 	bool loopCondition = true;
 	while (loopCondition)

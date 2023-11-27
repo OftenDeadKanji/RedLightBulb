@@ -38,6 +38,9 @@ namespace RedLightbulb
 			std::cout << "[ERROR] " << m_name << " - Vertex shader compilation failed: " << log << "\n";
 		}
 
+		glShaderSource(fragmentShader, 1, &fragmentShaderCodeC, nullptr);
+		glCompileShader(fragmentShader);
+
 		glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
 		if (!success)
 		{
@@ -59,6 +62,8 @@ namespace RedLightbulb
 			glGetProgramInfoLog(m_id, 1024, nullptr, log);
 			std::cout << "[ERROR] " << m_name << " - shader linkage failed: " << log << "\n";
 		}
+
+		std::cout << std::flush;
 
 		glDeleteShader(vertexShader);
 		glDeleteShader(fragmentShader);

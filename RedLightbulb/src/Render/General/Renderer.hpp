@@ -5,6 +5,7 @@
 namespace RedLightbulb
 {
 	class Window;
+	class Camera;
 
 	class Renderer : public Utilities::NonCopyable
 	{
@@ -18,9 +19,10 @@ namespace RedLightbulb
 		virtual void init() = 0;
 		virtual void deinit() = 0;
 
-		virtual void render(float deltaTime) = 0;
+		virtual void render(float deltaTime, const Camera& camera) = 0;
 		
-		virtual void addUnlitMesh(const Mesh* mesh, const std::vector<std::pair<Mesh::SubMesh*, UnlitShadingModel::Material*>>& subMeshesMaterials, UnlitShadingModel::Instance instance);
+		virtual void addUnlitMesh(const Mesh* mesh, UnlitShadingModel::Instance instance);
+		virtual void addUnlitMesh(const Mesh* mesh, const std::vector<std::pair<const SubMesh*, UnlitShadingModel::Material*>>& subMeshesMaterials, UnlitShadingModel::Instance instance);
 	protected:
 		static std::unique_ptr<Renderer> s_instance;
 		Window* m_window;

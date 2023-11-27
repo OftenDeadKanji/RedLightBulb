@@ -25,11 +25,13 @@ namespace RedLightbulb
 		}
 	}
 
-	void UnlitShadingModelOpenGL::render()
+	void UnlitShadingModelOpenGL::render(const Camera& camera)
 	{
-		UnlitShadingModel::render();
+		UnlitShadingModel::render(camera);
 
 		m_shader.bind();
+
+		m_shader.setMat4Uniform()
 
 		for (auto& mesh : m_meshes)
 		{
@@ -46,7 +48,7 @@ namespace RedLightbulb
 			vao->bind();
 			for (const auto& perSubmesh : mesh.submeshes)
 			{
-				const Mesh::SubMesh* subMesh = perSubmesh.first;
+				const SubMesh* subMesh = perSubmesh.first;
 				const PerMaterial& perMaterial = perSubmesh.second;
 
 				const Material* material = perMaterial.material;
@@ -65,9 +67,9 @@ namespace RedLightbulb
 		std::pair<PerMesh, VAO> meshBuffer;
 
 		m_buffers.emplace_back();
-		m_buffers.end()->first = &perMesh;
+		m_buffers.back().first = &perMesh;
 
-		auto& buffer = m_buffers.end()->second;
+		auto& buffer = m_buffers.back().second;
 		buffer.create();
 		buffer.createP3Buffer(vertices);
 	}

@@ -14,7 +14,7 @@ namespace RedLightbulb
 		virtual void create() override;
 		virtual void destroy() override;
 
-		virtual void render() override;
+		virtual void render(const Camera& camera) override;
 	private:
 		virtual void createBuffer(PerMesh& perMesh) override;
 

@@ -17,6 +17,7 @@ namespace RedLightbulb
 		initClearColors();
 
 		m_unlitShadingModels = new UnlitShadingModelOpenGL();
+		m_unlitShadingModels->create();
 	}
 
 	void RendererOpenGL::deinit()
@@ -29,11 +30,11 @@ namespace RedLightbulb
 	#endif
 	}
 
-	void RendererOpenGL::render(float deltaTime)
+	void RendererOpenGL::render(float deltaTime, const Camera& camera)
 	{
 		clearBuffers();
 
-		m_unlitShadingModels->render();
+		m_unlitShadingModels->render(camera);
 	}
 
 	void RendererOpenGL::createContext()

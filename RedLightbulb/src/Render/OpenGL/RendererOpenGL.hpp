@@ -14,7 +14,7 @@ namespace RedLightbulb
 		void init() override;
 		void deinit() override;
 
-		void render(float deltaTime) override;
+		void render(float deltaTime, const Camera& camera) override;
 
 		//void addUnlitMesh(UnlitShadingModelOpenGL::);
 	private:

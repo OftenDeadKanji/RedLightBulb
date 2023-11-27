@@ -1,9 +1,11 @@
 #version 460
 
-in vec3 out_positionWS;
-in vec4 out_positionCS;
+//in vec3 out_positionWS;
+//in vec4 out_positionCS;
+
+out vec4 out_color;
 
 void main()
 {
-	gl_FragColor = vec4(0.5, 0.5, 0.5, 1.0);
+	out_color = vec4(0.5, 0.5, 0.5, 1.0);
 }

@@ -35,6 +35,8 @@ namespace RedLightbulb
 			return false;
 		}
 
+		outMesh.m_name = name;
+
 		Assimp::Importer importer;
 
 		unsigned int postprocessFlags =
@@ -72,6 +74,12 @@ namespace RedLightbulb
 			int meshIndex = node->mMeshes[i];
 			const aiMesh* mesh = scene->mMeshes[meshIndex];
 
+			outMesh.m_subMeshes.emplace_back();
+			auto& subMesh = outMesh.m_subMeshes.back();
+
+			subMesh.m_name = mesh->mName.C_Str();
+			subMesh.firstVertexIndex = outMesh.m_vertices.size();
+
 			for (int i = 0; i < mesh->mNumVertices; i++)
 			{
 				Vertex vertex;
@@ -84,6 +92,20 @@ namespace RedLightbulb
 
 				outMesh.m_vertices.push_back(vertex);
 			}
+
+			subMesh.verticesCount = outMesh.m_vertices.size();
+			
+			aiMaterial* subMeshMaterial = scene->mMaterials[mesh->mMaterialIndex];
+			auto name = subMeshMaterial->GetName().C_Str();
+
+			aiColor3D baseColor;
+			auto ret = subMeshMaterial->Get(AI_MATKEY_COLOR_DIFFUSE, baseColor);
+
+			float metallic;
+			ret = subMeshMaterial->Get(AI_MATKEY_METALLIC_FACTOR, metallic);
+
+			float roughness;
+			ret = subMeshMaterial->Get(AI_MATKEY_ROUGHNESS_FACTOR, roughness);
 
 			for (int i = 0; i < mesh->mNumFaces; i++)
 			{

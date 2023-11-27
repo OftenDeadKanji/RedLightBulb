@@ -1,9 +1,9 @@
 #ifndef __MATH_HPP__
 #define __MATH_HPP__
-#include "../Dependencies/glm/vec2.hpp"
-#include "../Dependencies/glm/vec3.hpp"
-#include "../Dependencies/glm/vec4.hpp"
+#include "../Dependencies/glm/glm.hpp"
 #include "../Dependencies/glm/gtc/matrix_transform.hpp"
+#include "../Dependencies/glm/gtx/quaternion.hpp"
+#include "../Dependencies/glm/gtc/matrix_access.hpp"
 
 namespace RedLightbulb
 {
@@ -18,6 +18,8 @@ namespace RedLightbulb
 
 	using Mat3 = glm::mat3;
 	using Mat4 = glm::mat4;
+
+	using Quat = glm::quat;
 }
 
 #endif

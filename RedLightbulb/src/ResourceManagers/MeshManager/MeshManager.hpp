@@ -3,7 +3,7 @@
 #include <string>
 #include <unordered_map>
 #include <memory>
-#include "../../Renderer/General/Mesh/Mesh.h"
+#include "../../Render/General/Mesh/Mesh.h"
 
 struct aiScene;
 struct aiNode;

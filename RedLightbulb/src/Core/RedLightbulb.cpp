@@ -2,7 +2,7 @@
 #include "RedLightbulb.hpp"
 #include <iostream>
 #include "../Window/WindowWindows.hpp"
-#include "../Renderer/OpenGL/RendererOpenGL.hpp"
+#include "../Render/OpenGL/RendererOpenGL.hpp"
 #include "../Config/OSInfo.hpp"
 #include "../ResourceManagers/MeshManager/MeshManager.hpp"
 

@@ -36,10 +36,10 @@
     <ClInclude Include="src\Window\WindowProperties.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Renderer\General\Renderer.hpp">
+    <ClInclude Include="src\Render\General\Renderer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Renderer\OpenGL\RendererOpenGL.hpp">
+    <ClInclude Include="src\Render\OpenGL\RendererOpenGL.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Dependencies\OS\Windows.hpp">
@@ -54,37 +54,52 @@
     <ClInclude Include="src\Math\Math.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Renderer\General\Vertex\Vertex.hpp">
+    <ClInclude Include="src\Render\General\Vertex\Vertex.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Renderer\General\Mesh\Mesh.h">
+    <ClInclude Include="src\Render\General\Mesh\Mesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\ResourceManagers\MeshManager\MeshManager.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Renderer\General\ShadingModels\ShadingModel.hpp">
+    <ClInclude Include="src\Render\General\ShadingModels\ShadingModel.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Renderer\General\Shader\Shader.hpp">
+    <ClInclude Include="src\Render\General\Shader\Shader.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Renderer\OpenGL\Shader\ShaderOpenGL.hpp">
+    <ClInclude Include="src\Render\OpenGL\Shader\ShaderOpenGL.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Renderer\OpenGL\ShadingModels\UnlitShadingModelOpenGL.hpp">
+    <ClInclude Include="src\Render\OpenGL\ShadingModels\UnlitShadingModelOpenGL.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Renderer\General\ShadingModels\UnlitShadingModel.hpp">
+    <ClInclude Include="src\Render\General\ShadingModels\UnlitShadingModel.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Renderer\OpenGL\Objetcs\VBO.hpp">
+    <ClInclude Include="src\Render\OpenGL\Objetcs\VBO.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Renderer\OpenGL\Objetcs\VAO.hpp">
+    <ClInclude Include="src\Render\OpenGL\Objetcs\VAO.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Render\General\Material\Material.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Render\General\Material\MaterialPBR.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Render\General\Material\MaterialUnlit.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Render\General\Mesh\SubMesh.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Render\General\Camera\Camera.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -98,10 +113,10 @@
     <ClCompile Include="src\Window\Window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Renderer\General\Renderer.cpp">
+    <ClCompile Include="src\Render\General\Renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Renderer\OpenGL\RendererOpenGL.cpp">
+    <ClCompile Include="src\Render\OpenGL\RendererOpenGL.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Dependencies\glad\gl.c">
@@ -116,7 +131,7 @@
     <ClCompile Include="src\EventManager\EventManagerWindows.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Renderer\General\Mesh\Mesh.cpp">
+    <ClCompile Include="src\Render\General\Mesh\Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\ResourceManagers\MeshManager\MeshManager.cpp">
@@ -125,13 +140,13 @@
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Renderer\General\ShadingModels\ShadingModel.cpp">
+    <ClCompile Include="src\Render\General\ShadingModels\ShadingModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Renderer\General\Shader\Shader.cpp">
+    <ClCompile Include="src\Render\General\Shader\Shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Renderer\OpenGL\Shader\ShaderOpenGL.cpp">
+    <ClCompile Include="src\Render\OpenGL\Shader\ShaderOpenGL.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Utilities\Utilities.cpp">
@@ -140,16 +155,31 @@
     <ClCompile Include="src\pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Renderer\OpenGL\ShadingModels\UnlitShadingModelOpenGL.cpp">
+    <ClCompile Include="src\Render\OpenGL\ShadingModels\UnlitShadingModelOpenGL.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Renderer\General\ShadingModels\UnlitShadingModel.cpp">
+    <ClCompile Include="src\Render\General\ShadingModels\UnlitShadingModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Renderer\OpenGL\Objetcs\VBO.cpp">
+    <ClCompile Include="src\Render\OpenGL\Objetcs\VBO.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Renderer\OpenGL\Objetcs\VAO.cpp">
+    <ClCompile Include="src\Render\OpenGL\Objetcs\VAO.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Render\General\Material\Material.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Render\General\Material\MaterialPBR.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Render\General\Material\MaterialUnlit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Render\General\Mesh\SubMesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Render\General\Camera\Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
