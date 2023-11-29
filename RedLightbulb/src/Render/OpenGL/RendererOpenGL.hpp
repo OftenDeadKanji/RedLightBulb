@@ -5,6 +5,7 @@
 
 #include "../../Dependencies/OS/Windows.hpp"
 #include "ShadingModels/UnlitShadingModelOpenGL.hpp"
+#include "Objetcs/UBO.hpp"
 
 namespace RedLightbulb
 {
@@ -29,6 +30,7 @@ namespace RedLightbulb
 		{
 			Vec4 mainColorBuffer;
 		} m_clearColors;
+		UniformBufferObject m_perFrameUBO;
 	};
 }
 #endif

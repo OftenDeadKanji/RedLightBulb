@@ -8,6 +8,8 @@ namespace RedLightbulb
 	public:
 		void setPerspective(float fov, float aspect, float near, float far);
 
+		void lookAt(const Vec3& position, const Vec3& target, const Vec3& up = Vec3(0.0f, 1.0f, 0.0f));
+
 		void addLocalPosition(const Vec3& position);
 		void addWorldPosition(const Vec3& position);
 		void setWorldPosition(const Vec3& position);
@@ -21,6 +23,15 @@ namespace RedLightbulb
 		Vec3 getRight() const;
 		Vec3 getUp() const;
 		Vec3 getForward() const;
+
+		const Mat4& getView() const;
+		const Mat4& getViewInv() const;
+
+		const Mat4& getProj() const;
+		const Mat4& getProjInv() const;
+
+		const Mat4& getViewProj() const;
+		const Mat4& getViewProjInv() const;
 
 		void setIsRollEnabled(bool enabled);
 

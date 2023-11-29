@@ -25,20 +25,20 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Shipping|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -176,6 +176,7 @@
     <ClInclude Include="src\Window\WindowProperties.hpp" />
     <ClInclude Include="src\Window\WindowWindows.hpp" />
     <ClInclude Include="src\Render\General\Mesh\SubMesh.hpp" />
+    <ClInclude Include="src\Render\OpenGL\Objetcs\UBO.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Render\General\Camera\Camera.cpp" />
@@ -221,6 +222,7 @@
     <ClCompile Include="src\Window\Window.cpp" />
     <ClCompile Include="src\Window\WindowWindows.cpp" />
     <ClCompile Include="src\Render\General\Mesh\SubMesh.cpp" />
+    <ClCompile Include="src\Render\OpenGL\Objetcs\UBO.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Unlit\UnlitFS.glsl" />

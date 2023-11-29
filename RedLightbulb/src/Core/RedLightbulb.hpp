@@ -2,6 +2,7 @@
 #define __RED_LIGHTBULB_HPP__
 #include <memory>
 #include "../Window/Window.hpp"
+#include "../Render/General/Camera/Camera.hpp"
 
 namespace RedLightbulb
 {
@@ -20,6 +21,7 @@ namespace RedLightbulb
 	private:
 		bool m_isInitialised = false;
 		std::unique_ptr<Window> m_mainWindow;
+		Camera m_camera;
 	};
 }
 

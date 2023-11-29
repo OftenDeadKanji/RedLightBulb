@@ -8,6 +8,7 @@
 #include "../../Dependencies/glad/glad/gl.h"
 
 #include "../../Window/WindowWindows.hpp"
+#include "../General/Camera/Camera.hpp"
 
 namespace RedLightbulb
 {
@@ -18,6 +19,10 @@ namespace RedLightbulb
 
 		m_unlitShadingModels = new UnlitShadingModelOpenGL();
 		m_unlitShadingModels->create();
+
+		m_perFrameUBO.create();
+
+
 	}
 
 	void RendererOpenGL::deinit()
@@ -33,7 +38,12 @@ namespace RedLightbulb
 	void RendererOpenGL::render(float deltaTime, const Camera& camera)
 	{
 		clearBuffers();
-
+		
+		m_perFrameUBO.bind();
+		Mat4 arr[2] = { camera.getView(), camera.getProj() };
+		m_perFrameUBO.bufferData((void*)(arr), 2 * sizeof(Mat4));
+		m_perFrameUBO.setToSlot(1);
+		
 		m_unlitShadingModels->render(camera);
 	}
 

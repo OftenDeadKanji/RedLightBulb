@@ -1,8 +1,5 @@
 #version 460
 
-//in vec3 out_positionWS;
-//in vec4 out_positionCS;
-
 out vec4 out_color;
 
 void main()

@@ -10,6 +10,18 @@ namespace RedLightbulb
 	
 		m_updateMatrices = true;
 	}
+	void Camera::lookAt(const Vec3& position, const Vec3& target, const Vec3& up)
+	{
+		Mat4 lookAtMatrix = glm::lookAt(position, target, up);
+		Mat3 lookAtMatrix3 = lookAtMatrix;
+		Mat3 lookAtMatrix3T = glm::transpose(lookAtMatrix3);
+		m_rotation = Quat(lookAtMatrix3T);
+
+		setWorldPosition(position);
+
+		m_updateBasis = true;
+	}
+
 	void Camera::addLocalPosition(const Vec3& position)
 	{
 		updateBasis();
@@ -74,6 +86,30 @@ namespace RedLightbulb
 	Vec3 Camera::getForward() const
 	{
 		return Vec3(m_viewInv[2][0], m_viewInv[2][1], m_viewInv[2][2]);
+	}
+	const Mat4& Camera::getView() const
+	{
+		return m_view;
+	}
+	const Mat4& Camera::getViewInv() const
+	{
+		return m_viewInv;
+	}
+	const Mat4& Camera::getProj() const
+	{
+		return m_proj;
+	}
+	const Mat4& Camera::getProjInv() const
+	{
+		return m_projInv;
+	}
+	const Mat4& Camera::getViewProj() const
+	{
+		return m_viewProj;
+	}
+	const Mat4& Camera::getViewProjInv() const
+	{
+		return m_viewProjInv;
 	}
 	void Camera::setIsRollEnabled(bool enabled)
 	{

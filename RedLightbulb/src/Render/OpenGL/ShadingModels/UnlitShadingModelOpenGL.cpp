@@ -31,7 +31,7 @@ namespace RedLightbulb
 
 		m_shader.bind();
 
-		m_shader.setMat4Uniform()
+		//m_shader.setMat4Uniform();
 
 		for (auto& mesh : m_meshes)
 		{
