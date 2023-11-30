@@ -4,6 +4,7 @@
 
 #ifdef __OS_WINDOWS_64__
 #include "EventManager.hpp"
+#include "../Keyboard/Keyboard.hpp"
 
 namespace RedLightbulb
 {
@@ -16,6 +17,9 @@ namespace RedLightbulb
 		void pollEvents() override;
 
 	private:
+		static WPARAM processKey(WPARAM wparam, LPARAM lParam);
+		static Keyboard::KeyCode translateKeyCode(WPARAM key);
+
 		static LRESULT WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 	};

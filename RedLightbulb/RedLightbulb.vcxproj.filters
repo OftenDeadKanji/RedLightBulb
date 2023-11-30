@@ -21,10 +21,10 @@
     <ClInclude Include="src\Core\RedLightbulb.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\EventManager\Event.hpp">
+    <ClInclude Include="src\InputSystem\Events\Event.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\EventManager\EventManager.hpp">
+    <ClInclude Include="src\InputSystem\Events\EventManager.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Utilities\Utilities.hpp">
@@ -48,7 +48,7 @@
     <ClInclude Include="src\Window\WindowWindows.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\EventManager\EventManagerWindows.h">
+    <ClInclude Include="src\InputSystem\Events\EventManagerWindows.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Math\Math.hpp">
@@ -108,12 +108,15 @@
     <ClInclude Include="src\Render\OpenGL\Objetcs\EBO.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\InputSystem\Keyboard\Keyboard.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\RedLightbulb.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\EventManager\EventManager.cpp">
+    <ClCompile Include="src\InputSystem\Events\EventManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Window\Window.cpp">
@@ -134,7 +137,7 @@
     <ClCompile Include="src\Window\WindowWindows.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\EventManager\EventManagerWindows.cpp">
+    <ClCompile Include="src\InputSystem\Events\EventManagerWindows.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Render\General\Mesh\Mesh.cpp">
@@ -192,6 +195,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Render\OpenGL\Objetcs\EBO.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\InputSystem\Keyboard\Keyboard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,7 +1,7 @@
 #ifndef __WINDOW_HPP__
 #define __WINDOW_HPP__
 #include "../Window/WindowProperties.hpp"
-#include "../EventManager/EventManager.hpp"
+#include "../InputSystem/Events/EventManager.hpp"
 
 namespace RedLightbulb
 {

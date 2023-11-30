@@ -38,10 +38,6 @@ namespace RedLightbulb
 			MeshManager::createInstance();
 
 			m_isInitialised = true;
-
-			m_camera.setPerspective(45.0f, 16.0f / 9.0f, 0.1f, 1000.0f);
-			m_camera.lookAt(Vec3(0.0f, -0.1f, -0.2f), Vec3(0.0f, 0.0f, 0.0f));
-			m_camera.update();
 		}
 	}
 
@@ -58,8 +54,8 @@ namespace RedLightbulb
 			m_isInitialised = false;
 		}
 	}
-	void RedLighbulb::render()
+	void RedLighbulb::render(const Camera& camera)
 	{
-		Renderer::getInstance().render(1.0f, m_camera);
+		Renderer::getInstance().render(1.0f, camera);
 	}
 }

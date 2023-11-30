@@ -4,10 +4,12 @@
 #include <optional>
 #include "../Utilities/Utilities.hpp"
 #include "Event.hpp"
+//#include "../Keyboard/Keyboard.hpp"
 
 namespace RedLightbulb
 {
 	class Window;
+	class Keyboard;
 
 	class EventManager
 	{
@@ -16,9 +18,12 @@ namespace RedLightbulb
 		virtual void pollEvents() = 0;
 		std::optional<Event> getNextEvent();
 
+		void setKeyboard(Keyboard& keyboard);
+
 	protected:
 		Window* m_window;
 		std::queue<Event> m_eventsQueue;
+		Keyboard* m_keyboard;
 	};
 }
 

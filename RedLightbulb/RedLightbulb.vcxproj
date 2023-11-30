@@ -25,20 +25,20 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Shipping|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -147,6 +147,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\InputSystem\Keyboard\Keyboard.hpp" />
     <ClInclude Include="src\Render\OpenGL\Objetcs\EBO.hpp" />
     <ClInclude Include="src\Render\General\Camera\Camera.hpp" />
     <ClInclude Include="src\pch.h" />
@@ -162,7 +163,7 @@
     <ClInclude Include="src\Render\OpenGL\ShadingModels\UnlitShadingModelOpenGL.hpp" />
     <ClInclude Include="src\ResourceManagers\MeshManager\MeshManager.hpp" />
     <ClInclude Include="src\Render\General\Mesh\Mesh.h" />
-    <ClInclude Include="src\EventManager\EventManagerWindows.h" />
+    <ClInclude Include="src\InputSystem\Events\EventManagerWindows.h" />
     <ClInclude Include="src\Dependencies\OS\Windows.hpp" />
     <ClInclude Include="src\Math\Math.hpp" />
     <ClInclude Include="src\Render\General\Vertex\Vertex.hpp" />
@@ -170,8 +171,8 @@
     <ClInclude Include="src\Render\General\Renderer.hpp" />
     <ClInclude Include="src\Config\OSInfo.hpp" />
     <ClInclude Include="src\Core\RedLightbulb.hpp" />
-    <ClInclude Include="src\EventManager\Event.hpp" />
-    <ClInclude Include="src\EventManager\EventManager.hpp" />
+    <ClInclude Include="src\InputSystem\Events\Event.hpp" />
+    <ClInclude Include="src\InputSystem\Events\EventManager.hpp" />
     <ClInclude Include="src\Utilities\Utilities.hpp" />
     <ClInclude Include="src\Window\Window.hpp" />
     <ClInclude Include="src\Window\WindowProperties.hpp" />
@@ -180,6 +181,7 @@
     <ClInclude Include="src\Render\OpenGL\Objetcs\UBO.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\InputSystem\Keyboard\Keyboard.cpp" />
     <ClCompile Include="src\Render\OpenGL\Objetcs\EBO.cpp" />
     <ClCompile Include="src\Render\General\Camera\Camera.cpp" />
     <ClCompile Include="src\pch.cpp">
@@ -205,7 +207,7 @@
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)src\Dependencies\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <ClCompile Include="src\Render\General\Mesh\Mesh.cpp" />
-    <ClCompile Include="src\EventManager\EventManagerWindows.cpp" />
+    <ClCompile Include="src\InputSystem\Events\EventManagerWindows.cpp" />
     <ClCompile Include="src\Dependencies\glad\gl.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Shipping|x64'">NotUsing</PrecompiledHeader>
@@ -219,7 +221,7 @@
     <ClCompile Include="src\Render\OpenGL\RendererOpenGL.cpp" />
     <ClCompile Include="src\Render\General\Renderer.cpp" />
     <ClCompile Include="src\Core\RedLightbulb.cpp" />
-    <ClCompile Include="src\EventManager\EventManager.cpp" />
+    <ClCompile Include="src\InputSystem\Events\EventManager.cpp" />
     <ClCompile Include="src\Utilities\Utilities.cpp" />
     <ClCompile Include="src\Window\Window.cpp" />
     <ClCompile Include="src\Window\WindowWindows.cpp" />

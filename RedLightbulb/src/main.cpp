@@ -1,7 +1,8 @@
 #include "pch.h"
 #include <iostream>
 #include "Core/RedLightbulb.hpp"
-#include "EventManager/EventManager.hpp"
+#include "../InputSystem/Events/EventManager.hpp"
+#include "../InputSystem/Keyboard/Keyboard.hpp"
 #include "ResourceManagers/MeshManager/MeshManager.hpp"
 #include "Render/General/Renderer.hpp"
 
@@ -24,6 +25,9 @@ int main()
 	Window& window = engine.getWindow();
 	EventManager& eventManager = window.getEventManager();
 
+	Keyboard keyboard;
+	eventManager.setKeyboard(keyboard);
+
 	Renderer& renderer = Renderer::getInstance();
 
 	MeshManager& meshManager = MeshManager::getInstance();
@@ -35,6 +39,11 @@ int main()
 	}
 	UnlitShadingModel::Instance instance{};
 	renderer.addUnlitMesh(&mesh, instance);
+
+	Camera camera;
+	camera.setPerspective(45.0f, 16.0f / 9.0f, 0.1f, 1000.0f);
+	camera.lookAt(Vec3(0.0f, 0.0f, -0.2f), Vec3(0.0f, 0.0f, 0.0f));
+	
 
 	bool loopCondition = true;
 	while (loopCondition)
@@ -50,7 +59,34 @@ int main()
 			}
 		}
 
-		engine.render();
+		if (keyboard.isPressed(Keyboard::KeyCode::D))
+		{
+			camera.addLocalPosition(Vec3(0.01f, 0.0f, 0.0f));
+		}
+		if (keyboard.isPressed(Keyboard::KeyCode::A))
+		{
+			camera.addLocalPosition(Vec3(-0.01f, 0.0f, 0.0f));
+		}
+		if (keyboard.isPressed(Keyboard::KeyCode::W))
+		{
+			camera.addLocalPosition(Vec3(0.0f, 0.0f, -0.01f));
+		}
+		if (keyboard.isPressed(Keyboard::KeyCode::S))
+		{
+			camera.addLocalPosition(Vec3(0.0f, 0.0f, 0.01f));
+		}
+		if (keyboard.isPressed(Keyboard::KeyCode::E))
+		{
+			camera.addLocalPosition(Vec3(0.0f, 0.01f, 0.0f));
+		}
+		if (keyboard.isPressed(Keyboard::KeyCode::Q))
+		{
+			camera.addLocalPosition(Vec3(0.0f, -0.01f, 0.0f));
+		}
+
+		camera.update();
+
+		engine.render(camera);
 		window.swapBuffers();
 	}
 

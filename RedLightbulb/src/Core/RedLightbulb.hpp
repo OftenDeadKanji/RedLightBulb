@@ -15,13 +15,12 @@ namespace RedLightbulb
 		void init(const WindowProperties&);
 		void deinit();
 
-		void render();
+		void render(const Camera& camera);
 
 		Window& getWindow();
 	private:
 		bool m_isInitialised = false;
 		std::unique_ptr<Window> m_mainWindow;
-		Camera m_camera;
 	};
 }
 

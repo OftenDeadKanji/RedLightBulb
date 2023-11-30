@@ -17,4 +17,8 @@ namespace RedLightbulb
 
 		return nextEvent;
 	}
+	void EventManager::setKeyboard(Keyboard& keyboard)
+	{
+		m_keyboard = &keyboard;
+	}
 }
