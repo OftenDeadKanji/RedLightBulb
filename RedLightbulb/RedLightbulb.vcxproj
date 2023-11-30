@@ -147,6 +147,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Render\OpenGL\Objetcs\EBO.hpp" />
     <ClInclude Include="src\Render\General\Camera\Camera.hpp" />
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\Render\General\Material\Material.hpp" />
@@ -179,6 +180,7 @@
     <ClInclude Include="src\Render\OpenGL\Objetcs\UBO.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Render\OpenGL\Objetcs\EBO.cpp" />
     <ClCompile Include="src\Render\General\Camera\Camera.cpp" />
     <ClCompile Include="src\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

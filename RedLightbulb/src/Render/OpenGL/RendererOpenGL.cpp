@@ -22,7 +22,7 @@ namespace RedLightbulb
 
 		m_perFrameUBO.create();
 
-
+		glEnable(GL_DEPTH_TEST);
 	}
 
 	void RendererOpenGL::deinit()
@@ -129,6 +129,6 @@ namespace RedLightbulb
 	void RendererOpenGL::clearBuffers()
 	{
 		glClearColor(m_clearColors.mainColorBuffer.r, m_clearColors.mainColorBuffer.g, m_clearColors.mainColorBuffer.b, m_clearColors.mainColorBuffer.a);
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 }

@@ -53,9 +53,16 @@ namespace RedLightbulb
 
 				const Material* material = perMaterial.material;
 
-				// for instances
+				// for (instances)
 
-				glDrawArrays(GL_TRIANGLES, subMesh->getFirstVertexIndex(), subMesh->getVerticesCount());
+				if (vao->withIndices())
+				{
+					glDrawElements(GL_TRIANGLES, subMesh->getIndicesCount(), GL_UNSIGNED_INT, (void*)(subMesh->getFirstIndexIndex() * sizeof(unsigned int)));
+				}
+				else
+				{
+					glDrawArrays(GL_TRIANGLES, subMesh->getFirstVertexIndex(), subMesh->getVerticesCount());
+				}
 			}
 		}
 	}
@@ -63,7 +70,8 @@ namespace RedLightbulb
 	void UnlitShadingModelOpenGL::createBuffer(PerMesh& perMesh)
 	{
 		const auto& vertices = perMesh.mesh->getVertices();
-		
+		const auto& indices = perMesh.mesh->getIndices();
+
 		std::pair<PerMesh, VAO> meshBuffer;
 
 		m_buffers.emplace_back();
@@ -71,6 +79,6 @@ namespace RedLightbulb
 
 		auto& buffer = m_buffers.back().second;
 		buffer.create();
-		buffer.createP3Buffer(vertices);
+		buffer.createP3IndexedBuffer(vertices, indices);
 	}
 }

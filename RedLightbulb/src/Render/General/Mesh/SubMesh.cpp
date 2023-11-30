@@ -12,4 +12,12 @@ namespace RedLightbulb
     {
         return verticesCount;
     }
+    unsigned int SubMesh::getFirstIndexIndex() const
+    {
+        return firstIndexIndex;
+    }
+    unsigned int SubMesh::getIndicesCount() const
+    {
+        return indicesCount;
+    }
 }

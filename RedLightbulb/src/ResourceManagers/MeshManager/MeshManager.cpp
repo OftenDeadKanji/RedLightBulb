@@ -40,10 +40,11 @@ namespace RedLightbulb
 		Assimp::Importer importer;
 
 		unsigned int postprocessFlags =
-			aiProcess_Triangulate |
-			aiProcess_JoinIdenticalVertices |
-			aiProcess_CalcTangentSpace |
-			aiProcess_ImproveCacheLocality
+			aiProcess_Triangulate
+			| aiProcess_JoinIdenticalVertices
+			| aiProcess_CalcTangentSpace
+			| aiProcess_ImproveCacheLocality
+			//| aiProcess_
 			;
 
 		const aiScene* scene = importer.ReadFile(pathToFile, postprocessFlags);
@@ -80,7 +81,7 @@ namespace RedLightbulb
 
 			subMesh.m_name = mesh->mName.C_Str();
 			subMesh.firstVertexIndex = outMesh.m_vertices.size();
-
+			
 			for (int i = 0; i < mesh->mNumVertices; i++)
 			{
 				Vertex vertex;
@@ -93,7 +94,6 @@ namespace RedLightbulb
 
 				outMesh.m_vertices.push_back(vertex);
 			}
-
 			subMesh.verticesCount = outMesh.m_vertices.size();
 			
 			aiMaterial* subMeshMaterial = scene->mMaterials[mesh->mMaterialIndex];
@@ -108,6 +108,8 @@ namespace RedLightbulb
 			float roughness;
 			ret = subMeshMaterial->Get(AI_MATKEY_ROUGHNESS_FACTOR, roughness);
 
+			subMesh.firstIndexIndex = outMesh.m_indices.size();
+			
 			for (int i = 0; i < mesh->mNumFaces; i++)
 			{
 				const aiFace& face = mesh->mFaces[i];
@@ -120,6 +122,7 @@ namespace RedLightbulb
 				outMesh.m_indices.push_back(face.mIndices[1]);
 				outMesh.m_indices.push_back(face.mIndices[2]);
 			}
+			subMesh.indicesCount = outMesh.m_indices.size();
 		}
 
 		//children
