@@ -21,4 +21,8 @@ namespace RedLightbulb
 	{
 		m_keyboard = &keyboard;
 	}
+	void EventManager::setMouse(Mouse& mouse)
+	{
+		m_mouse = &mouse;
+	}
 }

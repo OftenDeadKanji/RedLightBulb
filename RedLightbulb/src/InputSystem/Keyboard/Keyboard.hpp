@@ -13,7 +13,7 @@ namespace RedLightbulb
 	public:
 		enum class KeyCode
 		{
-			None,
+			None = -1,
 
 			A,
 			B,

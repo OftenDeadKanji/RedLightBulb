@@ -147,6 +147,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\InputSystem\Mouse\Mouse.hpp" />
     <ClInclude Include="src\InputSystem\Keyboard\Keyboard.hpp" />
     <ClInclude Include="src\Render\OpenGL\Objetcs\EBO.hpp" />
     <ClInclude Include="src\Render\General\Camera\Camera.hpp" />
@@ -181,6 +182,7 @@
     <ClInclude Include="src\Render\OpenGL\Objetcs\UBO.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\InputSystem\Mouse\Mouse.cpp" />
     <ClCompile Include="src\InputSystem\Keyboard\Keyboard.cpp" />
     <ClCompile Include="src\Render\OpenGL\Objetcs\EBO.cpp" />
     <ClCompile Include="src\Render\General\Camera\Camera.cpp" />
