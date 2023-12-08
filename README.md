@@ -1,2 +1,2 @@
 # RedLightbulb
-3D Game engine
+Game engine? Or only some toy renderer?
