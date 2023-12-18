@@ -123,6 +123,8 @@ namespace RedLightbulb
 
 
 		auto key = processKey(wParam, lParam);
+		Keyboard::KeyCode code = translateKeyCode(key);
+
 		switch (uMsg)
 		{
 			case WM_CLOSE:
@@ -135,14 +137,12 @@ namespace RedLightbulb
 			case WM_KEYDOWN:
 				if ((HIWORD(lParam) & KF_REPEAT) != KF_REPEAT)
 				{
-					Keyboard::KeyCode code = translateKeyCode(key);
 					eventManager.m_keyboard->m_keys[static_cast<int>(code)] = true;
 
 					receivedEvent.type = Event::Type::KeyboardKeyPressed;
 				}
 				break;
 			case WM_KEYUP:
-				Keyboard::KeyCode code = translateKeyCode(key);
 				eventManager.m_keyboard->m_keys[static_cast<int>(code)] = false;
 
 				receivedEvent.type = Event::Type::KeyboardKeyReleased;

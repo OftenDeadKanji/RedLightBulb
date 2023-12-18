@@ -46,11 +46,14 @@ int main()
 
 	Camera camera;
 	camera.setPerspective(45.0f, 16.0f / 9.0f, 0.1f, 1000.0f);
-	camera.lookAt(Vec3(0.0f, 0.0f, -0.2f), Vec3(0.0f, 0.0f, 0.0f));
-	
+	camera.lookAt(Vec3(-0.5f, 0.5f, 0.0f), Vec3(0.0f, 0.0f, 0.0f));
+	camera.update();
+
 	bool rotateCamera = false;
 	Vec2 mousePrevPos;
 
+	float movementSpeed = 0.1f;
+	float rotationSpeed = 0.0001f;
 
 	bool loopCondition = true;
 	while (loopCondition)
@@ -71,7 +74,7 @@ int main()
 					}
 					break;
 				case Event::Type::MouseButtonReleased:
-					if (mouse.isPressed(Mouse::Button::Left))
+					if (!mouse.isPressed(Mouse::Button::Left))
 					{
 						rotateCamera = false;
 					}
@@ -81,27 +84,27 @@ int main()
 
 		if (keyboard.isPressed(Keyboard::KeyCode::D))
 		{
-			camera.addLocalPosition(Vec3(0.01f, 0.0f, 0.0f));
+			camera.addLocalPosition(Vec3(0.01f, 0.0f, 0.0f) * movementSpeed);
 		}
 		if (keyboard.isPressed(Keyboard::KeyCode::A))
 		{
-			camera.addLocalPosition(Vec3(-0.01f, 0.0f, 0.0f));
+			camera.addLocalPosition(Vec3(-0.01f, 0.0f, 0.0f) * movementSpeed);
 		}
 		if (keyboard.isPressed(Keyboard::KeyCode::W))
 		{
-			camera.addLocalPosition(Vec3(0.0f, 0.0f, -0.01f));
+			camera.addLocalPosition(Vec3(0.0f, 0.0f, -0.01f) * movementSpeed);
 		}
 		if (keyboard.isPressed(Keyboard::KeyCode::S))
 		{
-			camera.addLocalPosition(Vec3(0.0f, 0.0f, 0.01f));
+			camera.addLocalPosition(Vec3(0.0f, 0.0f, 0.01f) * movementSpeed);
 		}
 		if (keyboard.isPressed(Keyboard::KeyCode::E))
 		{
-			camera.addLocalPosition(Vec3(0.0f, 0.01f, 0.0f));
+			camera.addLocalPosition(Vec3(0.0f, 0.01f, 0.0f) * movementSpeed);
 		}
 		if (keyboard.isPressed(Keyboard::KeyCode::Q))
 		{
-			camera.addLocalPosition(Vec3(0.0f, -0.01f, 0.0f));
+			camera.addLocalPosition(Vec3(0.0f, -0.01f, 0.0f) * movementSpeed);
 		}
 
 		if (rotateCamera)
@@ -109,7 +112,12 @@ int main()
 			Vec2 newPos = mouse.getPosition();
 			Vec2 deltaPos = newPos - mousePrevPos;
 
-			camera.addLocalRotation()
+			Vec3 cameraRotation;
+			cameraRotation.x = -deltaPos.y;
+			cameraRotation.y = deltaPos.x;
+			cameraRotation *= rotationSpeed;
+
+			camera.addLocalRotation(cameraRotation);
 		}
 
 		camera.update();

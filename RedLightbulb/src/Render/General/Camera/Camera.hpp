@@ -15,9 +15,11 @@ namespace RedLightbulb
 		void setWorldPosition(const Vec3& position);
 
 		void addLocalRotation(const Quat& rotation);
-		//void addLocalRotation(const Eu& rotation);
+		void addLocalRotation(const Vec3& rotation);
 		void addWorldRotation(const Quat& rotation);
+		void addWorldRotation(const Vec3& rotation);
 		void setWorldRotation(const Quat& rotation);
+		void setWorldRotation(const Vec3& rotation);
 
 		Vec3 getPosition() const;
 		Vec3 getRight() const;
