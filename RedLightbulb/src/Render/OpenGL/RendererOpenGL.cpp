@@ -40,8 +40,8 @@ namespace RedLightbulb
 		clearBuffers();
 		
 		m_perFrameUBO.bind();
-		Mat4 arr[2] = { camera.getView(), camera.getProj() };
-		m_perFrameUBO.bufferData((void*)(arr), 2 * sizeof(Mat4));
+		Mat4f arr[2] = { camera.getView(), camera.getProj() };
+		m_perFrameUBO.bufferData((void*)(arr), 2 * sizeof(Mat4f));
 		m_perFrameUBO.setToSlot(1);
 		
 		m_unlitShadingModels->render(camera);
@@ -123,12 +123,12 @@ namespace RedLightbulb
 	
 	void RendererOpenGL::initClearColors()
 	{
-		m_clearColors.mainColorBuffer = Vec4(0.0f, 0.0f, 0.0f, 1.0f);
+		m_clearColors.mainColorBuffer = Vec4f(0.0f, 0.0f, 0.0f, 1.0f);
 	}
 	
 	void RendererOpenGL::clearBuffers()
 	{
-		glClearColor(m_clearColors.mainColorBuffer.r, m_clearColors.mainColorBuffer.g, m_clearColors.mainColorBuffer.b, m_clearColors.mainColorBuffer.a);
+		glClearColor(m_clearColors.mainColorBuffer.x(), m_clearColors.mainColorBuffer.y(), m_clearColors.mainColorBuffer.z(), m_clearColors.mainColorBuffer.w());
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 }

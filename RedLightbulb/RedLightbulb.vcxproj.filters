@@ -206,6 +206,9 @@
     <ClCompile Include="src\InputSystem\Mouse\Mouse.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Math\Math.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Unlit\UnlitVS.glsl" />

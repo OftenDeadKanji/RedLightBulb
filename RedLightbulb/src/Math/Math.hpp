@@ -1,25 +1,33 @@
 #ifndef __MATH_HPP__
 #define __MATH_HPP__
-#include "../Dependencies/glm/glm.hpp"
-#include "../Dependencies/glm/gtc/matrix_transform.hpp"
-#include "../Dependencies/glm/gtx/quaternion.hpp"
-#include "../Dependencies/glm/gtc/matrix_access.hpp"
+#include "../Dependencies/Eigen/Dense"
 
 namespace RedLightbulb
 {
-	using Vec2 = glm::vec2;
-	using Vec2i = glm::ivec2;
+	using Vec2f = Eigen::Matrix<float, 2, 1, Eigen::ColMajor>;
+	using Vec2i = Eigen::Matrix<int,   2, 1, Eigen::ColMajor>;
 
-	using Vec3 = glm::vec3;
-	using Vec3i = glm::ivec3;
+	using Vec3f = Eigen::Matrix<float, 3, 1, Eigen::ColMajor>;
+	using Vec3i = Eigen::Matrix<int,   3, 1, Eigen::ColMajor>;
 
-	using Vec4 = glm::vec4;
-	using Vec4i = glm::ivec4;
+	using Vec4f = Eigen::Matrix<float, 4, 1, Eigen::ColMajor>;
+	using Vec4i = Eigen::Matrix<int,   4, 1, Eigen::ColMajor>;
 
-	using Mat3 = glm::mat3;
-	using Mat4 = glm::mat4;
+	using Mat3f = Eigen::Matrix<float, 3, 3, Eigen::ColMajor>;
+	using Mat4f = Eigen::Matrix<float, 4, 4, Eigen::ColMajor>;
 
-	using Quat = glm::quat;
+	using Quat = Eigen::Quaternion<float>;
+
+	constexpr float PI = 3.141592653589793238f;
+
+	namespace Math
+	{
+		float deg2rad(float deg);
+
+		Mat4f createPerspectiveMatrix(float fov, float aspect, float near, float far);
+		Mat4f lookAt(const Vec3f& position, const Vec3f& target, const Vec3f& up = Vec3f(0.0f, 1.0f, 0.0f));
+		void invertOrthonormal(const Mat4f& src, Mat4f& dst);
+	}
 }
 
 #endif

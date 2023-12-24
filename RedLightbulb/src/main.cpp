@@ -9,8 +9,47 @@
 
 using namespace RedLightbulb;
 
+
+#include <chrono>
+
+class Timer
+{
+public:
+	void start();
+	void stop();
+
+	float getTimeInSec() const;
+private:
+	using clock = std::chrono::high_resolution_clock;
+	using duration = std::chrono::duration<float>;
+	clock::time_point m_start, m_end;
+};
+
+#pragma region Inline methods definitions
+inline void Timer::start()
+{
+	m_start = clock::now();
+}
+inline void Timer::stop()
+{
+	m_end = clock::now();
+}
+
+inline float Timer::getTimeInSec() const
+{
+	return duration(m_end - m_start).count();
+}
+
+
 int main()
 {
+	Vec3f axis = Vec3f(0.2f, 0.5f, 0.1f).normalized();
+	Eigen::AngleAxisf ax = Eigen::AngleAxisf(0.8f, axis);
+	Quat q(ax);
+
+
+
+
 	std::cout << "Hello there!" << std::endl;
 
 	WindowProperties windowProperties;
@@ -46,18 +85,26 @@ int main()
 
 	Camera camera;
 	camera.setPerspective(45.0f, 16.0f / 9.0f, 0.1f, 1000.0f);
-	camera.lookAt(Vec3(-0.5f, 0.5f, 0.0f), Vec3(0.0f, 0.0f, 0.0f));
+	camera.lookAt(Vec3f(0.0f, 0.0f, 0.5f), Vec3f(0.0f, 0.0f, 0.0f));
 	camera.update();
 
 	bool rotateCamera = false;
-	Vec2 mousePrevPos;
+	Vec2f mousePrevPos(0.0f, 0.0f);
 
-	float movementSpeed = 0.1f;
-	float rotationSpeed = 0.0001f;
+	float movementSpeed = 10.0f;
+	float rotationSpeed = 0.1f;
+
+	Timer timer;
+	timer.start();
 
 	bool loopCondition = true;
 	while (loopCondition)
 	{
+		timer.stop();
+		float deltaTime = timer.getTimeInSec();
+
+		
+
 		eventManager.pollEvents();
 		while (auto ev = eventManager.getNextEvent())
 		{
@@ -82,40 +129,48 @@ int main()
 			}
 		}
 
+		if (deltaTime < 0.016f)
+		{
+			continue;
+		}
+		timer.start();
+
 		if (keyboard.isPressed(Keyboard::KeyCode::D))
 		{
-			camera.addLocalPosition(Vec3(0.01f, 0.0f, 0.0f) * movementSpeed);
+			camera.addLocalPosition(Vec3f(0.01f, 0.0f, 0.0f) * deltaTime * movementSpeed);
 		}
 		if (keyboard.isPressed(Keyboard::KeyCode::A))
 		{
-			camera.addLocalPosition(Vec3(-0.01f, 0.0f, 0.0f) * movementSpeed);
+			camera.addLocalPosition(Vec3f(-0.01f, 0.0f, 0.0f) * deltaTime * movementSpeed);
 		}
 		if (keyboard.isPressed(Keyboard::KeyCode::W))
 		{
-			camera.addLocalPosition(Vec3(0.0f, 0.0f, -0.01f) * movementSpeed);
+			camera.addLocalPosition(Vec3f(0.0f, 0.0f, 0.01f) * deltaTime * movementSpeed);
 		}
 		if (keyboard.isPressed(Keyboard::KeyCode::S))
 		{
-			camera.addLocalPosition(Vec3(0.0f, 0.0f, 0.01f) * movementSpeed);
+			camera.addLocalPosition(Vec3f(0.0f, 0.0f, -0.01f) * deltaTime * movementSpeed);
 		}
 		if (keyboard.isPressed(Keyboard::KeyCode::E))
 		{
-			camera.addLocalPosition(Vec3(0.0f, 0.01f, 0.0f) * movementSpeed);
+			camera.addLocalPosition(Vec3f(0.0f, 0.01f, 0.0f) * deltaTime * movementSpeed);
 		}
 		if (keyboard.isPressed(Keyboard::KeyCode::Q))
 		{
-			camera.addLocalPosition(Vec3(0.0f, -0.01f, 0.0f) * movementSpeed);
+			camera.addLocalPosition(Vec3f(0.0f, -0.01f, 0.0f) * deltaTime * movementSpeed);
 		}
 
 		if (rotateCamera)
 		{
-			Vec2 newPos = mouse.getPosition();
-			Vec2 deltaPos = newPos - mousePrevPos;
+			Vec2f newPos = mouse.getPosition();
+			Vec2f deltaPos = newPos - mousePrevPos;
 
-			Vec3 cameraRotation;
-			cameraRotation.x = -deltaPos.y;
-			cameraRotation.y = deltaPos.x;
-			cameraRotation *= rotationSpeed;
+			Vec3f cameraRotation{ 0.0f, 0.0f, 0.0f };
+
+			cameraRotation.x() = -Math::deg2rad(deltaPos.y());
+			cameraRotation.y() = Math::deg2rad(deltaPos.x());
+
+			cameraRotation *= deltaTime * rotationSpeed;
 
 			camera.addLocalRotation(cameraRotation);
 		}

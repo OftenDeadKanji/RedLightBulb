@@ -5,88 +5,92 @@ namespace RedLightbulb
 {
 	void Camera::setPerspective(float fov, float aspect, float near, float far)
 	{
-		m_proj = glm::perspective(fov, aspect, near, far);
-		m_projInv = glm::inverse(m_proj);
-	
+		m_proj = Math::createPerspectiveMatrix(fov, aspect, near, far);
+		m_projInv = m_proj.inverse();
+
 		m_updateMatrices = true;
 	}
-	void Camera::lookAt(const Vec3& position, const Vec3& target, const Vec3& up)
+	void Camera::lookAt(const Vec3f& position, const Vec3f& target, const Vec3f& up)
 	{
-		Mat4 lookAtMatrix = glm::lookAt(position, target, up);
-		Mat3 lookAtMatrix3 = lookAtMatrix;
-		//Mat3 lookAtMatrix3T = glm::transpose(lookAtMatrix3);
-		m_rotation = Quat(lookAtMatrix3);
+		Vec3f f = (target - position).normalized();
+		Vec3f r = up.cross(f).normalized();
+		Vec3f u = f.cross(r);
 
-		setWorldPosition(position);
+		m_viewInv <<
+			r.x(), u.x(), f.x(), position.x(),
+			r.y(), u.y(), f.y(), position.y(),
+			r.z(), u.z(), f.z(), position.z(),
+			0.0f, 0.0f, 0.0f, 1.0f;
 
-		m_updateBasis = true;
-		m_updateMatrices = true;
+		m_view = m_viewInv.inverse();
+
+		Mat3f lookAtMatrix3 = m_viewInv.block(0, 0, 3, 3);
+		m_rotation = lookAtMatrix3;
 	}
 
-	void Camera::addLocalPosition(const Vec3& position)
+	void Camera::addLocalPosition(const Vec3f& position)
 	{
 		updateBasis();
-	
-		m_viewInv[3] += Vec4(getRight() * position.x + getUp() * position.y + getForward() * position.z, 0.0f);
+
+		Vec3f relativeMovement = position.x() * getRight() + position.y() * getUp() + position.z() * getForward();
+
+		m_viewInv.col(3).head<3>() += relativeMovement;
+
 		m_updateMatrices = true;
 	}
-	void Camera::addWorldPosition(const Vec3& position)
+	void Camera::addWorldPosition(const Vec3f& position)
 	{
-		m_viewInv[3] += Vec4(position, 0.0f);
+		m_viewInv.col(3).head<3>() += position;
+
 		m_updateMatrices = true;
 	}
-	void Camera::setWorldPosition(const Vec3& position)
+	void Camera::setWorldPosition(const Vec3f& position)
 	{
-		m_viewInv[3] = Vec4(position, 1.0f);
+		m_viewInv.col(3).head<3>() = position;
+
 		m_updateMatrices = true;
 	}
-	void Camera::addLocalRotation(const Quat& rotation)
+	void Camera::addLocalRotation(const Quat& rotation, bool rollEnabled)
 	{
-		Vec3 rotationEuler = glm::eulerAngles(rotation);
+		Vec3f rotationEuler = rotation.toRotationMatrix().eulerAngles(0, 1, 2);
 		addLocalRotation(rotationEuler);
 	}
-	void Camera::addLocalRotation(const Vec3& rotation)
+	void Camera::addLocalRotation(const Vec3f& rotation, bool rollEnabled)
 	{
-		if (m_isRollEnabled)
+		Vec3f right = getRight();
+		Vec3f up = getUp();
+		Vec3f forward = getForward();
+
+		if (rollEnabled)
 		{
-			m_rotation = glm::rotate(m_rotation, rotation.z, getForward());
-			m_rotation = glm::rotate(m_rotation, rotation.x, getRight());
-			m_rotation = glm::rotate(m_rotation, rotation.y, getUp());
+			m_rotation *= Quat(Eigen::AngleAxisf(rotation.z(), forward));
+			m_rotation *= Quat(Eigen::AngleAxisf(rotation.x(), right));
+			m_rotation *= Quat(Eigen::AngleAxisf(rotation.y(), up));
 		}
 		else
 		{
-			m_rotation = glm::rotate(m_rotation, rotation.x, getRight());
-			m_rotation = glm::rotate(m_rotation, rotation.y, Vec3(0.0f, 1.0f, 0.0f));
+			m_rotation = Quat(Eigen::AngleAxisf(rotation.x(), right)) * Quat(Eigen::AngleAxisf(rotation.y(), Vec3f(0.0f, 1.0f, 0.0f))) * m_rotation;
+			//m_rotation *= Quat(Eigen::AngleAxisf(rotation.y(), Vec3f(0.0f, 1.0f, 0.0f)));
 		}
+
+		m_rotation.normalize();
 
 		m_updateBasis = true;
 		m_updateMatrices = true;
 	}
 	void Camera::addWorldRotation(const Quat& rotation)
 	{
-		Quat rot = rotation;
-		if (!m_isRollEnabled)
-		{
-			Vec3 rotationEuler = glm::eulerAngles(rotation);
-			rotationEuler.z = 0.0f;
-			rot = Quat(rotationEuler);
-		}
-	
-		m_rotation *= rot;
+		m_rotation *= rotation;
+
 		m_updateBasis = true;
 		m_updateMatrices = true;
 	}
-	void Camera::addWorldRotation(const Vec3& rotation)
+	void Camera::addWorldRotation(const Vec3f& rotation)
 	{
-		Quat rot = rotation;
-		if (!m_isRollEnabled)
-		{
-			Vec3 rotationEuler = rotation;
-			rotationEuler.z = 0.0f;
-			rot = Quat(rotationEuler);
-		}
+		m_rotation *= Quat(Eigen::AngleAxisf(rotation.z(), Vec3f(0.0f, 0.0f, 1.0f)));
+		m_rotation *= Quat(Eigen::AngleAxisf(rotation.x(), Vec3f(1.0f, 0.0f, 0.0f)));
+		m_rotation *= Quat(Eigen::AngleAxisf(rotation.y(), Vec3f(0.0f, 1.0f, 0.0f)));
 
-		m_rotation *= rot;
 		m_updateBasis = true;
 		m_updateMatrices = true;
 	}
@@ -97,62 +101,61 @@ namespace RedLightbulb
 		m_updateBasis = true;
 		m_updateMatrices = true;
 	}
-	void Camera::setWorldRotation(const Vec3& rotation)
+	void Camera::setWorldRotation(const Vec3f& rotation)
 	{
-		Quat rot = rotation;
-		m_rotation = rotation;
+		m_rotation = Quat(Eigen::AngleAxisf(rotation.z(), Vec3f(0.0f, 0.0f, 1.0f)));
+		m_rotation *= Quat(Eigen::AngleAxisf(rotation.x(), Vec3f(1.0f, 0.0f, 0.0f)));
+		m_rotation *= Quat(Eigen::AngleAxisf(rotation.y(), Vec3f(0.0f, 1.0f, 0.0f)));
+
+		m_rotation.normalize();
 
 		m_updateBasis = true;
 		m_updateMatrices = true;
 	}
-	Vec3 Camera::getPosition() const
+	Vec3f Camera::getPosition() const
 	{
-		return Vec3(m_viewInv[3][0], m_viewInv[3][1], m_viewInv[3][2]);
+		return m_viewInv.col(3).head<3>();
 	}
-	Vec3 Camera::getRight() const
+	Vec3f Camera::getRight() const
 	{
-		return Vec3(m_viewInv[0][0], m_viewInv[0][1], m_viewInv[0][2]);
+		return m_viewInv.col(0).head<3>();
 	}
-	Vec3 Camera::getUp() const
+	Vec3f Camera::getUp() const
 	{
-		return Vec3(m_viewInv[1][0], m_viewInv[1][1], m_viewInv[1][2]);
+		return m_viewInv.col(1).head<3>();
 	}
-	Vec3 Camera::getForward() const
+	Vec3f Camera::getForward() const
 	{
-		return Vec3(m_viewInv[2][0], m_viewInv[2][1], m_viewInv[2][2]);
+		return m_viewInv.col(2).head<3>();
 	}
-	const Mat4& Camera::getView() const
+	const Mat4f& Camera::getView() const
 	{
 		return m_view;
 	}
-	const Mat4& Camera::getViewInv() const
+	const Mat4f& Camera::getViewInv() const
 	{
 		return m_viewInv;
 	}
-	const Mat4& Camera::getProj() const
+	const Mat4f& Camera::getProj() const
 	{
 		return m_proj;
 	}
-	const Mat4& Camera::getProjInv() const
+	const Mat4f& Camera::getProjInv() const
 	{
 		return m_projInv;
 	}
-	const Mat4& Camera::getViewProj() const
+	const Mat4f& Camera::getViewProj() const
 	{
 		return m_viewProj;
 	}
-	const Mat4& Camera::getViewProjInv() const
+	const Mat4f& Camera::getViewProjInv() const
 	{
 		return m_viewProjInv;
 	}
-	void Camera::setIsRollEnabled(bool enabled)
-	{
-		m_isRollEnabled = enabled;
-	}
 	void Camera::update()
 	{
-		m_rotation = glm::normalize(m_rotation);
-	
+		m_rotation.normalize();
+
 		updateBasis();
 		updateMatrices();
 	}
@@ -162,49 +165,23 @@ namespace RedLightbulb
 		{
 			m_updateBasis = false;
 
-			Mat4 rotationMat = glm::toMat4(m_rotation);
-			
-			m_viewInv[0] = rotationMat[0];
-			m_viewInv[1] = rotationMat[1];
-			m_viewInv[2] = rotationMat[2];
+			Mat3f rotationMat = m_rotation.toRotationMatrix();
+
+			m_viewInv.block(0, 0, 3, 3) = rotationMat;
 		}
 	}
 	void Camera::updateMatrices()
 	{
-		if (!m_updateMatrices)
+		if (m_updateMatrices)
 		{
-			return;
+			m_updateMatrices = false;
+
+			updateBasis();
+
+			m_view = m_viewInv.inverse();
+
+			m_viewProj = m_proj * m_view;
+			m_viewProjInv = m_viewInv * m_projInv;
 		}
-		m_updateMatrices = false;
-		
-		updateBasis();
-		
-		//viewInv -> view
-		m_view[0][0] = m_viewInv[0][0];  m_view[1][0] = m_viewInv[0][1];  m_view[2][0] = m_viewInv[0][2];
-		m_view[0][1] = m_viewInv[1][0];  m_view[1][1] = m_viewInv[1][1];  m_view[2][1] = m_viewInv[1][2];
-		m_view[0][2] = m_viewInv[2][0];  m_view[1][2] = m_viewInv[2][1];  m_view[2][2] = m_viewInv[2][2];
-		
-		//Vec3 pos(m_viewInv[3][0], m_viewInv[3][1], m_viewInv[3][2]);
-		
-		
-		//Vec3 col = Vec3(
-		//	-pos[0] * Vec3(m_view[0][0], m_view[0][1], m_view[0][2])
-		//	-pos[1] * Vec3(m_view[1][0], m_view[1][1], m_view[1][2])
-		//	-pos[2] * Vec3(m_view[2][0], m_view[2][1], m_view[2][2])
-		//);
-		
-		glm::row(m_view, 3, Vec4(0.0f, 0.0f, 0.0f, 1.0f));
-		//viewInv -> view
-		
-		Mat3 R = m_view;
-		//R = glm::transpose(R);
-		
-		m_view[3] = Vec4(Vec3(m_viewInv[3]) * -R, 1.0f);
-		
-
-		//m_view = glm::inverse(m_viewInv);
-
-		m_viewProj = m_proj * m_view;
-		m_viewProjInv = m_viewInv * m_projInv;
 	}
 }

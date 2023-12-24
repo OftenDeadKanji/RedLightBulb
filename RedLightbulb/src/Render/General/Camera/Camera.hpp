@@ -8,52 +8,48 @@ namespace RedLightbulb
 	public:
 		void setPerspective(float fov, float aspect, float near, float far);
 
-		void lookAt(const Vec3& position, const Vec3& target, const Vec3& up = Vec3(0.0f, 1.0f, 0.0f));
+		void lookAt(const Vec3f& position, const Vec3f& target, const Vec3f& up = Vec3f(0.0f, 1.0f, 0.0f));
 
-		void addLocalPosition(const Vec3& position);
-		void addWorldPosition(const Vec3& position);
-		void setWorldPosition(const Vec3& position);
+		void addLocalPosition(const Vec3f& position);
+		void addWorldPosition(const Vec3f& position);
+		void setWorldPosition(const Vec3f& position);
 
-		void addLocalRotation(const Quat& rotation);
-		void addLocalRotation(const Vec3& rotation);
+		void addLocalRotation(const Quat& rotation, bool rollEnabled = false);
+		void addLocalRotation(const Vec3f& rotation, bool rollEnabled = false);
 		void addWorldRotation(const Quat& rotation);
-		void addWorldRotation(const Vec3& rotation);
+		void addWorldRotation(const Vec3f& rotation);
 		void setWorldRotation(const Quat& rotation);
-		void setWorldRotation(const Vec3& rotation);
+		void setWorldRotation(const Vec3f& rotation);
 
-		Vec3 getPosition() const;
-		Vec3 getRight() const;
-		Vec3 getUp() const;
-		Vec3 getForward() const;
+		Vec3f getPosition() const;
+		Vec3f getRight() const;
+		Vec3f getUp() const;
+		Vec3f getForward() const;
 
-		const Mat4& getView() const;
-		const Mat4& getViewInv() const;
+		const Mat4f& getView() const;
+		const Mat4f& getViewInv() const;
 
-		const Mat4& getProj() const;
-		const Mat4& getProjInv() const;
+		const Mat4f& getProj() const;
+		const Mat4f& getProjInv() const;
 
-		const Mat4& getViewProj() const;
-		const Mat4& getViewProjInv() const;
-
-		void setIsRollEnabled(bool enabled);
+		const Mat4f& getViewProj() const;
+		const Mat4f& getViewProjInv() const;
 
 		void update();
 	private:
 		void updateBasis();
 		void updateMatrices();
 
-		Mat4 m_view = Mat4(1.0);
-		Mat4 m_viewInv = Mat4(1.0);
+		Mat4f m_view = Mat4f::Identity();
+		Mat4f m_viewInv = Mat4f::Identity();
 
-		Mat4 m_proj = Mat4(1.0);
-		Mat4 m_projInv = Mat4(1.0);
+		Mat4f m_proj = Mat4f::Identity();
+		Mat4f m_projInv = Mat4f::Identity();
 
-		Mat4 m_viewProj = Mat4(1.0);
-		Mat4 m_viewProjInv = Mat4(1.0);
+		Mat4f m_viewProj = Mat4f::Identity();
+		Mat4f m_viewProjInv = Mat4f::Identity();
 
-		Quat m_rotation = Quat(1.0f, 0.0f, 0.0f, 0.0f);
-
-		bool m_isRollEnabled = false;
+		Quat m_rotation = Quat::Identity();
 
 		bool m_updateMatrices = false;
 		bool m_updateBasis = false;

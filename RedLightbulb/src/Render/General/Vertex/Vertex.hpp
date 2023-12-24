@@ -6,12 +6,12 @@ namespace RedLightbulb
 {
 	struct Vertex
 	{
-		Vec3 position;
-		Vec3 color;
-		Vec2 texCoord;
-		Vec3 normal;
-		Vec3 tangent;
-		Vec3 bitangent;
+		Vec3f position;
+		Vec3f color;
+		Vec2f texCoord;
+		Vec3f normal;
+		Vec3f tangent;
+		Vec3f bitangent;
 	};
 }
 

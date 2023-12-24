@@ -23,10 +23,10 @@ namespace RedLightbulb
 		};
 
 		bool isPressed(Button button);
-		const Vec2& getPosition() const;
+		const Vec2f& getPosition() const;
 	private:
 		bool m_buttons[static_cast<int>(Button::Last)];
-		Vec2 m_position;
+		Vec2f m_position;
 	};
 }
 

@@ -6,7 +6,7 @@ namespace RedLightbulb
 {
 	struct InstanceUnlit
 	{
-		Mat4 transform;
+		Mat4f transform;
 	};
 
 	class UnlitShadingModel

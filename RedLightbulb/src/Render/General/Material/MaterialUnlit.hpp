@@ -9,7 +9,7 @@ namespace RedLightbulb
 	struct MaterialUnlit
 		: public Material
 	{
-		Vec3 baseColor = Vec3(1.0f, 1.0f, 1.0f);
+		Vec3f baseColor = Vec3f(1.0f, 1.0f, 1.0f);
 		bool usesColorTexture = false;
 		//texture
 

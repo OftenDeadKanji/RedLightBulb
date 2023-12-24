@@ -168,7 +168,7 @@ namespace RedLightbulb
 				receivedEvent.type = Event::Type::MouseButtonReleased;
 				break;
 			case WM_MOUSEMOVE:
-				eventManager.m_mouse->m_position = Vec2(GET_X_LPARAM(lParam), height - GET_Y_LPARAM(lParam));
+				eventManager.m_mouse->m_position = Vec2f(GET_X_LPARAM(lParam), height - GET_Y_LPARAM(lParam));
 
 				receivedEvent.type = Event::Type::MouseCursorMoved;
 				break;

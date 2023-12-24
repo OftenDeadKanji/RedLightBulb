@@ -28,7 +28,7 @@ namespace RedLightbulb
 
 		struct
 		{
-			Vec4 mainColorBuffer;
+			Vec4f mainColorBuffer;
 		} m_clearColors;
 		UniformBufferObject m_perFrameUBO;
 	};

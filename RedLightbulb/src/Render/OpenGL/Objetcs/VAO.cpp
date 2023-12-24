@@ -38,7 +38,7 @@ namespace RedLightbulb
 		bind();
 		m_vbo.bind();
 		
-		unsigned int vertexSize = sizeof(Vec3);
+		unsigned int vertexSize = sizeof(Vec3f);
 		unsigned int verticesCount = vertices.size();
 		unsigned int dataSize = verticesCount * vertexSize;
 
@@ -47,7 +47,7 @@ namespace RedLightbulb
 		for (int i = 0; i < verticesCount; i++)
 		{
 			const auto& vertex = vertices[i];
-			m_vbo.bufferSubData(sCast(const void*, &vertex.position.x), vertexSize, i * vertexSize);
+			m_vbo.bufferSubData(sCast(const void*, &vertex.position.x()), vertexSize, i * vertexSize);
 		}
 
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, vertexSize, sCast(void*, 0));
@@ -62,7 +62,7 @@ namespace RedLightbulb
 		m_vbo.create();
 		m_vbo.bind();
 
-		unsigned int vertexSize = sizeof(Vec3);
+		unsigned int vertexSize = sizeof(Vec3f);
 		unsigned int verticesCount = vertices.size();
 		unsigned int dataSize = verticesCount * vertexSize;
 
@@ -71,7 +71,7 @@ namespace RedLightbulb
 		for (int i = 0; i < verticesCount; i++)
 		{
 			const auto& vertex = vertices[i];
-			m_vbo.bufferSubData(sCast(const void*, &vertex.position.x), vertexSize, i * vertexSize);
+			m_vbo.bufferSubData(sCast(const void*, &vertex.position.x()), vertexSize, i * vertexSize);
 		}
 
 		m_ebo.create();
