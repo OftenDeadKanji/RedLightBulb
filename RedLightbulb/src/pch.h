@@ -7,6 +7,7 @@
 #include <iostream>
 #include <vector>
 #include <memory>
+#include <chrono>
 
 // dependencies
 #include "Glad/glad/gl.h"

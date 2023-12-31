@@ -6,50 +6,12 @@
 #include "../InputSystem/Mouse/Mouse.hpp"
 #include "ResourceManagers/MeshManager/MeshManager.hpp"
 #include "Render/General/Renderer.hpp"
+#include "Utilities/Timer.hpp"
 
 using namespace RedLightbulb;
 
-
-#include <chrono>
-
-class Timer
-{
-public:
-	void start();
-	void stop();
-
-	float getTimeInSec() const;
-private:
-	using clock = std::chrono::high_resolution_clock;
-	using duration = std::chrono::duration<float>;
-	clock::time_point m_start, m_end;
-};
-
-#pragma region Inline methods definitions
-inline void Timer::start()
-{
-	m_start = clock::now();
-}
-inline void Timer::stop()
-{
-	m_end = clock::now();
-}
-
-inline float Timer::getTimeInSec() const
-{
-	return duration(m_end - m_start).count();
-}
-
-
 int main()
 {
-	Vec3f axis = Vec3f(0.2f, 0.5f, 0.1f).normalized();
-	Eigen::AngleAxisf ax = Eigen::AngleAxisf(0.8f, axis);
-	Quat q(ax);
-
-
-
-
 	std::cout << "Hello there!" << std::endl;
 
 	WindowProperties windowProperties;
@@ -94,17 +56,17 @@ int main()
 	float movementSpeed = 10.0f;
 	float rotationSpeed = 0.1f;
 
-	Timer timer;
-	timer.start();
+	Utilities::Timer timer;
+	timer.setNewTimePoint();
 
 	bool loopCondition = true;
 	while (loopCondition)
 	{
-		timer.stop();
-		float deltaTime = timer.getTimeInSec();
-
-		
-
+		float deltaTime = timer.elapsed();
+		if (deltaTime < 0.016f)
+		{
+			continue;
+		}
 		eventManager.pollEvents();
 		while (auto ev = eventManager.getNextEvent())
 		{
@@ -129,11 +91,8 @@ int main()
 			}
 		}
 
-		if (deltaTime < 0.016f)
-		{
-			continue;
-		}
-		timer.start();
+		
+		timer.setNewTimePoint();
 
 		if (keyboard.isPressed(Keyboard::KeyCode::D))
 		{
