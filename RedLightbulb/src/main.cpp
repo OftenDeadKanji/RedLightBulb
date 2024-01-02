@@ -38,7 +38,7 @@ int main()
 	MeshManager& meshManager = MeshManager::getInstance();
 
 	Mesh mesh;
-	if (!meshManager.load("res/Meshes/key.glb", "Key", mesh))
+	if (!meshManager.load("res/Meshes/keyTextured.glb", "Key", mesh))
 	{
 
 	}

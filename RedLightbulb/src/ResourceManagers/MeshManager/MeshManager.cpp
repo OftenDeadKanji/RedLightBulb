@@ -4,6 +4,7 @@
 #include "../../Dependencies/assimp/Importer.hpp"
 #include "../../Dependencies/assimp/scene.h"
 #include "../../Dependencies/assimp/postprocess.h"
+#include "../TextureManager/TextureManager.hpp"
 
 namespace RedLightbulb
 {
@@ -70,6 +71,9 @@ namespace RedLightbulb
 	bool MeshManager::processNode(const aiScene* scene, const aiNode* node, Mesh& outMesh)
 	{
 		std::cout << "\tProcessing " << node->mName.C_Str() << " node.\n";
+
+		auto& texManager = TextureManager::getInstance();
+
 		//node
 		for (int i = 0; i < node->mNumMeshes; i++)
 		{
@@ -77,11 +81,11 @@ namespace RedLightbulb
 			const aiMesh* mesh = scene->mMeshes[meshIndex];
 
 			outMesh.m_subMeshes.emplace_back();
-			auto& subMesh = outMesh.m_subMeshes.back();
+			SubMesh& subMesh = outMesh.m_subMeshes.back();
 
 			subMesh.m_name = mesh->mName.C_Str();
 			subMesh.firstVertexIndex = outMesh.m_vertices.size();
-			
+
 			for (int i = 0; i < mesh->mNumVertices; i++)
 			{
 				Vertex vertex;
@@ -90,26 +94,60 @@ namespace RedLightbulb
 				vertex.texCoord = mesh->HasTextureCoords(0) ? Vec2f(mesh->mTextureCoords[0][i].x, mesh->mTextureCoords[0][i].y) : Vec2f(0.0f, 0.0f);
 				vertex.normal = mesh->HasNormals() ? Vec3f(mesh->mNormals[i].x, mesh->mNormals[i].y, mesh->mNormals[i].z) : Vec3f(0.0f, 0.0f, 1.0f);
 				vertex.tangent = mesh->HasTangentsAndBitangents() ? Vec3f(mesh->mTangents[i].x, mesh->mTangents[i].y, mesh->mTangents[i].z) : Vec3f(1.0f, 0.0f, 0.0f);
-				vertex.bitangent = mesh->HasTangentsAndBitangents() ? Vec3f(mesh->mBitangents[i] .x, mesh->mBitangents[i].y, mesh->mBitangents[i].z) : Vec3f(0.0f, 1.0f, 0.0f);
+				vertex.bitangent = mesh->HasTangentsAndBitangents() ? Vec3f(mesh->mBitangents[i].x, mesh->mBitangents[i].y, mesh->mBitangents[i].z) : Vec3f(0.0f, 1.0f, 0.0f);
 
 				outMesh.m_vertices.push_back(vertex);
 			}
 			subMesh.verticesCount = outMesh.m_vertices.size();
-			
+
+			std::shared_ptr<MaterialPBR> materialPBR = std::make_shared<MaterialPBR>();
+
 			aiMaterial* subMeshMaterial = scene->mMaterials[mesh->mMaterialIndex];
 			auto name = subMeshMaterial->GetName().C_Str();
+			materialPBR->name = name;
 
 			aiColor3D baseColor;
-			auto ret = subMeshMaterial->Get(AI_MATKEY_COLOR_DIFFUSE, baseColor);
+			if (subMeshMaterial->Get(AI_MATKEY_COLOR_DIFFUSE, baseColor) == aiReturn_SUCCESS)
+			{
+				materialPBR->baseColor = Vec3f(baseColor.r, baseColor.g, baseColor.b);
+			}
+
+			aiString baseColorTexturePath;
+			if (subMeshMaterial->Get(AI_MATKEY_TEXTURE(AI_MATKEY_BASE_COLOR_TEXTURE) baseColorTexturePath) == aiReturn_SUCCESS)
+			{
+				materialPBR->usesColorTexture = true;
+
+				if (auto* baseColorTexture = scene->GetEmbeddedTexture(baseColorTexturePath.C_Str()))
+				{
+					auto* arrayData = baseColorTexture->pcData;
+					unsigned char* arrayData1 = reinterpret_cast<unsigned char*>(arrayData);
+
+					auto texture = texManager.loadFromMemory(arrayData1, baseColorTexture->mWidth, baseColorTexture->mFilename.C_Str(), TextureType::Single2D);
+				}
+				else
+				{
+					auto texture = texManager.loadFromFile(baseColorTexturePath.C_Str(), "", TextureType::Single2D);
+
+				}
+			}
+
 
 			float metallic;
-			ret = subMeshMaterial->Get(AI_MATKEY_METALLIC_FACTOR, metallic);
+			if (subMeshMaterial->Get(AI_MATKEY_METALLIC_FACTOR, metallic) == aiReturn_SUCCESS)
+			{
+				materialPBR->metallic = metallic;
+			}
 
 			float roughness;
-			ret = subMeshMaterial->Get(AI_MATKEY_ROUGHNESS_FACTOR, roughness);
+			if (subMeshMaterial->Get(AI_MATKEY_ROUGHNESS_FACTOR, roughness) == aiReturn_SUCCESS)
+			{
+				materialPBR->roughness = roughness;
+			}
+
+			subMesh.material = materialPBR;
 
 			subMesh.firstIndexIndex = outMesh.m_indices.size();
-			
+
 			for (int i = 0; i < mesh->mNumFaces; i++)
 			{
 				const aiFace& face = mesh->mFaces[i];

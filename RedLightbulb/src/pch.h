@@ -11,6 +11,7 @@
 
 // dependencies
 #include "Glad/glad/gl.h"
+#include "stb_image/stb_image.h"
 
 // RedLightbulb
 #include "Utilities/Utilities.hpp"

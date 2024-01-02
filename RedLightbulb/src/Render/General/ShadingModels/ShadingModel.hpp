@@ -1,11 +1,13 @@
 #pragma once
 #include <vector>
+//#include "../Material/Material.hpp"
 
 namespace RedLightbulb
 {
 	class Mesh;
 	class SubMesh;
 	class Camera;
+	struct Material;
 
 	template<class MaterialType, class InstanceType>
 	class ShadingModel
@@ -35,6 +37,7 @@ namespace RedLightbulb
 		virtual void addMesh(const Mesh* mesh, const std::vector<std::pair<const SubMesh*, Material*>>& subMeshesMaterials, Instance instance);
 	protected:
 		virtual void createBuffer(PerMesh& perMesh) = 0;
+		virtual void castToAppropriateMaterial(std::shared_ptr<RedLightbulb::Material> material) = 0;
 
 		std::vector<PerMesh> m_meshes;
 	};
@@ -47,6 +50,12 @@ namespace RedLightbulb
 		std::vector<std::pair<const SubMesh*, Material*>> materials;
 		for (int i = 0; i < subMeshes.size(); i++)
 		{
+			//auto* material = subMeshes[i].getMaterial().get();
+			//if (auto* materialPBR = dynamic_cast<MaterialPBR*>(material))
+			//{
+			//	std::shared_ptr<MaterialUnlit> materialUnlit = std::make_shared<MaterialUnlit>(*materialPBR);
+			//}
+			
 			materials.push_back(std::pair<const SubMesh*, Material*>(& subMeshes[i], nullptr));
 		}
 

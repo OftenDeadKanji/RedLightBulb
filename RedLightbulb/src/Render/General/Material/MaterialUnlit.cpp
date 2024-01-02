@@ -7,4 +7,8 @@ namespace RedLightbulb
 	MaterialUnlit::MaterialUnlit(const MaterialPBR& materialPBR)
 		: baseColor(materialPBR.baseColor), usesColorTexture(materialPBR.usesColorTexture)
 	{}
+	MaterialUnlit MaterialUnlit::toUnlit()
+	{
+		return *this;
+	}
 }

@@ -16,6 +16,8 @@ namespace RedLightbulb
 
 		unsigned int getFirstIndexIndex() const;
 		unsigned int getIndicesCount() const;
+
+		std::shared_ptr<Material> getMaterial() const;
 	private:
 		std::string m_name;
 
@@ -27,7 +29,7 @@ namespace RedLightbulb
 		unsigned int firstIndexIndex;
 		unsigned int indicesCount;
 
-		std::shared_ptr<MaterialPBR> material;
+		std::shared_ptr<Material> material;
 	};
 }
 
