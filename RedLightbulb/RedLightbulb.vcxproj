@@ -147,6 +147,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Application\Application.hpp" />
     <ClInclude Include="src\Dependencies\stb_image\stb_image.h" />
     <ClInclude Include="src\InputSystem\Mouse\Mouse.hpp" />
     <ClInclude Include="src\InputSystem\Keyboard\Keyboard.hpp" />
@@ -188,6 +189,7 @@
     <ClInclude Include="src\ResourceManagers\TextureManager\TextureManager.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Application\Application.cpp" />
     <ClCompile Include="src\Dependencies\stb_image\stb_image.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -247,6 +249,9 @@
   <ItemGroup>
     <None Include="Shaders\Unlit\UnlitFS.glsl" />
     <None Include="Shaders\Unlit\UnlitVS.glsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="src\Conventions" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

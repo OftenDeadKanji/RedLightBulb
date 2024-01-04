@@ -1,11 +1,13 @@
 #include "pch.h"
-#include <iostream>
+
+#include "Application/Application.hpp"
+
 #include "Core/RedLightbulb.hpp"
-#include "../InputSystem/Events/EventManager.hpp"
-#include "../InputSystem/Keyboard/Keyboard.hpp"
-#include "../InputSystem/Mouse/Mouse.hpp"
-#include "ResourceManagers/MeshManager/MeshManager.hpp"
+#include "InputSystem/Events/EventManager.hpp"
+#include "InputSystem/Keyboard/Keyboard.hpp"
+#include "InputSystem/Mouse/Mouse.hpp"
 #include "Render/General/Renderer.hpp"
+#include "ResourceManagers/MeshManager/MeshManager.hpp"
 #include "Utilities/Timer.hpp"
 
 using namespace RedLightbulb;
@@ -14,24 +16,14 @@ int main()
 {
 	std::cout << "Hello there!" << std::endl;
 
-	WindowProperties windowProperties;
-	windowProperties.width = 1600;
-	windowProperties.height = 900;
-	windowProperties.mode = WindowProperties::Mode::Windowed;
-	windowProperties.title = "RedLightbulb!";
-	windowProperties.isResizeable = false;
+	Application app;
+	app.init();
 
-	RedLighbulb engine;
-	engine.init(windowProperties);
+	app.run();
 
-	Window& window = engine.getWindow();
-	EventManager& eventManager = window.getEventManager();
+	app.deinit();
 
-	Keyboard keyboard;
-	eventManager.setKeyboard(keyboard);
-
-	Mouse mouse;
-	eventManager.setMouse(mouse);
+	
 
 	Renderer& renderer = Renderer::getInstance();
 

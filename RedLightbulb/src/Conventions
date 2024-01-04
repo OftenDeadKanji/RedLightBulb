@@ -1,0 +1,54 @@
+﻿///////////////////////////////////////////////////////////////////////////////////////////////////
+//	Header file - HeaderFile.hpp
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+// 1. Include guards (preferred) or #pragma once.
+// 2. Any required preprocessor definitions.
+// 3. Includes - in alphabetical order in each section:
+//     3.1. Dependencies that require to be at the top.
+//     3.2. C++ std headers.
+//     3.3. The rest of dependencies.
+//     3.4. File from this project.
+// 4. Forward declarations:
+//     4.0. If the classes are in the same namespace as this class - put the forward declarations after 5. 
+// 5. Namespace (preferred).
+// 6. Class declaration:
+//     6.1. Friends (private)
+//     6.2. Big 5 with extras:
+//           6.2.1. Constructors sorted by arguments count - even with mixed public/protected/private specifiers.
+//           6.2.2. Copy and move constructors.
+//           6.2.3. Destructor.
+//           6.2.4. Copy and move assign operator.
+//           6.2.5. Create/get/delete InstancePointer if Singleton.
+//     6.3. Public member functions:
+//           6.3.1. Member functions for initialisation and deinitialisation.
+//           6.3.2. Getters - sorted by fields' order in class, followed by setter for the same member variable:
+//                   6.3.2.1. Non-const.
+//                   6.3.2.2. Const.
+//           6.3.3. Setters - followed by getter for next member variable.
+//           6.3.4. Static member functions - sorted by their mutual dependencies and order in each other's code.
+//           6.3.5. The rest of public member functions - sorted by their mutual dependencies and order in each other's code.
+//     6.4. Protected member functions:
+//           6.4.1. Member functions for initialisation and deinitialisation.
+//           6.4.2. Static member functions - sorted by their mutual dependencies and order in each other's code.
+//           6.4.3. The rest of protected member functions - sorted by their mutual dependencies and order in each other's code.
+//     6.5. Protected member variables:
+//           6.5.1. Static InstancePtr if Singleton (?? Protected ??).
+//           6.5.2. Constants:
+//                   6.5.2.1. Static constexpr.
+//                   6.5.2.2. Simple const.
+//           6.5.3. The rest of static protected member variables.
+//           6.5.4. The rest of protected member variables.
+//     6.6. Private member functions:
+//           6.6.1. Member functions for initialisation and deinitialisation - sorted by their mutual dependencies and order in each other's code.
+//           6.6.2. Static member functions - sorted by their mutual dependencies and order in each other's code.
+//           6.6.3. The rest of private member functions - sorted by their mutual dependencies and order in each other's code.
+//     6.7. Private member variables:
+//           6.7.1. Static InstancePtr if Singleton.
+//           6.7.2. Constants:
+//                   6.7.2.1. Static constexpr.
+//                   6.7.2.2. Simple const.
+//           6.7.3. The rest of static protected member variables.
+//           6.7.4. The rest of protected member variables.
+//
+// 7. Empty line at the end of file.

@@ -1,7 +1,7 @@
 #ifndef __WINDOW_HPP__
 #define __WINDOW_HPP__
-#include "../Window/WindowProperties.hpp"
-#include "../InputSystem/Events/EventManager.hpp"
+#include "InputSystem/Events/EventManager.hpp"
+#include "Window/WindowProperties.hpp"
 
 namespace RedLightbulb
 {
@@ -18,13 +18,13 @@ namespace RedLightbulb
 
 		virtual void swapBuffers() = 0;
 
-		EventManager& getEventManager();
+		EventManager* getEventManagerPtr();
 
 	protected:
 		virtual void init() = 0;
 		virtual void deinit() = 0;
 
-		bool m_isInitialised = false;
+		bool m_isInitialised{ false };
 		WindowProperties m_properties;
 
 		EventManager* m_eventManager;

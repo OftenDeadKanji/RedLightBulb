@@ -1,12 +1,12 @@
 #ifndef __RED_LIGHTBULB_HPP__
 #define __RED_LIGHTBULB_HPP__
-#include <memory>
-#include "../Window/Window.hpp"
-#include "../Render/General/Camera/Camera.hpp"
+#include "Window/Window.hpp"
 
 namespace RedLightbulb
 {
+	class Camera;
 	struct WindowProperties;
+
 	class RedLighbulb
 	{
 	public:
@@ -17,9 +17,9 @@ namespace RedLightbulb
 
 		void render(const Camera& camera);
 
-		Window& getWindow();
+		Window* getWindowPtr();
 	private:
-		bool m_isInitialised = false;
+		bool m_isInitialised{ false };
 		std::unique_ptr<Window> m_mainWindow;
 	};
 }

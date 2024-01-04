@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "Window.hpp"
-#include <iostream>
 
 namespace RedLightbulb
 {
@@ -40,8 +39,8 @@ namespace RedLightbulb
 		}
 	}
 
-	EventManager& Window::getEventManager()
+	EventManager* Window::getEventManagerPtr()
 	{
-		return *m_eventManager;
+		return m_eventManager;
 	}
 }

@@ -1,11 +1,10 @@
 #include "pch.h"
 #include "RedLightbulb.hpp"
-#include <iostream>
-#include "../Window/WindowWindows.hpp"
-#include "../Render/OpenGL/RendererOpenGL.hpp"
-#include "../Config/OSInfo.hpp"
-#include "../ResourceManagers/MeshManager/MeshManager.hpp"
-#include "../ResourceManagers/TextureManager/TextureManager.hpp"
+#include "Config/OSInfo.hpp"
+#include "Render/OpenGL/RendererOpenGL.hpp"
+#include "ResourceManagers/MeshManager/MeshManager.hpp"
+#include "ResourceManagers/TextureManager/TextureManager.hpp"
+#include "Window/WindowWindows.hpp"
 
 namespace RedLightbulb
 {
@@ -17,9 +16,9 @@ namespace RedLightbulb
 		}
 	}
 
-	Window& RedLighbulb::getWindow()
+	Window* RedLighbulb::getWindowPtr()
 	{
-		return *m_mainWindow;
+		return m_mainWindow.get();
 	}
 
 	void RedLighbulb::init(const WindowProperties& properties)

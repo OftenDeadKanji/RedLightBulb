@@ -132,6 +132,9 @@
     <ClInclude Include="src\Render\General\Texture\TextureType.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Application\Application.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\RedLightbulb.cpp">
@@ -242,9 +245,15 @@
     <ClCompile Include="src\ResourceManagers\TextureManager\TextureManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Application\Application.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Unlit\UnlitVS.glsl" />
     <None Include="Shaders\Unlit\UnlitFS.glsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="src\Conventions" />
   </ItemGroup>
 </Project>
