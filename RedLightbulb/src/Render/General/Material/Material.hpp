@@ -3,12 +3,16 @@
 
 namespace RedLightbulb
 {
+	struct MaterialUnlit;
+
 	struct Material
 	{
 		std::string name;
 
 		bool operator==(const Material& other);
 		bool operator!=(const Material& other);
+
+		virtual MaterialUnlit toUnlit() = 0;
 	};
 }
 

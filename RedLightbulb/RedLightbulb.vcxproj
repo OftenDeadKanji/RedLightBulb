@@ -147,8 +147,10 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Dependencies\stb_image\stb_image.h" />
     <ClInclude Include="src\InputSystem\Mouse\Mouse.hpp" />
     <ClInclude Include="src\InputSystem\Keyboard\Keyboard.hpp" />
+    <ClInclude Include="src\Render\General\Texture\TextureType.hpp" />
     <ClInclude Include="src\Render\OpenGL\Objetcs\EBO.hpp" />
     <ClInclude Include="src\Render\General\Camera\Camera.hpp" />
     <ClInclude Include="src\pch.h" />
@@ -174,14 +176,21 @@
     <ClInclude Include="src\Core\RedLightbulb.hpp" />
     <ClInclude Include="src\InputSystem\Events\Event.hpp" />
     <ClInclude Include="src\InputSystem\Events\EventManager.hpp" />
+    <ClInclude Include="src\Utilities\Timer.hpp" />
     <ClInclude Include="src\Utilities\Utilities.hpp" />
     <ClInclude Include="src\Window\Window.hpp" />
     <ClInclude Include="src\Window\WindowProperties.hpp" />
     <ClInclude Include="src\Window\WindowWindows.hpp" />
     <ClInclude Include="src\Render\General\Mesh\SubMesh.hpp" />
     <ClInclude Include="src\Render\OpenGL\Objetcs\UBO.hpp" />
+    <ClInclude Include="src\Render\General\Texture\Texture.hpp" />
+    <ClInclude Include="src\Render\OpenGL\Texture\TextureOpenGL.hpp" />
+    <ClInclude Include="src\ResourceManagers\TextureManager\TextureManager.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Dependencies\stb_image\stb_image.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\InputSystem\Mouse\Mouse.cpp" />
     <ClCompile Include="src\InputSystem\Keyboard\Keyboard.cpp" />
     <ClCompile Include="src\Math\Math.cpp" />
@@ -225,11 +234,15 @@
     <ClCompile Include="src\Render\General\Renderer.cpp" />
     <ClCompile Include="src\Core\RedLightbulb.cpp" />
     <ClCompile Include="src\InputSystem\Events\EventManager.cpp" />
+    <ClCompile Include="src\Utilities\Timer.cpp" />
     <ClCompile Include="src\Utilities\Utilities.cpp" />
     <ClCompile Include="src\Window\Window.cpp" />
     <ClCompile Include="src\Window\WindowWindows.cpp" />
     <ClCompile Include="src\Render\General\Mesh\SubMesh.cpp" />
     <ClCompile Include="src\Render\OpenGL\Objetcs\UBO.cpp" />
+    <ClCompile Include="src\Render\General\Texture\Texture.cpp" />
+    <ClCompile Include="src\Render\OpenGL\Texture\TextureOpenGL.cpp" />
+    <ClCompile Include="src\ResourceManagers\TextureManager\TextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Unlit\UnlitFS.glsl" />

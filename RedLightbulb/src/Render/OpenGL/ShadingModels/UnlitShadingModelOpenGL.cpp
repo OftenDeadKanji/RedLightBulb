@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "UnlitShadingModelOpenGL.hpp"
+#include "../Texture/TextureOpenGL.hpp"
 
 namespace RedLightbulb
 {
@@ -15,6 +16,7 @@ namespace RedLightbulb
 		}
 
 		m_shader.create("Shaders/Unlit/UnlitVS.glsl", "Shaders/Unlit/UnlitFS.glsl");
+		m_materialUBO.create();
 	}
 
 	void UnlitShadingModelOpenGL::destroy()
@@ -51,17 +53,29 @@ namespace RedLightbulb
 				const SubMesh* subMesh = perSubmesh.first;
 				const PerMaterial& perMaterial = perSubmesh.second;
 
-				const Material* material = perMaterial.material;
+				const MaterialUnlit* material = perMaterial.material.get();
+				auto* texture = sCast(TextureOpenGL*, material->baseColorTexture.get());
+				
+				texture->setToSlot(0, m_shader, "baseColorTexture");
+				
+				MaterialUniform uniform;
+				uniform.baseColor = material->baseColor;
+				uniform.usesBaseColorTexture = material->usesColorTexture;
+				
+				m_materialUBO.bind();
+				m_materialUBO.bufferData(&uniform, sizeof(uniform));
+				m_materialUBO.setToSlot(3);
 
-				// for (instances)
-
-				if (vao->withIndices())
+				for (const auto& instance : perMaterial.instances)
 				{
-					glDrawElements(GL_TRIANGLES, subMesh->getIndicesCount(), GL_UNSIGNED_INT, (void*)(subMesh->getFirstIndexIndex() * sizeof(unsigned int)));
-				}
-				else
-				{
-					glDrawArrays(GL_TRIANGLES, subMesh->getFirstVertexIndex(), subMesh->getVerticesCount());
+					if (vao->withIndices())
+					{
+						glDrawElements(GL_TRIANGLES, subMesh->getIndicesCount(), GL_UNSIGNED_INT, (void*)(subMesh->getFirstIndexIndex() * sizeof(unsigned int)));
+					}
+					else
+					{
+						glDrawArrays(GL_TRIANGLES, subMesh->getFirstVertexIndex(), subMesh->getVerticesCount());
+					}
 				}
 			}
 		}
@@ -79,6 +93,6 @@ namespace RedLightbulb
 
 		auto& buffer = m_buffers.back().second;
 		buffer.create();
-		buffer.createP3IndexedBuffer(vertices, indices);
+		buffer.createP3TX2IndexedBuffer(vertices, indices);
 	}
 }

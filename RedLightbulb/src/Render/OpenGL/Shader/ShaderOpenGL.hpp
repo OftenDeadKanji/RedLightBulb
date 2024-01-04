@@ -14,6 +14,8 @@ namespace RedLightbulb
 		void destroy() override;
 
 		void bind() override;
+
+		void setInt(int value, const std::string& name) const;
 	private:
 		void loadVertexShaderFile(const std::string& vertexShaderFile);
 		void loadFragmentShaderFile(const std::string& vertexShaderFile);

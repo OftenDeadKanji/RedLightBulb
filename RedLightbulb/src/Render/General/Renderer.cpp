@@ -28,11 +28,11 @@ namespace RedLightbulb
         s_instance->deinit();
         s_instance.release();
     }
-    void Renderer::addUnlitMesh(const Mesh* mesh, UnlitShadingModel::Instance instance)
+    void Renderer::addUnlitMesh(const Mesh* mesh, UnlitShadingModel::InstanceT instance)
     {
         m_unlitShadingModels->addMesh(mesh, instance);
     }
-    void Renderer::addUnlitMesh(const Mesh* mesh, const std::vector<std::pair<const SubMesh*, UnlitShadingModel::Material*>>& subMeshesMaterials, UnlitShadingModel::Instance instance)
+    void Renderer::addUnlitMesh(const Mesh* mesh, const std::vector<std::pair<const SubMesh*, sPtr<UnlitShadingModel::MaterialT>>>& subMeshesMaterials, UnlitShadingModel::InstanceT instance)
     {
         m_unlitShadingModels->addMesh(mesh, subMeshesMaterials, instance);
     }

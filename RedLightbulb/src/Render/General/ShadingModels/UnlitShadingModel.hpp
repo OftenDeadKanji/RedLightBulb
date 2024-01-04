@@ -18,6 +18,6 @@ namespace RedLightbulb
 
 		virtual void render(const Camera& camera) override;
 	private:
-		
+		virtual std::shared_ptr<MaterialUnlit> castToAppropriateMaterial(std::shared_ptr<Material> material) override;
 	};
 }

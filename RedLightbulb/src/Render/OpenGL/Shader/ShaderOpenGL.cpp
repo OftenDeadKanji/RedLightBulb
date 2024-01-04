@@ -77,6 +77,12 @@ namespace RedLightbulb
 		glUseProgram(m_id);
 	}
 
+	void ShaderOpenGL::setInt(int value, const std::string& name) const
+	{
+		GLuint location = glGetUniformLocation(m_id, name.c_str());
+		glUniform1i(location, value);
+	}
+
 	void ShaderOpenGL::loadVertexShaderFile(const std::string& vertexShaderFile)
 	{
 		std::ifstream shaderFile(vertexShaderFile);

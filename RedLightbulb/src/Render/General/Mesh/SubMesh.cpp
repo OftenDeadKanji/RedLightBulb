@@ -20,4 +20,8 @@ namespace RedLightbulb
     {
         return indicesCount;
     }
+    std::shared_ptr<Material> SubMesh::getMaterial() const
+    {
+        return material;
+    }
 }

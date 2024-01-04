@@ -5,6 +5,7 @@
 #include "../Render/OpenGL/RendererOpenGL.hpp"
 #include "../Config/OSInfo.hpp"
 #include "../ResourceManagers/MeshManager/MeshManager.hpp"
+#include "../ResourceManagers/TextureManager/TextureManager.hpp"
 
 namespace RedLightbulb
 {
@@ -36,6 +37,7 @@ namespace RedLightbulb
 
 			Renderer::createInstance(*m_mainWindow);
 			MeshManager::createInstance();
+			TextureManager::createInstance();
 
 			m_isInitialised = true;
 		}
@@ -45,6 +47,7 @@ namespace RedLightbulb
 	{
 		if (m_isInitialised)
 		{
+			TextureManager::destroy();
 			MeshManager::destroy();
 			Renderer::destroyInstance();
 

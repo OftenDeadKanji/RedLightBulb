@@ -1,23 +1,25 @@
 #pragma once
 #include <vector>
+#include "../Material/Material.hpp"
 
 namespace RedLightbulb
 {
 	class Mesh;
 	class SubMesh;
 	class Camera;
+	struct Material;
 
 	template<class MaterialType, class InstanceType>
 	class ShadingModel
 	{
 	public:
-		using Material = MaterialType;
-		using Instance = InstanceType;
+		using MaterialT = MaterialType;
+		using InstanceT = InstanceType;
 
 		struct PerMaterial
 		{
-			Material* material{};
-			std::vector<Instance> instances;
+			sPtr<MaterialT> material{};
+			std::vector<InstanceT> instances;
 		};
 		struct PerMesh
 		{
@@ -31,34 +33,42 @@ namespace RedLightbulb
 
 		virtual void render(const Camera& camera) = 0;
 
-		virtual void addMesh(const Mesh* mesh, Instance instance);
-		virtual void addMesh(const Mesh* mesh, const std::vector<std::pair<const SubMesh*, Material*>>& subMeshesMaterials, Instance instance);
+		virtual void addMesh(const Mesh* mesh, InstanceT instance);
+		virtual void addMesh(const Mesh* mesh, const std::vector<std::pair<const SubMesh*, sPtr<MaterialT>>>& subMeshesMaterials, InstanceT instance);
 	protected:
 		virtual void createBuffer(PerMesh& perMesh) = 0;
+		virtual sPtr<MaterialT> castToAppropriateMaterial(sPtr<Material> material) = 0;
 
 		std::vector<PerMesh> m_meshes;
 	};
 
 	template<class MaterialType, class InstanceType>
-	inline void ShadingModel<MaterialType, InstanceType>::addMesh(const Mesh* mesh, Instance instance)
+	inline void ShadingModel<MaterialType, InstanceType>::addMesh(const Mesh* mesh, InstanceT instance)
 	{
 		const auto& subMeshes = mesh->getSubMeshes();
 
-		std::vector<std::pair<const SubMesh*, Material*>> materials;
+		std::vector<std::pair<const SubMesh*, sPtr<MaterialT>>> materials;
 		for (int i = 0; i < subMeshes.size(); i++)
 		{
-			materials.push_back(std::pair<const SubMesh*, Material*>(& subMeshes[i], nullptr));
+			auto material = castToAppropriateMaterial(subMeshes[i].getMaterial());
+			//auto* material = subMeshes[i].getMaterial().get();
+			//if (auto* materialPBR = dynamic_cast<MaterialPBR*>(material))
+			//{
+			//	std::shared_ptr<MaterialUnlit> materialUnlit = std::make_shared<MaterialUnlit>(*materialPBR);
+			//}
+			
+			std::pair < const SubMesh*, sPtr<MaterialT>> pair1 = std::make_pair(&subMeshes[i], material);
+			materials.push_back(pair1);
 		}
 
 		addMesh(mesh, materials, instance);
 	}
 
-	template<class Material, class Instance>
-	inline void ShadingModel<Material, Instance>::addMesh(const Mesh* mesh, const std::vector<std::pair<const SubMesh*, Material*>>& subMeshesMaterials, Instance instance)
+	template<class MaterialType, class InstanceType>
+	inline void ShadingModel<MaterialType, InstanceType>::addMesh(const Mesh* mesh, const std::vector<std::pair<const SubMesh*, sPtr<MaterialT>>>& subMeshesMaterials, InstanceT instance)
 	{
 		PerMesh perMeshToAdd;
 		perMeshToAdd.mesh = mesh;
-
 
 		for (const auto& subMeshMaterial : subMeshesMaterials)
 		{

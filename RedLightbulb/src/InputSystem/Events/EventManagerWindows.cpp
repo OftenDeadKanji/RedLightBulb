@@ -11,9 +11,13 @@ namespace RedLightbulb
 	void EventManagerWindows::pollEvents()
 	{
 		MSG msg{};
-		GetMessageA(&msg, NULL, 0, 0);
-		TranslateMessage(&msg);
-		DispatchMessageA(&msg);
+		auto* window = dCast(WindowWindows*, m_window);
+
+		while (PeekMessageA(&msg, window->getHWnd(), 0, 0, PM_REMOVE))
+		{
+			TranslateMessage(&msg);
+			DispatchMessageA(&msg);
+		}
 	}
 
 	WPARAM EventManagerWindows::processKey(WPARAM wparam, LPARAM lParam)
@@ -121,7 +125,6 @@ namespace RedLightbulb
 		int width = rect.right - rect.left;
 		int height = rect.bottom - rect.top;
 
-
 		auto key = processKey(wParam, lParam);
 		Keyboard::KeyCode code = translateKeyCode(key);
 
@@ -135,10 +138,9 @@ namespace RedLightbulb
 				PostQuitMessage(0);
 				break;
 			case WM_KEYDOWN:
+				eventManager.m_keyboard->m_keys[static_cast<int>(code)] = true;
 				if ((HIWORD(lParam) & KF_REPEAT) != KF_REPEAT)
 				{
-					eventManager.m_keyboard->m_keys[static_cast<int>(code)] = true;
-
 					receivedEvent.type = Event::Type::KeyboardKeyPressed;
 				}
 				break;
