@@ -123,11 +123,14 @@ namespace RedLightbulb
 					unsigned char* arrayData1 = reinterpret_cast<unsigned char*>(arrayData);
 
 					auto texture = texManager.loadFromMemory(arrayData1, baseColorTexture->mWidth, baseColorTexture->mFilename.C_Str(), TextureType::Single2D);
+
+					materialPBR->baseColorTexture = texture;
 				}
 				else
 				{
 					auto texture = texManager.loadFromFile(baseColorTexturePath.C_Str(), "", TextureType::Single2D);
 
+					materialPBR->baseColorTexture = texture;
 				}
 			}
 

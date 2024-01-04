@@ -15,8 +15,8 @@ namespace RedLightbulb
 	void UnlitShadingModel::render(const Camera& camera)
 	{}
 	
-	void UnlitShadingModel::castToAppropriateMaterial(std::shared_ptr<RedLightbulb::Material> material)
+	std::shared_ptr<MaterialUnlit> UnlitShadingModel::castToAppropriateMaterial(std::shared_ptr<Material> material)
 	{
-		std::shared_ptr<MaterialUnlit> materialUnlit = std::make_shared<MaterialUnlit>(material->toUnlit());
+		return std::make_shared<MaterialUnlit>(material->toUnlit());
 	}
 }

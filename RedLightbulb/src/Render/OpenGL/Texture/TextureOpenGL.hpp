@@ -3,6 +3,8 @@
 
 namespace RedLightbulb
 {
+	class ShaderOpenGL;
+
 	class TextureOpenGL : public Texture
 	{
 	public:
@@ -14,6 +16,8 @@ namespace RedLightbulb
 
 		void bind();
 		void unbind();
+
+		void setToSlot(int slot, const ShaderOpenGL& shader, const std::string& name) const;
 
 	private:
 		GLuint m_id = 0;

@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "TextureOpenGL.hpp"
+#include "../Shader/ShaderOpenGL.hpp"
 
 namespace RedLightbulb
 {
@@ -31,7 +32,7 @@ namespace RedLightbulb
 
 		glTexParameteri(m_glType, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTexParameteri(m_glType, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		glTexParameteri(m_glType, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glTexParameteri(m_glType, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(m_glType, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 		glTexImage2D(m_glType, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
@@ -52,5 +53,12 @@ namespace RedLightbulb
 	void TextureOpenGL::unbind()
 	{
 		glBindTexture(m_glType, 0);
+	}
+	void TextureOpenGL::setToSlot(int slot, const ShaderOpenGL& shader, const std::string& name) const
+	{
+		glActiveTexture(GL_TEXTURE0 + slot);
+		glBindTexture(m_glType, m_id);
+
+		shader.setInt(slot, name);
 	}
 }

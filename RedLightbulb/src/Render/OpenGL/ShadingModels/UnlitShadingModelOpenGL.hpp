@@ -2,6 +2,7 @@
 #include "../../General/ShadingModels/UnlitShadingModel.hpp"
 #include "../Shader/ShaderOpenGL.hpp"
 #include "../Objetcs/VAO.hpp"
+#include "../Objetcs/UBO.hpp"
 
 namespace RedLightbulb
 {
@@ -22,5 +23,12 @@ namespace RedLightbulb
 
 		ShaderOpenGL m_shader;
 		std::vector<std::pair<PerMesh*, VAO>> m_buffers;
+
+		struct MaterialUniform
+		{
+			Vec3f baseColor;
+			int usesBaseColorTexture;
+		};
+		UniformBufferObject m_materialUBO;
 	};
 }

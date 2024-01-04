@@ -42,11 +42,11 @@ int main()
 	{
 
 	}
-	UnlitShadingModel::Instance instance{};
+	UnlitShadingModel::InstanceT instance{};
 	renderer.addUnlitMesh(&mesh, instance);
 
 	Camera camera;
-	camera.setPerspective(45.0f, 16.0f / 9.0f, 0.1f, 1000.0f);
+	camera.setPerspective(45.0f, 16.0f / 9.0f, 0.01f, 1000.0f);
 	camera.lookAt(Vec3f(0.0f, 0.0f, 0.5f), Vec3f(0.0f, 0.0f, 0.0f));
 	camera.update();
 

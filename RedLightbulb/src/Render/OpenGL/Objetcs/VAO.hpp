@@ -21,6 +21,9 @@ namespace RedLightbulb
 		void createP3Buffer(const std::vector<Vertex>& vertices);
 		void createP3IndexedBuffer(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices);
 
+		void createP3TX2Buffer(const std::vector<Vertex>& vertices);
+		void createP3TX2IndexedBuffer(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices);
+
 		bool withIndices() const;
 	private:
 		GLuint m_id = 0;
