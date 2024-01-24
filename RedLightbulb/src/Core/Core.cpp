@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "RedLightbulb.hpp"
+#include "Core.hpp"
 #include "Config/OSInfo.hpp"
 #include "Render/OpenGL/RendererOpenGL.hpp"
 #include "ResourceManagers/MeshManager/MeshManager.hpp"
@@ -8,7 +8,7 @@
 
 namespace RedLightbulb
 {
-	RedLighbulb::~RedLighbulb()
+	Core::~Core()
 	{
 		if (m_isInitialised)
 		{
@@ -16,12 +16,12 @@ namespace RedLightbulb
 		}
 	}
 
-	Window* RedLighbulb::getWindowPtr()
+	Window* Core::getWindowPtr()
 	{
 		return m_mainWindow.get();
 	}
 
-	void RedLighbulb::init(const WindowProperties& properties)
+	void Core::init(const WindowProperties& properties)
 	{
 		if (m_isInitialised)
 		{
@@ -42,21 +42,23 @@ namespace RedLightbulb
 		}
 	}
 
-	void RedLighbulb::deinit()
+	void Core::deinit()
 	{
-		if (m_isInitialised)
+		if (m_isInitialised == false)
 		{
-			TextureManager::destroy();
-			MeshManager::destroy();
-			Renderer::destroyInstance();
-
-			m_mainWindow->destroy();
-			m_mainWindow.release();
-
-			m_isInitialised = false;
+			return;
 		}
+		TextureManager::destroy();
+		MeshManager::destroy();
+		Renderer::destroyInstance();
+
+		m_mainWindow->destroy();
+		m_mainWindow.release();
+
+		m_isInitialised = false;
 	}
-	void RedLighbulb::render(const Camera& camera)
+
+	void Core::render(const Camera& camera)
 	{
 		Renderer::getInstance().render(1.0f, camera);
 	}

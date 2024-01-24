@@ -39,6 +39,11 @@ namespace RedLightbulb
 		}
 	}
 
+	EventManager& Window::getEventManager()
+	{
+		return *m_eventManager;
+	}
+
 	EventManager* Window::getEventManagerPtr()
 	{
 		return m_eventManager;

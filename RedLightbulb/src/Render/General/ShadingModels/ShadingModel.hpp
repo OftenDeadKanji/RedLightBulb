@@ -23,7 +23,7 @@ namespace RedLightbulb
 		};
 		struct PerMesh
 		{
-			const Mesh* mesh{};
+			sPtr<Mesh> mesh{};
 			std::vector<std::pair<const SubMesh*, PerMaterial>> submeshes;
 		};
 
@@ -33,8 +33,8 @@ namespace RedLightbulb
 
 		virtual void render(const Camera& camera) = 0;
 
-		virtual void addMesh(const Mesh* mesh, InstanceT instance);
-		virtual void addMesh(const Mesh* mesh, const std::vector<std::pair<const SubMesh*, sPtr<MaterialT>>>& subMeshesMaterials, InstanceT instance);
+		virtual void addMesh(sPtr<Mesh> mesh, InstanceT instance);
+		virtual void addMesh(sPtr<Mesh> mesh, const std::vector<std::pair<const SubMesh*, sPtr<MaterialT>>>& subMeshesMaterials, InstanceT instance);
 	protected:
 		virtual void createBuffer(PerMesh& perMesh) = 0;
 		virtual sPtr<MaterialT> castToAppropriateMaterial(sPtr<Material> material) = 0;
@@ -43,7 +43,7 @@ namespace RedLightbulb
 	};
 
 	template<class MaterialType, class InstanceType>
-	inline void ShadingModel<MaterialType, InstanceType>::addMesh(const Mesh* mesh, InstanceT instance)
+	inline void ShadingModel<MaterialType, InstanceType>::addMesh(sPtr<Mesh> mesh, InstanceT instance)
 	{
 		const auto& subMeshes = mesh->getSubMeshes();
 
@@ -65,7 +65,7 @@ namespace RedLightbulb
 	}
 
 	template<class MaterialType, class InstanceType>
-	inline void ShadingModel<MaterialType, InstanceType>::addMesh(const Mesh* mesh, const std::vector<std::pair<const SubMesh*, sPtr<MaterialT>>>& subMeshesMaterials, InstanceT instance)
+	inline void ShadingModel<MaterialType, InstanceType>::addMesh(sPtr<Mesh> mesh, const std::vector<std::pair<const SubMesh*, sPtr<MaterialT>>>& subMeshesMaterials, InstanceT instance)
 	{
 		PerMesh perMeshToAdd;
 		perMeshToAdd.mesh = mesh;

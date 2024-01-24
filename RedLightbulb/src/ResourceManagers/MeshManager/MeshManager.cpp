@@ -20,12 +20,16 @@ namespace RedLightbulb
 	{
 		return *s_instance;
 	}
+	MeshManager* MeshManager::getInstancePtr()
+	{
+		return s_instance.get();
+	}
 	void MeshManager::destroy()
 	{
 		s_instance.release();
 	}
 
-	bool MeshManager::load(const std::string& pathToFile, const std::string& meshName, Mesh& outMesh)
+	bool MeshManager::load(const std::string& pathToFile, const std::string& meshName, sPtr<Mesh> outMesh)
 	{
 		std::string name = meshName.empty() ? pathToFile : meshName;
 
@@ -36,7 +40,7 @@ namespace RedLightbulb
 			return false;
 		}
 
-		outMesh.m_name = name;
+		outMesh->m_name = name;
 
 		Assimp::Importer importer;
 
@@ -61,14 +65,14 @@ namespace RedLightbulb
 		m_meshes[name] = outMesh;
 		return true;
 	}
-	bool MeshManager::processScene(const aiScene* scene, Mesh& outMesh)
+	bool MeshManager::processScene(const aiScene* scene, sPtr<Mesh> outMesh)
 	{
 		std::cout << "Processing " << scene->mName.C_Str() << " scene.\n";
 
 		processNode(scene, scene->mRootNode, outMesh);
 		return false;
 	}
-	bool MeshManager::processNode(const aiScene* scene, const aiNode* node, Mesh& outMesh)
+	bool MeshManager::processNode(const aiScene* scene, const aiNode* node, sPtr<Mesh> outMesh)
 	{
 		std::cout << "\tProcessing " << node->mName.C_Str() << " node.\n";
 
@@ -80,11 +84,11 @@ namespace RedLightbulb
 			int meshIndex = node->mMeshes[i];
 			const aiMesh* mesh = scene->mMeshes[meshIndex];
 
-			outMesh.m_subMeshes.emplace_back();
-			SubMesh& subMesh = outMesh.m_subMeshes.back();
+			outMesh->m_subMeshes.emplace_back();
+			SubMesh& subMesh = outMesh->m_subMeshes.back();
 
 			subMesh.m_name = mesh->mName.C_Str();
-			subMesh.firstVertexIndex = outMesh.m_vertices.size();
+			subMesh.firstVertexIndex = outMesh->m_vertices.size();
 
 			for (int i = 0; i < mesh->mNumVertices; i++)
 			{
@@ -96,9 +100,9 @@ namespace RedLightbulb
 				vertex.tangent = mesh->HasTangentsAndBitangents() ? Vec3f(mesh->mTangents[i].x, mesh->mTangents[i].y, mesh->mTangents[i].z) : Vec3f(1.0f, 0.0f, 0.0f);
 				vertex.bitangent = mesh->HasTangentsAndBitangents() ? Vec3f(mesh->mBitangents[i].x, mesh->mBitangents[i].y, mesh->mBitangents[i].z) : Vec3f(0.0f, 1.0f, 0.0f);
 
-				outMesh.m_vertices.push_back(vertex);
+				outMesh->m_vertices.push_back(vertex);
 			}
-			subMesh.verticesCount = outMesh.m_vertices.size();
+			subMesh.verticesCount = outMesh->m_vertices.size();
 
 			std::shared_ptr<MaterialPBR> materialPBR = std::make_shared<MaterialPBR>();
 
@@ -149,7 +153,7 @@ namespace RedLightbulb
 
 			subMesh.material = materialPBR;
 
-			subMesh.firstIndexIndex = outMesh.m_indices.size();
+			subMesh.firstIndexIndex = outMesh->m_indices.size();
 
 			for (int i = 0; i < mesh->mNumFaces; i++)
 			{
@@ -159,11 +163,11 @@ namespace RedLightbulb
 					std::cout << "Mesh " << mesh->mName.C_Str() << " contains face that is not triagle!\n";
 				}
 
-				outMesh.m_indices.push_back(face.mIndices[0]);
-				outMesh.m_indices.push_back(face.mIndices[1]);
-				outMesh.m_indices.push_back(face.mIndices[2]);
+				outMesh->m_indices.push_back(face.mIndices[0]);
+				outMesh->m_indices.push_back(face.mIndices[1]);
+				outMesh->m_indices.push_back(face.mIndices[2]);
 			}
-			subMesh.indicesCount = outMesh.m_indices.size();
+			subMesh.indicesCount = outMesh->m_indices.size();
 		}
 
 		//children

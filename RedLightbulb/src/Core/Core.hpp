@@ -7,10 +7,10 @@ namespace RedLightbulb
 	class Camera;
 	struct WindowProperties;
 
-	class RedLighbulb
+	class Core
 	{
 	public:
-		~RedLighbulb();
+		~Core();
 
 		void init(const WindowProperties&);
 		void deinit();

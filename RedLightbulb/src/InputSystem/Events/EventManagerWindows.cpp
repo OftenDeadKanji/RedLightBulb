@@ -117,7 +117,7 @@ namespace RedLightbulb
 			return DefWindowProcA(hWnd, uMsg, wParam, lParam);
 		}
 
-		EventManagerWindows& eventManager = static_cast<EventManagerWindows&>(window->getEventManager());
+		EventManagerWindows* eventManager = static_cast<EventManagerWindows*>(window->getEventManagerPtr());
 		Event receivedEvent;
 
 		RECT rect;
@@ -138,45 +138,45 @@ namespace RedLightbulb
 				PostQuitMessage(0);
 				break;
 			case WM_KEYDOWN:
-				eventManager.m_keyboard->m_keys[static_cast<int>(code)] = true;
+				eventManager->m_keyboard->m_keys[static_cast<int>(code)] = true;
 				if ((HIWORD(lParam) & KF_REPEAT) != KF_REPEAT)
 				{
 					receivedEvent.type = Event::Type::KeyboardKeyPressed;
 				}
 				break;
 			case WM_KEYUP:
-				eventManager.m_keyboard->m_keys[static_cast<int>(code)] = false;
+				eventManager->m_keyboard->m_keys[static_cast<int>(code)] = false;
 
 				receivedEvent.type = Event::Type::KeyboardKeyReleased;
 				break;
 			case WM_LBUTTONDOWN:
-				eventManager.m_mouse->m_buttons[static_cast<int>(Mouse::Button::Left)] = true;
+				eventManager->m_mouse->m_buttons[static_cast<int>(Mouse::Button::Left)] = true;
 
 				receivedEvent.type = Event::Type::MouseButtonPressed;
 				break;
 			case WM_LBUTTONUP:
-				eventManager.m_mouse->m_buttons[static_cast<int>(Mouse::Button::Left)] = false;
+				eventManager->m_mouse->m_buttons[static_cast<int>(Mouse::Button::Left)] = false;
 
 				receivedEvent.type = Event::Type::MouseButtonReleased;
 				break;
 			case WM_RBUTTONDOWN:
-				eventManager.m_mouse->m_buttons[static_cast<int>(Mouse::Button::Right)] = true;
+				eventManager->m_mouse->m_buttons[static_cast<int>(Mouse::Button::Right)] = true;
 
 				receivedEvent.type = Event::Type::MouseButtonPressed;
 				break;
 			case WM_RBUTTONUP:
-				eventManager.m_mouse->m_buttons[static_cast<int>(Mouse::Button::Right)] = false;
+				eventManager->m_mouse->m_buttons[static_cast<int>(Mouse::Button::Right)] = false;
 
 				receivedEvent.type = Event::Type::MouseButtonReleased;
 				break;
 			case WM_MOUSEMOVE:
-				eventManager.m_mouse->m_position = Vec2f(GET_X_LPARAM(lParam), height - GET_Y_LPARAM(lParam));
+				eventManager->m_mouse->m_position = Vec2f(GET_X_LPARAM(lParam), height - GET_Y_LPARAM(lParam));
 
 				receivedEvent.type = Event::Type::MouseCursorMoved;
 				break;
 		}
 
-		eventManager.m_eventsQueue.emplace(receivedEvent);
+		eventManager->m_eventsQueue.emplace(receivedEvent);
 		return DefWindowProcA(hWnd, uMsg, wParam, lParam);
 	}
 }

@@ -18,7 +18,7 @@
     <ClInclude Include="src\Config\OSInfo.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Core\RedLightbulb.hpp">
+    <ClInclude Include="src\Core\Core.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\InputSystem\Events\Event.hpp">
@@ -137,7 +137,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Core\RedLightbulb.cpp">
+    <ClCompile Include="src\Core\Core.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\InputSystem\Events\EventManager.cpp">

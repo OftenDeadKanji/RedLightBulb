@@ -174,7 +174,7 @@
     <ClInclude Include="src\Render\OpenGL\RendererOpenGL.hpp" />
     <ClInclude Include="src\Render\General\Renderer.hpp" />
     <ClInclude Include="src\Config\OSInfo.hpp" />
-    <ClInclude Include="src\Core\RedLightbulb.hpp" />
+    <ClInclude Include="src\Core\Core.hpp" />
     <ClInclude Include="src\InputSystem\Events\Event.hpp" />
     <ClInclude Include="src\InputSystem\Events\EventManager.hpp" />
     <ClInclude Include="src\Utilities\Timer.hpp" />
@@ -234,7 +234,7 @@
     </ClCompile>
     <ClCompile Include="src\Render\OpenGL\RendererOpenGL.cpp" />
     <ClCompile Include="src\Render\General\Renderer.cpp" />
-    <ClCompile Include="src\Core\RedLightbulb.cpp" />
+    <ClCompile Include="src\Core\Core.cpp" />
     <ClCompile Include="src\InputSystem\Events\EventManager.cpp" />
     <ClCompile Include="src\Utilities\Timer.cpp" />
     <ClCompile Include="src\Utilities\Utilities.cpp" />

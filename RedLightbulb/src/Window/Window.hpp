@@ -18,6 +18,7 @@ namespace RedLightbulb
 
 		virtual void swapBuffers() = 0;
 
+		EventManager& getEventManager();
 		EventManager* getEventManagerPtr();
 
 	protected:
