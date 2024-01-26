@@ -2,7 +2,7 @@
 #include "Utilities.hpp"
 #include <fstream>
 
-namespace RedLightbulb::Utilities
+namespace Utilities
 {
 	void readFile(const std::string& fileName, std::string& fileContent)
 	{

@@ -26,7 +26,7 @@ namespace RedLightbulb
 		virtual void addUnlitMesh(const sPtr<Mesh> mesh, UnlitShadingModel::InstanceT instance);
 		virtual void addUnlitMesh(const sPtr<Mesh> mesh, const std::vector<std::pair<const SubMesh*, sPtr<UnlitShadingModel::MaterialT>>>& subMeshesMaterials, UnlitShadingModel::InstanceT instance);
 	protected:
-		static std::unique_ptr<Renderer> s_instance;
+		static uPtr<Renderer> s_instance;
 		Window* m_window;
 
 		//------------------------------------------------------

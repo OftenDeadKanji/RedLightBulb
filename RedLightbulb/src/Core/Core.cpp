@@ -61,5 +61,7 @@ namespace RedLightbulb
 	void Core::render(const Camera& camera)
 	{
 		Renderer::getInstance().render(1.0f, camera);
+
+		m_mainWindow->swapBuffers();
 	}
 }

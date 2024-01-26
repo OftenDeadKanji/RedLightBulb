@@ -38,7 +38,7 @@ namespace RedLightbulb
 		bind();
 		m_vbo.bind();
 		
-		unsigned int vertexSize = sizeof(Vec3f);
+		unsigned int vertexSize = sizeof(Math::Vec3f);
 		unsigned int verticesCount = vertices.size();
 		unsigned int dataSize = verticesCount * vertexSize;
 
@@ -62,7 +62,7 @@ namespace RedLightbulb
 		m_vbo.create();
 		m_vbo.bind();
 
-		unsigned int vertexSize = sizeof(Vec3f);
+		unsigned int vertexSize = sizeof(Math::Vec3f);
 		unsigned int verticesCount = vertices.size();
 		unsigned int dataSize = verticesCount * vertexSize;
 
@@ -95,8 +95,8 @@ namespace RedLightbulb
 
 		struct SubVertex
 		{
-			Vec3f position;
-			Vec2f uv;
+			Math::Vec3f position;
+			Math::Vec2f uv;
 		};
 
 		unsigned int vertexSize = sizeof(SubVertex);
@@ -116,7 +116,7 @@ namespace RedLightbulb
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, vertexSize, rCast(void*, 0));
 		glEnableVertexAttribArray(0);
 
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, vertexSize, rCast(void*, sizeof(Vec3f)));
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, vertexSize, rCast(void*, sizeof(Math::Vec3f)));
 		glEnableVertexAttribArray(1);
 	}
 	void VAO::createP3TX2IndexedBuffer(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices)
@@ -130,8 +130,8 @@ namespace RedLightbulb
 
 		struct SubVertex
 		{
-			Vec3f position;
-			Vec2f uv;
+			Math::Vec3f position;
+			Math::Vec2f uv;
 		};
 
 		unsigned int vertexSize = sizeof(SubVertex);
@@ -160,7 +160,7 @@ namespace RedLightbulb
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, vertexSize, sCast(void*, 0));
 		glEnableVertexAttribArray(0);
 
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, vertexSize, rCast(void*, sizeof(Vec3f)));
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, vertexSize, rCast(void*, sizeof(Math::Vec3f)));
 		glEnableVertexAttribArray(1);
 	}
 

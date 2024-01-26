@@ -5,6 +5,7 @@
 #include "ResourceManagers/MeshManager/MeshManager.hpp"
 
 using namespace RedLightbulb;
+using namespace Math;
 
 #define RendererInst Renderer::getInstance()
 #define RendererPtr  Renderer::getInstancePtr()
@@ -34,7 +35,7 @@ void Application::init()
 	m_eventManagerPtr->setMouse(m_mouse);
 	
 	m_camera.setPerspective(45.0f, 16.0f / 9.0f, 0.01f, 1000.0f);
-	m_camera.lookAt(Vec3f(0.0f, 0.0f, 0.5f), Vec3f(0.0f, 0.0f, 0.0f));
+	m_camera.lookAt(Vec3f(0.0f, 0.0f, 0.5f), Math::Vec3f(0.0f, 0.0f, 0.0f));
 	m_camera.update();
 
 	sPtr<Mesh> mesh = std::make_shared<Mesh>();
@@ -79,7 +80,6 @@ void Application::run()
 		updateCamera();
 
 		m_engine.render(m_camera);
-		m_windowPtr->swapBuffers();
 	}
 }
 
@@ -129,27 +129,27 @@ void Application::updateCamera()
 	Vec3f cameraMovement { 0.0f, 0.0f, 0.0f };
 	if (m_keyboard.isPressed(Keyboard::KeyCode::D))
 	{
-		cameraMovement += Vec3f(1.0f, 0.0f, 0.0f);
+		cameraMovement += Math::Vec3f(1.0f, 0.0f, 0.0f);
 	}
 	if (m_keyboard.isPressed(Keyboard::KeyCode::A))
 	{
-		cameraMovement += Vec3f(-1.0f, 0.0f, 0.0f);
+		cameraMovement += Math::Vec3f(-1.0f, 0.0f, 0.0f);
 	}
 	if (m_keyboard.isPressed(Keyboard::KeyCode::W))
 	{
-		cameraMovement += Vec3f(0.0f, 0.0f, 1.0f);
+		cameraMovement += Math::Vec3f(0.0f, 0.0f, 1.0f);
 	}
 	if (m_keyboard.isPressed(Keyboard::KeyCode::S))
 	{
-		cameraMovement += Vec3f(0.0f, 0.0f, -1.0f);
+		cameraMovement += Math::Vec3f(0.0f, 0.0f, -1.0f);
 	}
 	if (m_keyboard.isPressed(Keyboard::KeyCode::E))
 	{
-		cameraMovement += Vec3f(0.0f, 1.0f, 0.0f);
+		cameraMovement += Math::Vec3f(0.0f, 1.0f, 0.0f);
 	}
 	if (m_keyboard.isPressed(Keyboard::KeyCode::Q))
 	{
-		cameraMovement += Vec3f(0.0f, -1.0f, 0.0f);
+		cameraMovement += Math::Vec3f(0.0f, -1.0f, 0.0f);
 	}
 
 	Vec3f cameraRotation { 0.0f, 0.0f, 0.0f };

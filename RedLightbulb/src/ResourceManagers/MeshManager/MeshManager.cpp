@@ -94,11 +94,11 @@ namespace RedLightbulb
 			{
 				Vertex vertex;
 				vertex.position = { mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z };
-				vertex.color = mesh->HasVertexColors(0) ? Vec3f(mesh->mColors[0][i].r, mesh->mColors[0][i].g, mesh->mColors[0][i].b) : Vec3f(1.0f, 1.0f, 1.0f);
-				vertex.texCoord = mesh->HasTextureCoords(0) ? Vec2f(mesh->mTextureCoords[0][i].x, mesh->mTextureCoords[0][i].y) : Vec2f(0.0f, 0.0f);
-				vertex.normal = mesh->HasNormals() ? Vec3f(mesh->mNormals[i].x, mesh->mNormals[i].y, mesh->mNormals[i].z) : Vec3f(0.0f, 0.0f, 1.0f);
-				vertex.tangent = mesh->HasTangentsAndBitangents() ? Vec3f(mesh->mTangents[i].x, mesh->mTangents[i].y, mesh->mTangents[i].z) : Vec3f(1.0f, 0.0f, 0.0f);
-				vertex.bitangent = mesh->HasTangentsAndBitangents() ? Vec3f(mesh->mBitangents[i].x, mesh->mBitangents[i].y, mesh->mBitangents[i].z) : Vec3f(0.0f, 1.0f, 0.0f);
+				vertex.color = mesh->HasVertexColors(0) ? Math::Vec3f(mesh->mColors[0][i].r, mesh->mColors[0][i].g, mesh->mColors[0][i].b) : Math::Vec3f(1.0f, 1.0f, 1.0f);
+				vertex.texCoord = mesh->HasTextureCoords(0) ? Math::Vec2f(mesh->mTextureCoords[0][i].x, mesh->mTextureCoords[0][i].y) : Math::Vec2f(0.0f, 0.0f);
+				vertex.normal = mesh->HasNormals() ? Math::Vec3f(mesh->mNormals[i].x, mesh->mNormals[i].y, mesh->mNormals[i].z) : Math::Vec3f(0.0f, 0.0f, 1.0f);
+				vertex.tangent = mesh->HasTangentsAndBitangents() ? Math::Vec3f(mesh->mTangents[i].x, mesh->mTangents[i].y, mesh->mTangents[i].z) : Math::Vec3f(1.0f, 0.0f, 0.0f);
+				vertex.bitangent = mesh->HasTangentsAndBitangents() ? Math::Vec3f(mesh->mBitangents[i].x, mesh->mBitangents[i].y, mesh->mBitangents[i].z) : Math::Vec3f(0.0f, 1.0f, 0.0f);
 
 				outMesh->m_vertices.push_back(vertex);
 			}
@@ -113,7 +113,7 @@ namespace RedLightbulb
 			aiColor3D baseColor;
 			if (subMeshMaterial->Get(AI_MATKEY_COLOR_DIFFUSE, baseColor) == aiReturn_SUCCESS)
 			{
-				materialPBR->baseColor = Vec3f(baseColor.r, baseColor.g, baseColor.b);
+				materialPBR->baseColor = Math::Vec3f(baseColor.r, baseColor.g, baseColor.b);
 			}
 
 			aiString baseColorTexturePath;

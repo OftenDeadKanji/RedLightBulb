@@ -6,7 +6,7 @@ namespace RedLightbulb
 {
 	struct InstanceUnlit
 	{
-		Mat4f transform;
+		Math::Mat4f transform;
 	};
 
 	class UnlitShadingModel
@@ -18,6 +18,6 @@ namespace RedLightbulb
 
 		virtual void render(const Camera& camera) override;
 	private:
-		virtual std::shared_ptr<MaterialUnlit> castToAppropriateMaterial(std::shared_ptr<Material> material) override;
+		virtual sPtr<MaterialUnlit> castToAppropriateMaterial(sPtr<Material> material) override;
 	};
 }

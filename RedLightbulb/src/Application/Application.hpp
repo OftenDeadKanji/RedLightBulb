@@ -41,12 +41,12 @@ private:
 	RedLightbulb::Camera m_camera;
 
 	bool m_rotateCamera { false };
-	RedLightbulb::Vec2f m_mousePrevPos { 0.0f, 0.0f };
+	Math::Vec2f m_mousePrevPos { 0.0f, 0.0f };
 
 	float m_cameraMovementSpeed { 0.25f };
 	float m_cameraRotationSpeed { 0.25f };
 
-	RedLightbulb::Utilities::Timer m_timer;
+	Utilities::Timer m_timer;
 	float m_deltaTime { 1.0f };
 	float m_frameTimeLimit { 1.0f / 144.0f };
 

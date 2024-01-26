@@ -15,6 +15,7 @@
 
 // RedLightbulb
 #include "Utilities/Utilities.hpp"
+#include "Utilities/Logger.hpp"
 #include "Math/Math.hpp"
 #include "Render/General/Vertex/Vertex.hpp"
 #include "Render/General/Mesh/Mesh.h"

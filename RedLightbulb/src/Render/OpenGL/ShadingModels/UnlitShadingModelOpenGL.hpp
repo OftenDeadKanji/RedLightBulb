@@ -26,7 +26,7 @@ namespace RedLightbulb
 
 		struct MaterialUniform
 		{
-			Vec3f baseColor;
+			Math::Vec3f baseColor;
 			int usesBaseColorTexture;
 		};
 		UniformBufferObject m_materialUBO;

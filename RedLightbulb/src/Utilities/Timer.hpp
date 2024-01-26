@@ -1,7 +1,7 @@
 #ifndef __TIMER_HPP__
 #define __TIMER_HPP__
 
-namespace RedLightbulb::Utilities
+namespace Utilities
 {
 	class Timer
 	{

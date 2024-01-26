@@ -7,7 +7,7 @@ namespace RedLightbulb
     {
         return m_buttons[static_cast<int>(button)];
     }
-    const Vec2f& Mouse::getPosition() const
+    const Math::Vec2f& Mouse::getPosition() const
     {
         return m_position;
     }

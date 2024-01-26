@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Timer.hpp"
 
-namespace RedLightbulb::Utilities
+namespace Utilities
 {
 	void Timer::setNewTimePoint()
 	{

@@ -147,6 +147,9 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Dependencies\rang\rang.hpp" />
+    <ClInclude Include="src\Render\General\Color\Color.hpp" />
+    <ClInclude Include="src\Utilities\Logger.hpp" />
     <ClInclude Include="src\Application\Application.hpp" />
     <ClInclude Include="src\Dependencies\stb_image\stb_image.h" />
     <ClInclude Include="src\InputSystem\Mouse\Mouse.hpp" />
@@ -189,6 +192,8 @@
     <ClInclude Include="src\ResourceManagers\TextureManager\TextureManager.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Render\General\Color\Color.cpp" />
+    <ClCompile Include="src\Utilities\Logger.cpp" />
     <ClCompile Include="src\Application\Application.cpp" />
     <ClCompile Include="src\Dependencies\stb_image\stb_image.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>

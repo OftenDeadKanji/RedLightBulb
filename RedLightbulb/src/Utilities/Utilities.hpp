@@ -1,6 +1,5 @@
 #ifndef __UTILITIES_HPP__
 #define __UTILITIES_HPP__
-#include <string>
 
 #define sCast(type, value)      static_cast<type>(value)
 #define dCast(type, value)     dynamic_cast<type>(value)
@@ -13,7 +12,7 @@ using uPtr = std::unique_ptr<T>;
 template<typename T>
 using sPtr = std::shared_ptr<T>;
 
-namespace RedLightbulb::Utilities
+namespace Utilities
 {
 	class NonCopyable
 	{

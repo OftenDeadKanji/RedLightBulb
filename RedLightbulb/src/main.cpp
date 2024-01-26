@@ -5,7 +5,7 @@ using namespace RedLightbulb;
 
 int main()
 {
-	std::cout << "Hello there!" << std::endl;
+	Utilities::Logger::log("Hello there!", Utilities::Logger::LogStatus::Warning);
 
 	Application app;
 	app.init();

@@ -10,11 +10,11 @@ namespace RedLightbulb
 	struct MaterialUnlit
 		: public Material
 	{
-		Vec3f baseColor = Vec3f(1.0f, 1.0f, 1.0f);
+		Math::Vec3f baseColor = Math::Vec3f(1.0f, 1.0f, 1.0f);
 		bool usesColorTexture = false;
 		//texture
 
-		std::shared_ptr<Texture> baseColorTexture;
+		sPtr<Texture> baseColorTexture;
 
 		MaterialUnlit() = default;
 		explicit MaterialUnlit(const MaterialPBR&);
