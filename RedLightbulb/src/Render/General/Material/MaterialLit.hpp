@@ -1,31 +1,32 @@
-#ifndef __MATERIAL_PBR_HPP__
-#define __MATERIAL_PBR_HPP__
+#ifndef __MATERIAL_LIT_HPP__
+#define __MATERIAL_LIT_HPP__
+
 #include "Material.hpp"
-#include "../Texture/Texture.hpp"
 
 namespace RedLightbulb
 {
-	struct MaterialUnlit;
-
-	struct MaterialPBR
+	struct MaterialLit
 		: public Material
 	{
 		Math::Vec3f baseColor = Math::Vec3f(1.0f, 1.0f, 1.0f);
-		std::shared_ptr<Texture> baseColorTexture;
+		sPtr<Texture> baseColorTexture;
 
 		std::shared_ptr<Texture> normalTexture;
 
-		float roughness = 1.0f;
+		float roughness = 0.0f;
 		bool usesRoughnessTexture = false;
 
 		float metallic = 0.0f;
 		bool usesMetallicTexture = false;
+		
+		sPtr<Texture> ARMTexture;
 
-		std::shared_ptr<Texture> ARMTexture;
+		MaterialLit() = default;
+		explicit MaterialLit(const MaterialPBR&);
+		explicit MaterialLit(const MaterialUnlit&);
 
 		virtual MaterialUnlit toUnlit() override;
 		virtual MaterialLit toLit() override;
 	};
 }
-
 #endif

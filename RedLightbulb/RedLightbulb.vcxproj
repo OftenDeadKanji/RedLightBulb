@@ -147,6 +147,9 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Render\OpenGL\ShadingModels\LitShadingModelOpenGL.hpp" />
+    <ClInclude Include="src\Render\General\Material\MaterialLit.hpp" />
+    <ClInclude Include="src\Render\General\ShadingModels\LitShadingModel.hpp" />
     <ClInclude Include="src\Dependencies\rang\rang.hpp" />
     <ClInclude Include="src\Render\General\Color\Color.hpp" />
     <ClInclude Include="src\Utilities\Logger.hpp" />
@@ -192,6 +195,9 @@
     <ClInclude Include="src\ResourceManagers\TextureManager\TextureManager.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Render\OpenGL\ShadingModels\LitShadingModelOpenGL.cpp" />
+    <ClCompile Include="src\Render\General\Material\MaterialLit.cpp" />
+    <ClCompile Include="src\Render\General\ShadingModels\LitShadingModel.cpp" />
     <ClCompile Include="src\Render\General\Color\Color.cpp" />
     <ClCompile Include="src\Utilities\Logger.cpp" />
     <ClCompile Include="src\Application\Application.cpp" />
@@ -252,6 +258,8 @@
     <ClCompile Include="src\ResourceManagers\TextureManager\TextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Shaders\Lit\LitFS.glsl" />
+    <None Include="Shaders\Lit\LitVS.glsl" />
     <None Include="Shaders\Unlit\UnlitFS.glsl" />
     <None Include="Shaders\Unlit\UnlitVS.glsl" />
   </ItemGroup>

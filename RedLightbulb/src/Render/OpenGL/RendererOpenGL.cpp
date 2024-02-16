@@ -20,6 +20,9 @@ namespace RedLightbulb
 		m_unlitShadingModels = new UnlitShadingModelOpenGL();
 		m_unlitShadingModels->create();
 
+		m_litShadingModels = new LitShadingModelOpenGL();
+		m_litShadingModels->create();
+
 		m_perFrameUBO.create();
 
 		glEnable(GL_DEPTH_TEST);
@@ -44,7 +47,8 @@ namespace RedLightbulb
 		m_perFrameUBO.bufferData((void*)(arr), 2 * sizeof(Math::Mat4f));
 		m_perFrameUBO.setToSlot(1);
 		
-		m_unlitShadingModels->render(camera);
+		//m_unlitShadingModels->render(camera);
+		m_litShadingModels->render(camera);
 	}
 
 	void RendererOpenGL::createContext()

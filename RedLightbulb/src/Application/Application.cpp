@@ -43,8 +43,16 @@ void Application::init()
 	{
 	
 	}
-	UnlitShadingModel::InstanceT instance{};
-	RendererInst.addUnlitMesh(mesh, instance);
+
+	{
+		UnlitShadingModel::InstanceT instance {};
+		RendererInst.addUnlitMesh(mesh, instance);
+	}
+
+	{
+		LitShadingModel::InstanceT instance {};
+		RendererInst.addLitMesh(mesh, instance);
+	}
 
 	m_timer.setNewTimePoint();
 

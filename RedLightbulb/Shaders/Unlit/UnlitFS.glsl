@@ -7,7 +7,7 @@ out vec4 out_color;
 layout (std140, binding = 3) uniform Material
 {
 	uniform vec3 baseColor;
-	uniform bool usesColorTexture;
+	uniform int usesBaseColorTexture;
 };
 
 in vec2 out_uv;

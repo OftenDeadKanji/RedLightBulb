@@ -1,43 +1,39 @@
 #include "pch.h"
-#include "UnlitShadingModelOpenGL.hpp"
+#include "LitShadingModelOpenGL.hpp"
 #include "../Texture/TextureOpenGL.hpp"
 
 namespace RedLightbulb
 {
-	UnlitShadingModelOpenGL::UnlitShadingModelOpenGL()
-		: m_shader("Unlit")
-	{}
-
-	void UnlitShadingModelOpenGL::create()
+	LitShadingModelOpenGL::LitShadingModelOpenGL()
+		: m_shader("Lit")
+	{
+	}
+	void LitShadingModelOpenGL::create()
 	{
 		if (m_isInitialized)
 		{
 			// ???
 		}
 
-		m_shader.create("Shaders/Unlit/UnlitVS.glsl", "Shaders/Unlit/UnlitFS.glsl");
+		m_shader.create("Shaders/Lit/LitVS.glsl", "Shaders/Lit/LitFS.glsl");
 		m_materialUBO.create();
 	}
-
-	void UnlitShadingModelOpenGL::destroy()
+	void LitShadingModelOpenGL::destroy()
 	{
 		if (m_isInitialized)
 		{
 			m_isInitialized = false;
 		}
 	}
-
-	void UnlitShadingModelOpenGL::render(const Camera& camera)
+	void LitShadingModelOpenGL::render(const Camera& camera)
 	{
-		UnlitShadingModel::render(camera);
+		LitShadingModel::render(camera);
 
 		m_shader.bind();
 
-		//m_shader.setMat4Uniform();
-
 		for (auto& mesh : m_meshes)
 		{
-			VAO* vao{};
+			VAO* vao {};
 			for (auto& buffer : m_buffers)
 			{
 				if (buffer.first == &mesh)
@@ -53,15 +49,24 @@ namespace RedLightbulb
 				const SubMesh* subMesh = perSubmesh.first;
 				const PerMaterial& perMaterial = perSubmesh.second;
 
-				const MaterialUnlit* material = perMaterial.material.get();
+				const MaterialLit* material = perMaterial.material.get();
 				auto* texture = sCast(TextureOpenGL*, material->baseColorTexture.get());
-				
+
 				texture->setToSlot(0, m_shader, "baseColorTexture");
-				
+
 				MaterialUniform uniform;
+				
 				uniform.baseColor = material->baseColor;
 				uniform.usesBaseColorTexture = material->baseColorTexture != nullptr;
-				
+
+				uniform.roughness = material->roughness;
+				uniform.usesRoughnessTexture = material->usesRoughnessTexture;
+
+				uniform.metallic = material->metallic;
+				uniform.usesMetallicTexture = material->usesMetallicTexture;
+
+				uniform.usesNormalTexture = material->normalTexture != nullptr;
+
 				m_materialUBO.bind();
 				m_materialUBO.bufferData(&uniform, sizeof(uniform));
 				m_materialUBO.setToSlot(3);
@@ -80,8 +85,7 @@ namespace RedLightbulb
 			}
 		}
 	}
-
-	void UnlitShadingModelOpenGL::createBuffer(PerMesh& perMesh)
+	void LitShadingModelOpenGL::createBuffer(PerMesh& perMesh)
 	{
 		const auto& vertices = perMesh.mesh->getVertices();
 		const auto& indices = perMesh.mesh->getIndices();
@@ -93,6 +97,6 @@ namespace RedLightbulb
 
 		auto& buffer = m_buffers.back().second;
 		buffer.create();
-		buffer.createP3TX2IndexedBuffer(vertices, indices);
+		buffer.createP3TX2NM3TG3BT3IndexedBuffer(vertices, indices);
 	}
 }

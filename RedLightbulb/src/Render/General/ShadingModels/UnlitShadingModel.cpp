@@ -1,17 +1,15 @@
 #include "pch.h"
 #include "UnlitShadingModel.hpp"
+#include "LitShadingModel.hpp"
 
 namespace RedLightbulb
 {
 	void UnlitShadingModel::create()
-	{
-
-	}
+	{}
 
 	void UnlitShadingModel::destroy()
-	{
+	{}
 
-	}
 	void UnlitShadingModel::render(const Camera& camera)
 	{}
 	

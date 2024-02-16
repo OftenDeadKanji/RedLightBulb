@@ -1,6 +1,7 @@
 #ifndef __RENDERER_HPP__
 #define __RENDERER_HPP__
 #include "ShadingModels/UnlitShadingModel.hpp"
+#include "ShadingModels/LitShadingModel.hpp"
 #include "Camera/Camera.hpp"
 
 namespace RedLightbulb
@@ -25,6 +26,9 @@ namespace RedLightbulb
 		
 		virtual void addUnlitMesh(const sPtr<Mesh> mesh, UnlitShadingModel::InstanceT instance);
 		virtual void addUnlitMesh(const sPtr<Mesh> mesh, const std::vector<std::pair<const SubMesh*, sPtr<UnlitShadingModel::MaterialT>>>& subMeshesMaterials, UnlitShadingModel::InstanceT instance);
+
+		virtual void addLitMesh(const sPtr<Mesh> mesh, LitShadingModel::InstanceT instance);
+		virtual void addLitMesh(const sPtr<Mesh> mesh, const std::vector<std::pair<const SubMesh*, sPtr<LitShadingModel::MaterialT>>>& subMeshesMaterials, LitShadingModel::InstanceT instance);
 	protected:
 		static uPtr<Renderer> s_instance;
 		Window* m_window;
@@ -33,6 +37,7 @@ namespace RedLightbulb
 		// Shading models
 		//------------------------------------------------------
 		UnlitShadingModel* m_unlitShadingModels;
+		LitShadingModel* m_litShadingModels;
 	};
 }
 #endif

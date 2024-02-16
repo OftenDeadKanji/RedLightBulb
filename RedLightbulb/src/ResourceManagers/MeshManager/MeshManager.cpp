@@ -119,8 +119,6 @@ namespace RedLightbulb
 			aiString baseColorTexturePath;
 			if (subMeshMaterial->Get(AI_MATKEY_TEXTURE(AI_MATKEY_BASE_COLOR_TEXTURE) baseColorTexturePath) == aiReturn_SUCCESS)
 			{
-				materialPBR->usesColorTexture = true;
-
 				if (auto* baseColorTexture = scene->GetEmbeddedTexture(baseColorTexturePath.C_Str()))
 				{
 					auto* arrayData = baseColorTexture->pcData;

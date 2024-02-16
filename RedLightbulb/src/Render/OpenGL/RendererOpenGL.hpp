@@ -5,6 +5,7 @@
 
 #include "../../Dependencies/OS/Windows.hpp"
 #include "ShadingModels/UnlitShadingModelOpenGL.hpp"
+#include "ShadingModels/LitShadingModelOpenGL.hpp"
 #include "Objetcs/UBO.hpp"
 
 namespace RedLightbulb

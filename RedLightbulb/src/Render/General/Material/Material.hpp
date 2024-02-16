@@ -4,6 +4,7 @@
 namespace RedLightbulb
 {
 	struct MaterialUnlit;
+	struct MaterialLit;
 
 	struct Material
 	{
@@ -13,6 +14,7 @@ namespace RedLightbulb
 		bool operator!=(const Material& other);
 
 		virtual MaterialUnlit toUnlit() = 0;
+		virtual MaterialLit toLit() = 0;
 	};
 }
 

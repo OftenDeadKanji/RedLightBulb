@@ -18,11 +18,22 @@ namespace RedLightbulb
 		void bind();
 		void unbind();
 
+		// Position 3D
 		void createP3Buffer(const std::vector<Vertex>& vertices);
 		void createP3IndexedBuffer(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices);
 
+		// Position 3D
+		// Texture Coordinate 2D
 		void createP3TX2Buffer(const std::vector<Vertex>& vertices);
 		void createP3TX2IndexedBuffer(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices);
+
+		// Position 3D
+		// Texture Coordinate 2D
+		// Normal 3D
+		// Tangent 3D
+		// Bitangent 3D
+		void createP3TX2NM3TG3BT3Buffer(const std::vector<Vertex>& vertices);
+		void createP3TX2NM3TG3BT3IndexedBuffer(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices);
 
 		bool withIndices() const;
 	private:

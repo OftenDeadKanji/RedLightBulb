@@ -41,4 +41,12 @@ namespace RedLightbulb
     {
         m_unlitShadingModels->addMesh(mesh, subMeshesMaterials, instance);
     }
+    void Renderer::addLitMesh(const sPtr<Mesh> mesh, LitShadingModel::InstanceT instance)
+    {
+        m_litShadingModels->addMesh(mesh, instance);
+    }
+    void Renderer::addLitMesh(const sPtr<Mesh> mesh, const std::vector<std::pair<const SubMesh*, sPtr<LitShadingModel::MaterialT>>>& subMeshesMaterials, LitShadingModel::InstanceT instance)
+    {
+        m_litShadingModels->addMesh(mesh, subMeshesMaterials, instance);
+    }
 }
