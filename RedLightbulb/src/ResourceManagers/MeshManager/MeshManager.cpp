@@ -48,7 +48,7 @@ namespace RedLightbulb
 			aiProcess_Triangulate
 			| aiProcess_JoinIdenticalVertices
 			| aiProcess_CalcTangentSpace
-			| aiProcess_ImproveCacheLocality
+			//| aiProcess_ImproveCacheLocality
 			//| aiProcess_
 			;
 
@@ -90,19 +90,19 @@ namespace RedLightbulb
 			subMesh.m_name = mesh->mName.C_Str();
 			subMesh.firstVertexIndex = outMesh->m_vertices.size();
 
-			for (int i = 0; i < mesh->mNumVertices; i++)
+			for (int v = 0; v < mesh->mNumVertices; v++)
 			{
 				Vertex vertex;
-				vertex.position = { mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z };
-				vertex.color = mesh->HasVertexColors(0) ? Math::Vec3f(mesh->mColors[0][i].r, mesh->mColors[0][i].g, mesh->mColors[0][i].b) : Math::Vec3f(1.0f, 1.0f, 1.0f);
-				vertex.texCoord = mesh->HasTextureCoords(0) ? Math::Vec2f(mesh->mTextureCoords[0][i].x, mesh->mTextureCoords[0][i].y) : Math::Vec2f(0.0f, 0.0f);
-				vertex.normal = mesh->HasNormals() ? Math::Vec3f(mesh->mNormals[i].x, mesh->mNormals[i].y, mesh->mNormals[i].z) : Math::Vec3f(0.0f, 0.0f, 1.0f);
-				vertex.tangent = mesh->HasTangentsAndBitangents() ? Math::Vec3f(mesh->mTangents[i].x, mesh->mTangents[i].y, mesh->mTangents[i].z) : Math::Vec3f(1.0f, 0.0f, 0.0f);
-				vertex.bitangent = mesh->HasTangentsAndBitangents() ? Math::Vec3f(mesh->mBitangents[i].x, mesh->mBitangents[i].y, mesh->mBitangents[i].z) : Math::Vec3f(0.0f, 1.0f, 0.0f);
+				vertex.position = { mesh->mVertices[v].x, mesh->mVertices[v].y, mesh->mVertices[v].z };
+				vertex.color = mesh->HasVertexColors(0) ? Math::Vec3f(mesh->mColors[0][v].r, mesh->mColors[0][v].g, mesh->mColors[0][v].b) : Math::Vec3f(1.0f, 1.0f, 1.0f);
+				vertex.texCoord = mesh->HasTextureCoords(0) ? Math::Vec2f(mesh->mTextureCoords[0][v].x, mesh->mTextureCoords[0][v].y) : Math::Vec2f(0.0f, 0.0f);
+				vertex.normal = mesh->HasNormals() ? Math::Vec3f(mesh->mNormals[v].x, mesh->mNormals[v].y, mesh->mNormals[v].z) : Math::Vec3f(0.0f, 0.0f, 1.0f);
+				vertex.tangent = mesh->HasTangentsAndBitangents() ? Math::Vec3f(mesh->mTangents[v].x, mesh->mTangents[v].y, mesh->mTangents[v].z) : Math::Vec3f(1.0f, 0.0f, 0.0f);
+				vertex.bitangent = mesh->HasTangentsAndBitangents() ? Math::Vec3f(mesh->mBitangents[v].x, mesh->mBitangents[v].y, mesh->mBitangents[v].z) : Math::Vec3f(0.0f, 1.0f, 0.0f);
 
 				outMesh->m_vertices.push_back(vertex);
 			}
-			subMesh.verticesCount = outMesh->m_vertices.size();
+			subMesh.verticesCount = outMesh->m_vertices.size() - subMesh.firstVertexIndex;
 
 			std::shared_ptr<MaterialPBR> materialPBR = std::make_shared<MaterialPBR>();
 
@@ -153,19 +153,19 @@ namespace RedLightbulb
 
 			subMesh.firstIndexIndex = outMesh->m_indices.size();
 
-			for (int i = 0; i < mesh->mNumFaces; i++)
+			for (int f = 0; f < mesh->mNumFaces; f++)
 			{
-				const aiFace& face = mesh->mFaces[i];
+				const aiFace& face = mesh->mFaces[f];
 				if (face.mNumIndices != 3)
 				{
 					std::cout << "Mesh " << mesh->mName.C_Str() << " contains face that is not triagle!\n";
 				}
 
-				outMesh->m_indices.push_back(face.mIndices[0]);
-				outMesh->m_indices.push_back(face.mIndices[1]);
-				outMesh->m_indices.push_back(face.mIndices[2]);
+				outMesh->m_indices.push_back(subMesh.firstVertexIndex + face.mIndices[0]);
+				outMesh->m_indices.push_back(subMesh.firstVertexIndex + face.mIndices[1]);
+				outMesh->m_indices.push_back(subMesh.firstVertexIndex + face.mIndices[2]);
 			}
-			subMesh.indicesCount = outMesh->m_indices.size();
+			subMesh.indicesCount = outMesh->m_indices.size() - subMesh.firstIndexIndex;
 		}
 
 		//children

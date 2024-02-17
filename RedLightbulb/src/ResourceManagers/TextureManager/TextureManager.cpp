@@ -36,8 +36,8 @@ namespace RedLightbulb
 	std::shared_ptr<Texture> TextureManager::loadFromMemory(const unsigned char* data, int length, const std::string& textureName, TextureType type)
 	{
 		int width{}, height{}, channelsCount{};
-		unsigned char* _data = stbi_load_from_memory(data, length, &width, &height, &channelsCount, 0);
-
+		stbi_set_flip_vertically_on_load(true);
+		unsigned char* _data = stbi_load_from_memory(data, length, &width, &height, &channelsCount, 4);
 		auto texture = loadOpenGLTexture(textureName, type, _data, width, height);
 
 		return texture;

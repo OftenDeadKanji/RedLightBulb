@@ -26,6 +26,11 @@ namespace RedLightbulb
 		m_perFrameUBO.create();
 
 		glEnable(GL_DEPTH_TEST);
+		glFrontFace(GL_CW);
+
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_BACK);
+		
 	}
 
 	void RendererOpenGL::deinit()

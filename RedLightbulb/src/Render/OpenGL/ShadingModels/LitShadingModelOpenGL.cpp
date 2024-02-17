@@ -17,6 +17,8 @@ namespace RedLightbulb
 
 		m_shader.create("Shaders/Lit/LitVS.glsl", "Shaders/Lit/LitFS.glsl");
 		m_materialUBO.create();
+
+		m_isInitialized = true;
 	}
 	void LitShadingModelOpenGL::destroy()
 	{
@@ -50,14 +52,25 @@ namespace RedLightbulb
 				const PerMaterial& perMaterial = perSubmesh.second;
 
 				const MaterialLit* material = perMaterial.material.get();
-				auto* texture = sCast(TextureOpenGL*, material->baseColorTexture.get());
+				auto* baseColorTexture = sCast(TextureOpenGL*, material->baseColorTexture.get());
+				auto* normalTexture = sCast(TextureOpenGL*, material->normalTexture.get());
+				auto* ARMTexture = sCast(TextureOpenGL*, material->ARMTexture.get());
 
-				texture->setToSlot(0, m_shader, "baseColorTexture");
 
 				MaterialUniform uniform;
 				
 				uniform.baseColor = material->baseColor;
-				uniform.usesBaseColorTexture = material->baseColorTexture != nullptr;
+				if (baseColorTexture)
+				{
+					uniform.usesBaseColorTexture = true;
+					baseColorTexture->setToSlot(0, m_shader, "baseColorTexture");
+				}
+
+				if (normalTexture != nullptr)
+				{
+					uniform.usesNormalTexture = true;
+					normalTexture->setToSlot(1, m_shader, "normalTexture");
+				}
 
 				uniform.roughness = material->roughness;
 				uniform.usesRoughnessTexture = material->usesRoughnessTexture;
@@ -65,7 +78,10 @@ namespace RedLightbulb
 				uniform.metallic = material->metallic;
 				uniform.usesMetallicTexture = material->usesMetallicTexture;
 
-				uniform.usesNormalTexture = material->normalTexture != nullptr;
+				if (ARMTexture != nullptr)
+				{
+					ARMTexture->setToSlot(2, m_shader, "armTexture");
+				}
 
 				m_materialUBO.bind();
 				m_materialUBO.bufferData(&uniform, sizeof(uniform));

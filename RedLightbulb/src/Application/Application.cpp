@@ -38,20 +38,26 @@ void Application::init()
 	m_camera.lookAt(Vec3f(0.0f, 0.0f, 0.5f), Math::Vec3f(0.0f, 0.0f, 0.0f));
 	m_camera.update();
 
-	sPtr<Mesh> mesh = std::make_shared<Mesh>();
-	if (!MeshManagerInst.load("res/Meshes/keyTextured.glb", "Key", mesh))
+	sPtr<Mesh> keyMesh = std::make_shared<Mesh>();
+	if (!MeshManagerInst.load("res/Meshes/keyTextured.glb", "Key", keyMesh))
 	{
 	
 	}
 
+	sPtr<Mesh> r2d2Mesh = std::make_shared<Mesh>();
+	if (!MeshManagerInst.load("res/Meshes/r2d2.glb", "R2D2", r2d2Mesh))
+	{
+
+	}
+
 	{
 		UnlitShadingModel::InstanceT instance {};
-		RendererInst.addUnlitMesh(mesh, instance);
+		//RendererInst.addUnlitMesh(keyMesh, instance);
 	}
 
 	{
 		LitShadingModel::InstanceT instance {};
-		RendererInst.addLitMesh(mesh, instance);
+		RendererInst.addLitMesh(r2d2Mesh, instance);
 	}
 
 	m_timer.setNewTimePoint();
