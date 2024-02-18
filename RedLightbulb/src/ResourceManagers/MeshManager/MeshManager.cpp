@@ -48,8 +48,8 @@ namespace RedLightbulb
 			aiProcess_Triangulate
 			| aiProcess_JoinIdenticalVertices
 			| aiProcess_CalcTangentSpace
-			//| aiProcess_ImproveCacheLocality
-			//| aiProcess_
+			| aiProcess_ImproveCacheLocality
+			| aiProcess_FlipWindingOrder
 			;
 
 		const aiScene* scene = importer.ReadFile(pathToFile, postprocessFlags);
