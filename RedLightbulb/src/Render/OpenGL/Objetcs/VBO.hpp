@@ -14,8 +14,10 @@ namespace RedLightbulb
 		void bind();
 		void unbind();
 
-		void bufferData(const void* data, unsigned int size);
+		void bufferStaticData(const void* data, unsigned int size);
+		void bufferDynamicData(const void* data, unsigned int size);
 		void bufferSubData(const void* data, unsigned int size, unsigned int offset);
+
 	private:
 		GLuint id = 0;
 	};

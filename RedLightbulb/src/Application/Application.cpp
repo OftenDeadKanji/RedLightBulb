@@ -44,21 +44,26 @@ void Application::init()
 	
 	}
 
-	sPtr<Mesh> r2d2Mesh = std::make_shared<Mesh>();
-	if (!MeshManagerInst.load("res/Meshes/r2d2.glb", "R2D2", r2d2Mesh))
-	{
-
-	}
-
-	{
-		UnlitShadingModel::InstanceT instance {};
-		//RendererInst.addUnlitMesh(keyMesh, instance);
-	}
+	//sPtr<Mesh> r2d2Mesh = std::make_shared<Mesh>();
+	//if (!MeshManagerInst.load("res/Meshes/r2d2.glb", "R2D2", r2d2Mesh))
+	//{
+	//
+	//}
 
 	{
-		LitShadingModel::InstanceT instance {};
-		RendererInst.addLitMesh(r2d2Mesh, instance);
+		UnlitShadingModel::InstanceT instance;
+		instance.transform = Math::Mat4f::Identity();
+
+		RendererInst.addUnlitMesh(keyMesh, instance);
+
+		instance.transform.col(3) = Math::Vec4f(1.0f, 1.0f, 0.0f, 1.0f);
+		RendererInst.addUnlitMesh(keyMesh, instance);
 	}
+
+	//{
+	//	LitShadingModel::InstanceT instance {};
+	//	//RendererInst.addLitMesh(r2d2Mesh, instance);
+	//}
 
 	m_timer.setNewTimePoint();
 

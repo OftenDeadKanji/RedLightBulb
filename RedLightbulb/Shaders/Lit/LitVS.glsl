@@ -6,6 +6,8 @@ layout (location = 2) in vec3 in_normal;
 layout (location = 3) in vec3 in_tangent;
 layout (location = 4) in vec3 in_bitangent;
 
+
+
 layout (std140, binding = 1) uniform PerFrame
 {
 	uniform mat4 viewMat;

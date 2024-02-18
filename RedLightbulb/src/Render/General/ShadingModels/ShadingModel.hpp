@@ -51,13 +51,8 @@ namespace RedLightbulb
 		for (int i = 0; i < subMeshes.size(); i++)
 		{
 			auto material = castToAppropriateMaterial(subMeshes[i].getMaterial());
-			//auto* material = subMeshes[i].getMaterial().get();
-			//if (auto* materialPBR = dynamic_cast<MaterialPBR*>(material))
-			//{
-			//	std::shared_ptr<MaterialUnlit> materialUnlit = std::make_shared<MaterialUnlit>(*materialPBR);
-			//}
 			
-			std::pair < const SubMesh*, sPtr<MaterialT>> pair1 = std::make_pair(&subMeshes[i], material);
+			std::pair<const SubMesh*, sPtr<MaterialT>> pair1 = std::make_pair(&subMeshes[i], material);
 			materials.push_back(pair1);
 		}
 
@@ -67,6 +62,44 @@ namespace RedLightbulb
 	template<class MaterialType, class InstanceType>
 	inline void ShadingModel<MaterialType, InstanceType>::addMesh(sPtr<Mesh> mesh, const std::vector<std::pair<const SubMesh*, sPtr<MaterialT>>>& subMeshesMaterials, InstanceT instance)
 	{
+		for (auto& perMesh : m_meshes)
+		{
+			if (perMesh.mesh == mesh)
+			{
+				bool allMaterialsTheSame = true;
+				for (int i = 0; i < perMesh.submeshes.size(); i++)
+				{
+					if (perMesh.submeshes[i].second.material != subMeshesMaterials[i].second)
+					{
+						allMaterialsTheSame = false;
+						break;
+					}
+				}
+				if (allMaterialsTheSame)
+				{
+					for (auto& subMesh : perMesh.submeshes)
+					{
+						subMesh.second.instances.push_back(instance);
+					}
+
+					return;
+				}
+
+				std::vector<std::pair<const SubMesh*, PerMaterial>> subMeshes;
+				for (auto& subMesh : subMeshesMaterials)
+				{
+					PerMaterial perMaterial;
+					perMaterial.material = subMesh.second;
+					perMaterial.instances.push_back(instance);
+
+					std::pair<const SubMesh*, PerMaterial> subMeshToAdd = std::make_pair(subMesh.first, perMaterial);
+					subMeshes.push_back(subMeshToAdd);
+				}
+
+				return;
+			}
+		}
+
 		PerMesh perMeshToAdd;
 		perMeshToAdd.mesh = mesh;
 

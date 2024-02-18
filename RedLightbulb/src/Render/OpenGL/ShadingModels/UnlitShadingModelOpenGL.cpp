@@ -66,17 +66,22 @@ namespace RedLightbulb
 				m_materialUBO.bufferData(&uniform, sizeof(uniform));
 				m_materialUBO.setToSlot(3);
 
-				for (const auto& instance : perMaterial.instances)
+				//for (const auto& instance : perMaterial.instances)
+				//{
+				//
+				//}
+
+				vao->updateInstanceBuffer(perMaterial.instances.data(), sizeof(InstanceT) * perMaterial.instances.size());
+
+				if (vao->withIndices())
 				{
-					if (vao->withIndices())
-					{
-						glDrawElements(GL_TRIANGLES, subMesh->getIndicesCount(), GL_UNSIGNED_INT, (void*)(subMesh->getFirstIndexIndex() * sizeof(unsigned int)));
-					}
-					else
-					{
-						glDrawArrays(GL_TRIANGLES, subMesh->getFirstVertexIndex(), subMesh->getVerticesCount());
-					}
+					glDrawElements(GL_TRIANGLES, subMesh->getIndicesCount(), GL_UNSIGNED_INT, (void*)(subMesh->getFirstIndexIndex() * sizeof(unsigned int)));
 				}
+				else if(vao->withIndicesAndInstances())
+				{
+					glDrawElementsInstanced(GL_TRIANGLES, subMesh->getIndicesCount(), GL_UNSIGNED_INT, (void*)(subMesh->getFirstIndexIndex() * sizeof(unsigned int)), perMaterial.instances.size());
+				}
+				//glDrawArrays(GL_TRIANGLES, subMesh->getFirstVertexIndex(), subMesh->getVerticesCount());
 			}
 		}
 	}
@@ -93,6 +98,6 @@ namespace RedLightbulb
 
 		auto& buffer = m_buffers.back().second;
 		buffer.create();
-		buffer.createP3TX2IndexedBuffer(vertices, indices);
+		buffer.createP3TX2IndexedInstancedBuffer(vertices, indices);
 	}
 }

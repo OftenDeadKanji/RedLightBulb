@@ -52,7 +52,7 @@ namespace RedLightbulb
 		m_perFrameUBO.bufferData((void*)(arr), 2 * sizeof(Math::Mat4f));
 		m_perFrameUBO.setToSlot(1);
 		
-		//m_unlitShadingModels->render(camera);
+		m_unlitShadingModels->render(camera);
 		m_litShadingModels->render(camera);
 	}
 

@@ -14,6 +14,5 @@ in vec2 out_uv;
 
 void main()
 {
-	//out_color = vec4(baseColor, 1.0);
-	out_color = texture(baseColorTexture, out_uv);
+	out_color = usesBaseColorTexture != 0 ? texture(baseColorTexture, out_uv) : vec4(baseColor, 1.0);
 }

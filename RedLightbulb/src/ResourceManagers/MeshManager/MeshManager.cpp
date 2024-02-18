@@ -115,7 +115,7 @@ namespace RedLightbulb
 			{
 				materialPBR->baseColor = Math::Vec3f(baseColor.r, baseColor.g, baseColor.b);
 			}
-
+			
 			aiString baseColorTexturePath;
 			if (subMeshMaterial->Get(AI_MATKEY_TEXTURE(AI_MATKEY_BASE_COLOR_TEXTURE) baseColorTexturePath) == aiReturn_SUCCESS)
 			{
@@ -135,7 +135,26 @@ namespace RedLightbulb
 					materialPBR->baseColorTexture = texture;
 				}
 			}
+			
+			aiString normalTexturePath;
+			if (subMeshMaterial->Get(AI_MATKEY_TEXTURE(aiTextureType_NORMALS, 0), normalTexturePath) == aiReturn_SUCCESS)
+			{
+				if (auto* normalTexture = scene->GetEmbeddedTexture(normalTexturePath.C_Str()))
+				{
+					auto* arrayData = normalTexture->pcData;
+					unsigned char* arrayData1 = reinterpret_cast<unsigned char*>(arrayData);
 
+					auto texture = texManager.loadFromMemory(arrayData1, normalTexture->mWidth, normalTexture->mFilename.C_Str(), TextureType::Single2D);
+
+					materialPBR->normalTexture = texture;
+				}
+				else
+				{
+					auto texture = texManager.loadFromFile(normalTexturePath.C_Str(), "", TextureType::Single2D);
+
+					materialPBR->normalTexture = texture;
+				}
+			}
 
 			float metallic;
 			if (subMeshMaterial->Get(AI_MATKEY_METALLIC_FACTOR, metallic) == aiReturn_SUCCESS)

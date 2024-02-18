@@ -31,7 +31,11 @@ namespace RedLightbulb
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
-	void VBO::bufferData(const void* data, unsigned int size)
+	void VBO::bufferStaticData(const void* data, unsigned int size)
+	{
+		glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
+	}
+	void VBO::bufferDynamicData(const void* data, unsigned int size)
 	{
 		glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
 	}
