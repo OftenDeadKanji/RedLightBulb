@@ -4,6 +4,7 @@
 #include "Render/OpenGL/RendererOpenGL.hpp"
 #include "ResourceManagers/MeshManager/MeshManager.hpp"
 #include "ResourceManagers/TextureManager/TextureManager.hpp"
+#include "ResourceManagers/MaterialManager/MaterialManager.hpp"
 #include "Window/WindowWindows.hpp"
 
 namespace RedLightbulb
@@ -37,6 +38,7 @@ namespace RedLightbulb
 			Renderer::createInstance(*m_mainWindow);
 			MeshManager::createInstance();
 			TextureManager::createInstance();
+			MaterialManager::createInstance();
 
 			m_isInitialised = true;
 		}
@@ -48,6 +50,8 @@ namespace RedLightbulb
 		{
 			return;
 		}
+
+		MaterialManager::destroy();
 		TextureManager::destroy();
 		MeshManager::destroy();
 		Renderer::destroyInstance();

@@ -25,10 +25,10 @@ namespace RedLightbulb
 		virtual void render(float deltaTime, const Camera& camera) = 0;
 		
 		virtual void addUnlitMesh(const sPtr<Mesh> mesh, UnlitShadingModel::InstanceT instance);
-		virtual void addUnlitMesh(const sPtr<Mesh> mesh, const std::vector<std::pair<const SubMesh*, sPtr<UnlitShadingModel::MaterialT>>>& subMeshesMaterials, UnlitShadingModel::InstanceT instance);
+		virtual void addUnlitMesh(const sPtr<Mesh> mesh, std::vector<sPtr<UnlitShadingModel::MaterialT>>& materials, UnlitShadingModel::InstanceT instance);
 
 		virtual void addLitMesh(const sPtr<Mesh> mesh, LitShadingModel::InstanceT instance);
-		virtual void addLitMesh(const sPtr<Mesh> mesh, const std::vector<std::pair<const SubMesh*, sPtr<LitShadingModel::MaterialT>>>& subMeshesMaterials, LitShadingModel::InstanceT instance);
+		virtual void addLitMesh(const sPtr<Mesh> mesh, std::vector<sPtr<LitShadingModel::MaterialT>>& materials, LitShadingModel::InstanceT instance);
 	protected:
 		static uPtr<Renderer> s_instance;
 		Window* m_window;

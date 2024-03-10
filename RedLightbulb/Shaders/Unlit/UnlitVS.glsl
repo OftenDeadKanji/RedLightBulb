@@ -13,10 +13,6 @@ layout (std140, binding = 1) uniform PerFrame
 	uniform mat4 viewMat;
 	uniform mat4 projMat;
 };
-layout (std140, binding = 2) uniform PerModel
-{
-	uniform mat4 modelMat;
-};
 
 out vec2 out_uv;
 

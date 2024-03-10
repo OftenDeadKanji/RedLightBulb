@@ -5,6 +5,8 @@
 
 namespace RedLightbulb
 {
+	class Texture;
+
 	struct MaterialLit
 		: public Material
 	{
@@ -22,7 +24,6 @@ namespace RedLightbulb
 		sPtr<Texture> ARMTexture;
 
 		MaterialLit() = default;
-		explicit MaterialLit(const MaterialPBR&);
 		explicit MaterialLit(const MaterialUnlit&);
 
 		virtual MaterialUnlit toUnlit() override;

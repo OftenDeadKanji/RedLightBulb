@@ -33,14 +33,12 @@ namespace RedLightbulb
 
 		m_shader.bind();
 
-		//m_shader.setMat4Uniform();
-
-		for (auto& mesh : m_meshes)
+		for (auto& perMesh : m_meshes)
 		{
 			VAO* vao{};
 			for (auto& buffer : m_buffers)
 			{
-				if (buffer.first == &mesh)
+				if (buffer.first == &perMesh)
 				{
 					vao = &buffer.second;
 					break;
@@ -48,40 +46,44 @@ namespace RedLightbulb
 			}
 
 			vao->bind();
-			for (const auto& perSubmesh : mesh.submeshes)
+
+			auto& subMeshes = perMesh.mesh->getSubMeshes();
+			int subMeshesCount = subMeshes.size();
+			for (int subMeshIndex = 0; subMeshIndex < subMeshesCount; subMeshIndex++)
 			{
-				const SubMesh* subMesh = perSubmesh.first;
-				const PerMaterial& perMaterial = perSubmesh.second;
-
-				const MaterialUnlit* material = perMaterial.material.get();
-				auto* texture = sCast(TextureOpenGL*, material->baseColorTexture.get());
-				
-				texture->setToSlot(0, m_shader, "baseColorTexture");
-				
-				MaterialUniform uniform;
-				uniform.baseColor = material->baseColor;
-				uniform.usesBaseColorTexture = material->baseColorTexture != nullptr;
-				
-				m_materialUBO.bind();
-				m_materialUBO.bufferData(&uniform, sizeof(uniform));
-				m_materialUBO.setToSlot(3);
-
-				//for (const auto& instance : perMaterial.instances)
-				//{
-				//
-				//}
-
-				vao->updateInstanceBuffer(perMaterial.instances.data(), sizeof(InstanceT) * perMaterial.instances.size());
-
-				if (vao->withIndices())
+				const SubMesh& subMesh = subMeshes[subMeshIndex];
+				for (int perMaterialsSetIndex = 0; perMaterialsSetIndex < perMesh.perMaterialsSet.size(); perMaterialsSetIndex++)
 				{
-					glDrawElements(GL_TRIANGLES, subMesh->getIndicesCount(), GL_UNSIGNED_INT, (void*)(subMesh->getFirstIndexIndex() * sizeof(unsigned int)));
+					const auto& perMaterialSet = perMesh.perMaterialsSet[perMaterialsSetIndex];
+					const auto& material = perMaterialSet.materials[subMeshIndex];
+
+					if (material == nullptr)
+					{
+						continue;
+					}
+
+					auto* texture = sCast(TextureOpenGL*, material->baseColorTexture.get());
+					texture->setToSlot(0, m_shader, "baseColorTexture");
+
+					MaterialUniform uniform;
+					uniform.baseColor = material->baseColor;
+					uniform.usesBaseColorTexture = material->baseColorTexture != nullptr;
+
+					m_materialUBO.bind();
+					m_materialUBO.bufferData(&uniform, sizeof(uniform));
+					m_materialUBO.setToSlot(3);
+
+					vao->updateInstanceBuffer(perMaterialSet.instances.data(), sizeof(InstanceT) * perMaterialSet.instances.size());
+
+					if (vao->withIndicesAndInstances())
+					{
+						glDrawElementsInstanced(GL_TRIANGLES, subMesh.getIndicesCount(), GL_UNSIGNED_INT, (void*)(subMesh.getFirstIndexIndex() * sizeof(unsigned int)), perMaterialSet.instances.size());
+					}
+					else if (vao->withIndices())
+					{
+						glDrawElements(GL_TRIANGLES, subMesh.getIndicesCount(), GL_UNSIGNED_INT, (void*)(subMesh.getFirstIndexIndex() * sizeof(unsigned int)));
+					}
 				}
-				else if(vao->withIndicesAndInstances())
-				{
-					glDrawElementsInstanced(GL_TRIANGLES, subMesh->getIndicesCount(), GL_UNSIGNED_INT, (void*)(subMesh->getFirstIndexIndex() * sizeof(unsigned int)), perMaterial.instances.size());
-				}
-				//glDrawArrays(GL_TRIANGLES, subMesh->getFirstVertexIndex(), subMesh->getVerticesCount());
 			}
 		}
 	}

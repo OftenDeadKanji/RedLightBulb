@@ -5,23 +5,27 @@ namespace RedLightbulb
 {
     unsigned int SubMesh::getFirstVertexIndex() const
     {
-        return firstVertexIndex;
+        return m_firstVertexIndex;
     }
 
     unsigned int SubMesh::getVerticesCount() const
     {
-        return verticesCount;
+        return m_verticesCount;
     }
     unsigned int SubMesh::getFirstIndexIndex() const
     {
-        return firstIndexIndex;
+        return m_firstIndexIndex;
     }
     unsigned int SubMesh::getIndicesCount() const
     {
-        return indicesCount;
+        return m_indicesCount;
     }
     std::shared_ptr<Material> SubMesh::getMaterial() const
     {
-        return material;
+        return m_parent->getMaterials()[m_materialIndex];
+    }
+    unsigned int SubMesh::getMaterialIndex() const
+    {
+        return m_materialIndex;
     }
 }

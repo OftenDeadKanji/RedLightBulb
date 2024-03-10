@@ -5,7 +5,6 @@
 
 namespace RedLightbulb
 {
-	struct MaterialPBR;
 	struct MaterialLit;
 
 	struct MaterialUnlit
@@ -15,7 +14,6 @@ namespace RedLightbulb
 		sPtr<Texture> baseColorTexture;
 
 		MaterialUnlit() = default;
-		explicit MaterialUnlit(const MaterialPBR&);
 		explicit MaterialUnlit(const MaterialLit&);
 
 		virtual MaterialUnlit toUnlit() override;

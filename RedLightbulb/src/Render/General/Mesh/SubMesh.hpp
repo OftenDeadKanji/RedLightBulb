@@ -1,11 +1,11 @@
 #ifndef __SUBMESH_HPP__
 #define __SUBMESH_HPP__
-#include "../Material/MaterialPBR.hpp"
 
 namespace RedLightbulb
 {
 	class Mesh;
 	class MeshManager;
+	struct Material;
 
 	class SubMesh
 	{
@@ -18,18 +18,19 @@ namespace RedLightbulb
 		unsigned int getIndicesCount() const;
 
 		std::shared_ptr<Material> getMaterial() const;
+		unsigned int getMaterialIndex() const;
 	private:
 		std::string m_name;
 
-		Mesh* parent;
+		Mesh* m_parent{};
 		
-		unsigned int firstVertexIndex;
-		unsigned int verticesCount;
+		unsigned int m_firstVertexIndex;
+		unsigned int m_verticesCount;
 
-		unsigned int firstIndexIndex;
-		unsigned int indicesCount;
+		unsigned int m_firstIndexIndex;
+		unsigned int m_indicesCount;
 
-		std::shared_ptr<Material> material;
+		unsigned int m_materialIndex;
 	};
 }
 

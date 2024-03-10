@@ -5,6 +5,8 @@
 #include "../../Dependencies/assimp/scene.h"
 #include "../../Dependencies/assimp/postprocess.h"
 #include "../TextureManager/TextureManager.hpp"
+#include "../MaterialManager/MaterialManager.hpp"
+#include "Render/General/Material/MaterialLit.hpp"
 
 namespace RedLightbulb
 {
@@ -49,7 +51,7 @@ namespace RedLightbulb
 			| aiProcess_JoinIdenticalVertices
 			| aiProcess_CalcTangentSpace
 			| aiProcess_ImproveCacheLocality
-			| aiProcess_FlipWindingOrder
+			//| aiProcess_FlipWindingOrder
 			;
 
 		const aiScene* scene = importer.ReadFile(pathToFile, postprocessFlags);
@@ -77,6 +79,7 @@ namespace RedLightbulb
 		std::cout << "\tProcessing " << node->mName.C_Str() << " node.\n";
 
 		auto& texManager = TextureManager::getInstance();
+		auto& matManager = MaterialManager::getInstance();
 
 		//node
 		for (int i = 0; i < node->mNumMeshes; i++)
@@ -88,7 +91,7 @@ namespace RedLightbulb
 			SubMesh& subMesh = outMesh->m_subMeshes.back();
 
 			subMesh.m_name = mesh->mName.C_Str();
-			subMesh.firstVertexIndex = outMesh->m_vertices.size();
+			subMesh.m_firstVertexIndex = outMesh->m_vertices.size();
 
 			for (int v = 0; v < mesh->mNumVertices; v++)
 			{
@@ -102,18 +105,18 @@ namespace RedLightbulb
 
 				outMesh->m_vertices.push_back(vertex);
 			}
-			subMesh.verticesCount = outMesh->m_vertices.size() - subMesh.firstVertexIndex;
+			subMesh.m_verticesCount = outMesh->m_vertices.size() - subMesh.m_firstVertexIndex;
 
-			std::shared_ptr<MaterialPBR> materialPBR = std::make_shared<MaterialPBR>();
+			std::shared_ptr<MaterialLit> materialLit = std::make_shared<MaterialLit>();
 
 			aiMaterial* subMeshMaterial = scene->mMaterials[mesh->mMaterialIndex];
 			auto name = subMeshMaterial->GetName().C_Str();
-			materialPBR->name = name;
+			materialLit->name = name;
 
 			aiColor3D baseColor;
 			if (subMeshMaterial->Get(AI_MATKEY_COLOR_DIFFUSE, baseColor) == aiReturn_SUCCESS)
 			{
-				materialPBR->baseColor = Math::Vec3f(baseColor.r, baseColor.g, baseColor.b);
+				materialLit->baseColor = Math::Vec3f(baseColor.r, baseColor.g, baseColor.b);
 			}
 			
 			aiString baseColorTexturePath;
@@ -126,13 +129,13 @@ namespace RedLightbulb
 
 					auto texture = texManager.loadFromMemory(arrayData1, baseColorTexture->mWidth, baseColorTexture->mFilename.C_Str(), TextureType::Single2D);
 
-					materialPBR->baseColorTexture = texture;
+					materialLit->baseColorTexture = texture;
 				}
 				else
 				{
 					auto texture = texManager.loadFromFile(baseColorTexturePath.C_Str(), "", TextureType::Single2D);
 
-					materialPBR->baseColorTexture = texture;
+					materialLit->baseColorTexture = texture;
 				}
 			}
 			
@@ -146,31 +149,34 @@ namespace RedLightbulb
 
 					auto texture = texManager.loadFromMemory(arrayData1, normalTexture->mWidth, normalTexture->mFilename.C_Str(), TextureType::Single2D);
 
-					materialPBR->normalTexture = texture;
+					materialLit->normalTexture = texture;
 				}
 				else
 				{
 					auto texture = texManager.loadFromFile(normalTexturePath.C_Str(), "", TextureType::Single2D);
 
-					materialPBR->normalTexture = texture;
+					materialLit->normalTexture = texture;
 				}
 			}
 
 			float metallic;
 			if (subMeshMaterial->Get(AI_MATKEY_METALLIC_FACTOR, metallic) == aiReturn_SUCCESS)
 			{
-				materialPBR->metallic = metallic;
+				materialLit->metallic = metallic;
 			}
 
 			float roughness;
 			if (subMeshMaterial->Get(AI_MATKEY_ROUGHNESS_FACTOR, roughness) == aiReturn_SUCCESS)
 			{
-				materialPBR->roughness = roughness;
+				materialLit->roughness = roughness;
 			}
 
-			subMesh.material = materialPBR;
+			matManager.addMaterial(materialLit, materialLit->name);
+			
+			subMesh.m_materialIndex = outMesh->m_materials.size();
+			outMesh->m_materials.push_back(materialLit);
 
-			subMesh.firstIndexIndex = outMesh->m_indices.size();
+			subMesh.m_firstIndexIndex = outMesh->m_indices.size();
 
 			for (int f = 0; f < mesh->mNumFaces; f++)
 			{
@@ -180,11 +186,11 @@ namespace RedLightbulb
 					std::cout << "Mesh " << mesh->mName.C_Str() << " contains face that is not triagle!\n";
 				}
 
-				outMesh->m_indices.push_back(subMesh.firstVertexIndex + face.mIndices[0]);
-				outMesh->m_indices.push_back(subMesh.firstVertexIndex + face.mIndices[1]);
-				outMesh->m_indices.push_back(subMesh.firstVertexIndex + face.mIndices[2]);
+				outMesh->m_indices.push_back(subMesh.m_firstVertexIndex + face.mIndices[0]);
+				outMesh->m_indices.push_back(subMesh.m_firstVertexIndex + face.mIndices[1]);
+				outMesh->m_indices.push_back(subMesh.m_firstVertexIndex + face.mIndices[2]);
 			}
-			subMesh.indicesCount = outMesh->m_indices.size() - subMesh.firstIndexIndex;
+			subMesh.m_indicesCount = outMesh->m_indices.size() - subMesh.m_firstIndexIndex;
 		}
 
 		//children

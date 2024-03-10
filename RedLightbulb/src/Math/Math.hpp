@@ -23,6 +23,7 @@ namespace Math
 	float deg2rad(float deg);
 
 	Mat4f createPerspectiveMatrix(float fov, float aspect, float near, float far);
+
 	Mat4f lookAt(const Math::Vec3f& position, const Math::Vec3f& target, const Math::Vec3f& up = Math::Vec3f(0.0f, 1.0f, 0.0f));
 	void invertOrthonormal(const Math::Mat4f& src, Math::Mat4f& dst);
 }

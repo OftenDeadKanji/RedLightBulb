@@ -35,6 +35,7 @@ namespace RedLightbulb
 		// Bitangent 3D
 		void createP3TX2NM3TG3BT3Buffer(const std::vector<Vertex>& vertices);
 		void createP3TX2NM3TG3BT3IndexedBuffer(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices);
+		void createP3TX2NM3TG3BT3IndexedInstancedBuffer(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices);
 
 		void updateInstanceBuffer(const void* data, unsigned int size);
 		void updateInstanceBuffer(const void* data, unsigned int size, unsigned int offset);

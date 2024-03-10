@@ -25,22 +25,32 @@ namespace RedLightbulb
 	{
 		std::string name = textureName.empty() ? pathToFile : textureName;
 
+		if (m_textures.contains(name))
+		{
+			return m_textures[name];
+		}
+
 		int width{}, height{}, channelsCount{};
 		unsigned char* data = stbi_load(pathToFile.c_str(), &width, &height, &channelsCount, 0);	
 
 		auto texture = loadOpenGLTexture(name, type, data, width, height);
 
-		return m_textures[textureName] = texture;
+		return m_textures[name] = texture;
 	}
 
 	std::shared_ptr<Texture> TextureManager::loadFromMemory(const unsigned char* data, int length, const std::string& textureName, TextureType type)
 	{
+		if (m_textures.contains(textureName))
+		{
+			return m_textures[textureName];
+		}
+
 		int width{}, height{}, channelsCount{};
 		stbi_set_flip_vertically_on_load(true);
 		unsigned char* _data = stbi_load_from_memory(data, length, &width, &height, &channelsCount, 4);
 		auto texture = loadOpenGLTexture(textureName, type, _data, width, height);
 
-		return texture;
+		return m_textures[textureName] = texture;
 	}
 
 	std::shared_ptr<TextureOpenGL> TextureManager::loadOpenGLTexture(const std::string& textureName, TextureType type, const void* data, int width, int height)

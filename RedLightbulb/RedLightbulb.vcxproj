@@ -147,6 +147,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\ResourceManagers\MaterialManager\MaterialManager.hpp" />
     <ClInclude Include="src\Render\OpenGL\ShadingModels\LitShadingModelOpenGL.hpp" />
     <ClInclude Include="src\Render\General\Material\MaterialLit.hpp" />
     <ClInclude Include="src\Render\General\ShadingModels\LitShadingModel.hpp" />
@@ -162,7 +163,6 @@
     <ClInclude Include="src\Render\General\Camera\Camera.hpp" />
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\Render\General\Material\Material.hpp" />
-    <ClInclude Include="src\Render\General\Material\MaterialPBR.hpp" />
     <ClInclude Include="src\Render\General\Material\MaterialUnlit.hpp" />
     <ClInclude Include="src\Render\General\ShadingModels\UnlitShadingModel.hpp" />
     <ClInclude Include="src\Render\OpenGL\Objetcs\VAO.hpp" />
@@ -195,6 +195,7 @@
     <ClInclude Include="src\ResourceManagers\TextureManager\TextureManager.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ResourceManagers\MaterialManager\MaterialManager.cpp" />
     <ClCompile Include="src\Render\OpenGL\ShadingModels\LitShadingModelOpenGL.cpp" />
     <ClCompile Include="src\Render\General\Material\MaterialLit.cpp" />
     <ClCompile Include="src\Render\General\ShadingModels\LitShadingModel.cpp" />
@@ -216,7 +217,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\Render\General\Material\Material.cpp" />
-    <ClCompile Include="src\Render\General\Material\MaterialPBR.cpp" />
     <ClCompile Include="src\Render\General\Material\MaterialUnlit.cpp" />
     <ClCompile Include="src\Render\General\ShadingModels\UnlitShadingModel.cpp" />
     <ClCompile Include="src\Render\OpenGL\Objetcs\VAO.cpp" />

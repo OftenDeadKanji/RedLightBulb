@@ -14,20 +14,24 @@ namespace RedLightbulb
 	}
 	void Camera::lookAt(const Math::Vec3f& position, const Math::Vec3f& target, const Math::Vec3f& up)
 	{
-		Math::Vec3f f = (target - position).normalized();
+		Vec3f f = -(target - position).normalized();
 		Vec3f r = up.cross(f).normalized();
 		Vec3f u = f.cross(r);
 
+		Vec3f t(-r.dot(position), -u.dot(position), -f.dot(position));
+
 		m_viewInv <<
-			r.x(), u.x(), f.x(), position.x(),
-			r.y(), u.y(), f.y(), position.y(),
-			r.z(), u.z(), f.z(), position.z(),
+			r.x(), u.x(), f.x(), 0.0f,
+			r.y(), u.y(), f.y(), 0.0f,
+			r.z(), u.z(), f.z(), 0.0f,
 			0.0f, 0.0f, 0.0f, 1.0f;
 
 		m_view = m_viewInv.inverse();
 
 		Mat3f lookAtMatrix3 = m_viewInv.block(0, 0, 3, 3);
 		m_rotation = lookAtMatrix3;
+
+		setWorldPosition(position);
 	}
 
 	void Camera::addLocalPosition(const Math::Vec3f& position)

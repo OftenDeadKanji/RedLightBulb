@@ -35,18 +35,20 @@ namespace RedLightbulb
     }
     void Renderer::addUnlitMesh(const sPtr<Mesh> mesh, UnlitShadingModel::InstanceT instance)
     {
-        m_unlitShadingModels->addMesh(mesh, instance);
+        std::vector<sPtr<UnlitShadingModel::MaterialT>> materials;
+        m_unlitShadingModels->addMesh(mesh, materials, instance);
     }
-    void Renderer::addUnlitMesh(const sPtr<Mesh> mesh, const std::vector<std::pair<const SubMesh*, sPtr<UnlitShadingModel::MaterialT>>>& subMeshesMaterials, UnlitShadingModel::InstanceT instance)
+    void Renderer::addUnlitMesh(const sPtr<Mesh> mesh, std::vector<sPtr<UnlitShadingModel::MaterialT>>& materials, UnlitShadingModel::InstanceT instance)
     {
-        m_unlitShadingModels->addMesh(mesh, subMeshesMaterials, instance);
+        m_unlitShadingModels->addMesh(mesh, materials, instance);
     }
     void Renderer::addLitMesh(const sPtr<Mesh> mesh, LitShadingModel::InstanceT instance)
     {
-        m_litShadingModels->addMesh(mesh, instance);
+        std::vector<sPtr<LitShadingModel::MaterialT>> materials;
+        m_litShadingModels->addMesh(mesh, materials, instance);
     }
-    void Renderer::addLitMesh(const sPtr<Mesh> mesh, const std::vector<std::pair<const SubMesh*, sPtr<LitShadingModel::MaterialT>>>& subMeshesMaterials, LitShadingModel::InstanceT instance)
+    void Renderer::addLitMesh(const sPtr<Mesh> mesh, std::vector<sPtr<LitShadingModel::MaterialT>>& materials, LitShadingModel::InstanceT instance)
     {
-        m_litShadingModels->addMesh(mesh, subMeshesMaterials, instance);
+        m_litShadingModels->addMesh(mesh, materials, instance);
     }
 }

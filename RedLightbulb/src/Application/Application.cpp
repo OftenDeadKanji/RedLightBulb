@@ -3,6 +3,7 @@
 #include "Window/WindowProperties.hpp"
 #include "Render/General/Renderer.hpp"
 #include "ResourceManagers/MeshManager/MeshManager.hpp"
+#include "ResourceManagers/MaterialManager/MaterialManager.hpp"
 
 using namespace RedLightbulb;
 using namespace Math;
@@ -12,6 +13,9 @@ using namespace Math;
 
 #define MeshManagerInst MeshManager::getInstance()
 #define MeshManagerPtr  MeshManager::getInstancePtr()
+
+#define MaterialManagerInst MaterialManager::getInstance()
+#define MaterialManagerPtr  MaterialManager::getInstancePtr()
 
 Application::~Application()
 {
@@ -35,7 +39,7 @@ void Application::init()
 	m_eventManagerPtr->setMouse(m_mouse);
 	
 	m_camera.setPerspective(45.0f, 16.0f / 9.0f, 0.01f, 1000.0f);
-	m_camera.lookAt(Vec3f(0.0f, 0.0f, 0.5f), Math::Vec3f(0.0f, 0.0f, 0.0f));
+	m_camera.lookAt(Vec3f(0.0f, 0.0f, 1.0f), Math::Vec3f(0.0f, 0.0f, 0.0f));
 	m_camera.update();
 
 	sPtr<Mesh> keyMesh = std::make_shared<Mesh>();
@@ -44,26 +48,56 @@ void Application::init()
 	
 	}
 
-	//sPtr<Mesh> r2d2Mesh = std::make_shared<Mesh>();
-	//if (!MeshManagerInst.load("res/Meshes/r2d2.glb", "R2D2", r2d2Mesh))
-	//{
-	//
-	//}
+	auto keyMaterials = keyMesh->getMaterials();
+	std::vector<sPtr<MaterialUnlit>> keyUnlitMaterials;
+	for (auto& material : keyMaterials)
+	{
+		auto unlit = std::make_shared<MaterialUnlit>(material->toUnlit());
+		unlit->name += "Unlit";
+
+		MaterialManagerInst.addMaterial(unlit, unlit->name);
+
+		keyUnlitMaterials.push_back(unlit);
+	}
+
+	sPtr<Mesh> r2d2Mesh = std::make_shared<Mesh>();
+	if (!MeshManagerInst.load("res/Meshes/r2d2.glb", "R2D2", r2d2Mesh))
+	{
+	
+	}
+	auto r2d2Materials = r2d2Mesh->getMaterials();
+	std::vector<sPtr<MaterialLit>> r2d2LitMaterials;
+	for (auto& material : r2d2Materials)
+	{
+		auto lit = std::make_shared<MaterialLit>(material->toLit());
+		lit->name += "Lit";
+
+		MaterialManagerInst.addMaterial(lit, lit->name);
+
+		r2d2LitMaterials.push_back(lit);
+	}
 
 	{
 		UnlitShadingModel::InstanceT instance;
 		instance.transform = Math::Mat4f::Identity();
 
-		RendererInst.addUnlitMesh(keyMesh, instance);
+		instance.transform.col(3) = Math::Vec4f(-0.1f, 0.0f, 0.0f, 1.0f);
+		RendererInst.addUnlitMesh(keyMesh, keyUnlitMaterials, instance);
 
-		instance.transform.col(3) = Math::Vec4f(1.0f, 1.0f, 0.0f, 1.0f);
-		RendererInst.addUnlitMesh(keyMesh, instance);
+		instance.transform.col(3) = Math::Vec4f(0.1f, 0.1f, 0.0f, 1.0f);
+		RendererInst.addUnlitMesh(keyMesh, keyUnlitMaterials, instance);
 	}
 
-	//{
-	//	LitShadingModel::InstanceT instance {};
-	//	//RendererInst.addLitMesh(r2d2Mesh, instance);
-	//}
+	{
+		LitShadingModel::InstanceT instance;
+		instance.transform = Math::Mat4f::Identity();
+	
+		instance.transform.col(3) = Math::Vec4f(0.0f, -0.2f, 0.0f, 1.0f);
+		RendererInst.addLitMesh(r2d2Mesh, r2d2LitMaterials, instance);
+	
+		instance.transform.col(3) = Math::Vec4f(0.0f, 0.2f, 0.0f, 1.0f);
+		RendererInst.addLitMesh(r2d2Mesh, r2d2LitMaterials, instance);
+	}
 
 	m_timer.setNewTimePoint();
 
@@ -156,11 +190,11 @@ void Application::updateCamera()
 	}
 	if (m_keyboard.isPressed(Keyboard::KeyCode::W))
 	{
-		cameraMovement += Math::Vec3f(0.0f, 0.0f, 1.0f);
+		cameraMovement += Math::Vec3f(0.0f, 0.0f, -1.0f);
 	}
 	if (m_keyboard.isPressed(Keyboard::KeyCode::S))
 	{
-		cameraMovement += Math::Vec3f(0.0f, 0.0f, -1.0f);
+		cameraMovement += Math::Vec3f(0.0f, 0.0f, 1.0f);
 	}
 	if (m_keyboard.isPressed(Keyboard::KeyCode::E))
 	{
@@ -177,8 +211,8 @@ void Application::updateCamera()
 		Vec2f newPos = m_mouse.getPosition();
 		Vec2f deltaPos = newPos - m_mousePrevPos;
 
-		cameraRotation.x() = -Math::deg2rad(deltaPos.y());
-		cameraRotation.y() = Math::deg2rad(deltaPos.x());
+		cameraRotation.x() = Math::deg2rad(deltaPos.y());
+		cameraRotation.y() = -Math::deg2rad(deltaPos.x());
 	}
 	
 	cameraMovement *= m_deltaTime * m_cameraMovementSpeed;

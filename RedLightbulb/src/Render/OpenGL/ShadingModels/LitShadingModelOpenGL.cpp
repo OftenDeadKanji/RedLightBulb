@@ -6,8 +6,7 @@ namespace RedLightbulb
 {
 	LitShadingModelOpenGL::LitShadingModelOpenGL()
 		: m_shader("Lit")
-	{
-	}
+	{}
 	void LitShadingModelOpenGL::create()
 	{
 		if (m_isInitialized)
@@ -33,12 +32,12 @@ namespace RedLightbulb
 
 		m_shader.bind();
 
-		for (auto& mesh : m_meshes)
+		for (auto& perMesh : m_meshes)
 		{
-			VAO* vao {};
+			VAO* vao{};
 			for (auto& buffer : m_buffers)
 			{
-				if (buffer.first == &mesh)
+				if (buffer.first == &perMesh)
 				{
 					vao = &buffer.second;
 					break;
@@ -46,61 +45,67 @@ namespace RedLightbulb
 			}
 
 			vao->bind();
-			for (const auto& perSubmesh : mesh.submeshes)
+
+			auto& subMeshes = perMesh.mesh->getSubMeshes();
+			int subMeshesCount = subMeshes.size();
+			for (int subMeshIndex = 0; subMeshIndex < subMeshesCount; subMeshIndex++)
 			{
-				const SubMesh* subMesh = perSubmesh.first;
-				const PerMaterial& perMaterial = perSubmesh.second;
-
-				const MaterialLit* material = perMaterial.material.get();
-				auto* baseColorTexture = sCast(TextureOpenGL*, material->baseColorTexture.get());
-				auto* normalTexture = sCast(TextureOpenGL*, material->normalTexture.get());
-				auto* ARMTexture = sCast(TextureOpenGL*, material->ARMTexture.get());
-
-
-				MaterialUniform uniform;
-				
-				uniform.baseColor = material->baseColor;
-				if (baseColorTexture)
+				const SubMesh& subMesh = subMeshes[subMeshIndex];
+				for (int perMaterialsSetIndex = 0; perMaterialsSetIndex < perMesh.perMaterialsSet.size(); perMaterialsSetIndex++)
 				{
-					uniform.usesBaseColorTexture = true;
-					baseColorTexture->setToSlot(0, m_shader, "baseColorTexture");
-				}
+					const auto& perMaterialSet = perMesh.perMaterialsSet[perMaterialsSetIndex];
+					const auto& material = perMaterialSet.materials[subMeshIndex];
 
-				if (normalTexture != nullptr)
-				{
-					uniform.usesNormalTexture = true;
-					normalTexture->setToSlot(1, m_shader, "normalTexture");
-				}
+					auto* baseColorTexture = sCast(TextureOpenGL*, material->baseColorTexture.get());
+					auto* normalTexture = sCast(TextureOpenGL*, material->normalTexture.get());
+					auto* ARMTexture = sCast(TextureOpenGL*, material->ARMTexture.get());
 
-				uniform.roughness = material->roughness;
-				uniform.usesRoughnessTexture = material->usesRoughnessTexture;
 
-				uniform.metallic = material->metallic;
-				uniform.usesMetallicTexture = material->usesMetallicTexture;
+					MaterialUniform uniform;
 
-				if (ARMTexture != nullptr)
-				{
-					ARMTexture->setToSlot(2, m_shader, "armTexture");
-				}
-
-				m_materialUBO.bind();
-				m_materialUBO.bufferData(&uniform, sizeof(uniform));
-				m_materialUBO.setToSlot(3);
-
-				for (const auto& instance : perMaterial.instances)
-				{
-					if (vao->withIndices())
+					uniform.baseColor = material->baseColor;
+					if (baseColorTexture)
 					{
-						glDrawElements(GL_TRIANGLES, subMesh->getIndicesCount(), GL_UNSIGNED_INT, (void*)(subMesh->getFirstIndexIndex() * sizeof(unsigned int)));
+						uniform.usesBaseColorTexture = true;
+						baseColorTexture->setToSlot(0, m_shader, "baseColorTexture");
 					}
-					else
+
+					if (normalTexture != nullptr)
 					{
-						glDrawArrays(GL_TRIANGLES, subMesh->getFirstVertexIndex(), subMesh->getVerticesCount());
+						uniform.usesNormalTexture = true;
+						normalTexture->setToSlot(1, m_shader, "normalTexture");
+					}
+
+					uniform.roughness = material->roughness;
+					uniform.usesRoughnessTexture = material->usesRoughnessTexture;
+
+					uniform.metallic = material->metallic;
+					uniform.usesMetallicTexture = material->usesMetallicTexture;
+
+					if (ARMTexture != nullptr)
+					{
+						ARMTexture->setToSlot(2, m_shader, "armTexture");
+					}
+
+					m_materialUBO.bind();
+					m_materialUBO.bufferData(&uniform, sizeof(uniform));
+					m_materialUBO.setToSlot(3);
+
+					vao->updateInstanceBuffer(perMaterialSet.instances.data(), sizeof(InstanceT) * perMaterialSet.instances.size());
+
+					if(vao->withIndicesAndInstances())
+					{
+						glDrawElementsInstanced(GL_TRIANGLES, subMesh.getIndicesCount(), GL_UNSIGNED_INT, (void*)(subMesh.getFirstIndexIndex() * sizeof(unsigned int)), perMaterialSet.instances.size());
+					}
+					else if (vao->withIndices())
+					{
+						glDrawElements(GL_TRIANGLES, subMesh.getIndicesCount(), GL_UNSIGNED_INT, (void*)(subMesh.getFirstIndexIndex() * sizeof(unsigned int)));
 					}
 				}
 			}
 		}
 	}
+
 	void LitShadingModelOpenGL::createBuffer(PerMesh& perMesh)
 	{
 		const auto& vertices = perMesh.mesh->getVertices();
@@ -113,6 +118,6 @@ namespace RedLightbulb
 
 		auto& buffer = m_buffers.back().second;
 		buffer.create();
-		buffer.createP3TX2NM3TG3BT3IndexedBuffer(vertices, indices);
+		buffer.createP3TX2NM3TG3BT3IndexedInstancedBuffer(vertices, indices);
 	}
 }

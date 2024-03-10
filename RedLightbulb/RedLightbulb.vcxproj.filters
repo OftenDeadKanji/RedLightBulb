@@ -90,9 +90,6 @@
     <ClInclude Include="src\Render\General\Material\Material.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Render\General\Material\MaterialPBR.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Render\General\Material\MaterialUnlit.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -142,6 +139,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Dependencies\rang\rang.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Render\OpenGL\ShadingModels\LitShadingModelOpenGL.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Render\General\Material\MaterialLit.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Render\General\ShadingModels\LitShadingModel.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ResourceManagers\MaterialManager\MaterialManager.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -212,9 +221,6 @@
     <ClCompile Include="src\Render\General\Material\Material.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Render\General\Material\MaterialPBR.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Render\General\Material\MaterialUnlit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -263,10 +269,24 @@
     <ClCompile Include="src\Render\General\Color\Color.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Render\OpenGL\ShadingModels\LitShadingModelOpenGL.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Render\General\Material\MaterialLit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Render\General\ShadingModels\LitShadingModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ResourceManagers\MaterialManager\MaterialManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Unlit\UnlitVS.glsl" />
     <None Include="Shaders\Unlit\UnlitFS.glsl" />
+    <None Include="Shaders\Lit\LitFS.glsl" />
+    <None Include="Shaders\Lit\LitVS.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="src\Conventions" />

@@ -17,4 +17,12 @@ namespace RedLightbulb
     {
         return m_subMeshes;
     }
+    const std::vector<sPtr<Material>> Mesh::getMaterials() const
+    {
+        return m_materials;
+    }
+    const sPtr<Material> Mesh::getMaterial(int index) const
+    {
+        return m_materials[index];
+    }
 }
