@@ -17,9 +17,6 @@ namespace RedLightbulb
 
 		void setInt(int value, const std::string& name) const;
 	private:
-		void loadVertexShaderFile(const std::string& vertexShaderFile);
-		void loadFragmentShaderFile(const std::string& vertexShaderFile);
-
-		GLuint m_id;
+		GLuint m_id = 0;
 	};
 }

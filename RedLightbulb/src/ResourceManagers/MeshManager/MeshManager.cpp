@@ -7,6 +7,7 @@
 #include "../TextureManager/TextureManager.hpp"
 #include "../MaterialManager/MaterialManager.hpp"
 #include "Render/General/Material/MaterialLit.hpp"
+#include <format>
 
 namespace RedLightbulb
 {
@@ -31,18 +32,14 @@ namespace RedLightbulb
 		s_instance.release();
 	}
 
-	bool MeshManager::load(const std::string& pathToFile, const std::string& meshName, sPtr<Mesh> outMesh)
+	sPtr<Mesh> MeshManager::loadMesh(const std::string& pathToFile, const std::string& meshName)
 	{
 		std::string name = meshName.empty() ? pathToFile : meshName;
 
 		if (m_meshes.contains(name))
 		{
-			outMesh = m_meshes[name];
-			// RED_TODO warning? 
-			return false;
+			return m_meshes[name];
 		}
-
-		outMesh->m_name = name;
 
 		Assimp::Importer importer;
 
@@ -51,35 +48,41 @@ namespace RedLightbulb
 			| aiProcess_JoinIdenticalVertices
 			| aiProcess_CalcTangentSpace
 			| aiProcess_ImproveCacheLocality
-			//| aiProcess_FlipWindingOrder
 			;
 
 		const aiScene* scene = importer.ReadFile(pathToFile, postprocessFlags);
-		if (!scene)
+		if (scene == nullptr)
 		{
-			//RED_TODO error? warning?
-			std::cout << "[ERROR] While loading " << name << " mesh: \"" << importer.GetErrorString() << "\"";
-			return false;
+			LogError(std::format("Couldn't load {} mesh: \"{}\"", name, importer.GetErrorString()));
+
+			return nullptr;
 		}
 
-		processScene(scene, outMesh);
+		sPtr<Mesh> outMesh = std::make_shared<Mesh>();
+		outMesh->m_name = name;
 
-		m_meshes[name] = outMesh;
-		return true;
+		if (processScene(scene, outMesh))
+		{
+			return m_meshes[name] = outMesh;
+		}
+
+		return nullptr;
 	}
+	sPtr<Mesh> MeshManager::getMesh(const std::string& meshName)
+	{
+		return m_meshes.contains(meshName) ? m_meshes[meshName] : nullptr;
+	}
+
 	bool MeshManager::processScene(const aiScene* scene, sPtr<Mesh> outMesh)
 	{
-		std::cout << "Processing " << scene->mName.C_Str() << " scene.\n";
+		LogInfo(std::format("Processing {} scene.", scene->mName.C_Str()));
 
-		processNode(scene, scene->mRootNode, outMesh);
-		return false;
+		return processNode(scene, scene->mRootNode, outMesh);
 	}
+
 	bool MeshManager::processNode(const aiScene* scene, const aiNode* node, sPtr<Mesh> outMesh)
 	{
-		std::cout << "\tProcessing " << node->mName.C_Str() << " node.\n";
-
-		auto& texManager = TextureManager::getInstance();
-		auto& matManager = MaterialManager::getInstance();
+		LogInfo(std::format("\tProcessing {} node.", node->mName.C_Str()));
 
 		//node
 		for (int i = 0; i < node->mNumMeshes; i++)
@@ -107,74 +110,10 @@ namespace RedLightbulb
 			}
 			subMesh.m_verticesCount = outMesh->m_vertices.size() - subMesh.m_firstVertexIndex;
 
-			std::shared_ptr<MaterialLit> materialLit = std::make_shared<MaterialLit>();
-
-			aiMaterial* subMeshMaterial = scene->mMaterials[mesh->mMaterialIndex];
-			auto name = subMeshMaterial->GetName().C_Str();
-			materialLit->name = name;
-
-			aiColor3D baseColor;
-			if (subMeshMaterial->Get(AI_MATKEY_COLOR_DIFFUSE, baseColor) == aiReturn_SUCCESS)
+			if (importMaterial(scene, mesh, outMesh, subMesh) == false)
 			{
-				materialLit->baseColor = Math::Vec3f(baseColor.r, baseColor.g, baseColor.b);
+				LogWarning(std::format("Couldn't import material!"));
 			}
-			
-			aiString baseColorTexturePath;
-			if (subMeshMaterial->Get(AI_MATKEY_TEXTURE(AI_MATKEY_BASE_COLOR_TEXTURE) baseColorTexturePath) == aiReturn_SUCCESS)
-			{
-				if (auto* baseColorTexture = scene->GetEmbeddedTexture(baseColorTexturePath.C_Str()))
-				{
-					auto* arrayData = baseColorTexture->pcData;
-					unsigned char* arrayData1 = reinterpret_cast<unsigned char*>(arrayData);
-
-					auto texture = texManager.loadFromMemory(arrayData1, baseColorTexture->mWidth, baseColorTexture->mFilename.C_Str(), TextureType::Single2D);
-
-					materialLit->baseColorTexture = texture;
-				}
-				else
-				{
-					auto texture = texManager.loadFromFile(baseColorTexturePath.C_Str(), "", TextureType::Single2D);
-
-					materialLit->baseColorTexture = texture;
-				}
-			}
-			
-			aiString normalTexturePath;
-			if (subMeshMaterial->Get(AI_MATKEY_TEXTURE(aiTextureType_NORMALS, 0), normalTexturePath) == aiReturn_SUCCESS)
-			{
-				if (auto* normalTexture = scene->GetEmbeddedTexture(normalTexturePath.C_Str()))
-				{
-					auto* arrayData = normalTexture->pcData;
-					unsigned char* arrayData1 = reinterpret_cast<unsigned char*>(arrayData);
-
-					auto texture = texManager.loadFromMemory(arrayData1, normalTexture->mWidth, normalTexture->mFilename.C_Str(), TextureType::Single2D);
-
-					materialLit->normalTexture = texture;
-				}
-				else
-				{
-					auto texture = texManager.loadFromFile(normalTexturePath.C_Str(), "", TextureType::Single2D);
-
-					materialLit->normalTexture = texture;
-				}
-			}
-
-			float metallic;
-			if (subMeshMaterial->Get(AI_MATKEY_METALLIC_FACTOR, metallic) == aiReturn_SUCCESS)
-			{
-				materialLit->metallic = metallic;
-			}
-
-			float roughness;
-			if (subMeshMaterial->Get(AI_MATKEY_ROUGHNESS_FACTOR, roughness) == aiReturn_SUCCESS)
-			{
-				materialLit->roughness = roughness;
-			}
-
-			matManager.addMaterial(materialLit, materialLit->name);
-			
-			subMesh.m_materialIndex = outMesh->m_materials.size();
-			outMesh->m_materials.push_back(materialLit);
 
 			subMesh.m_firstIndexIndex = outMesh->m_indices.size();
 
@@ -183,7 +122,9 @@ namespace RedLightbulb
 				const aiFace& face = mesh->mFaces[f];
 				if (face.mNumIndices != 3)
 				{
-					std::cout << "Mesh " << mesh->mName.C_Str() << " contains face that is not triagle!\n";
+					LogError(std::format("Mesh {} contains face that is not triagle!", mesh->mName.C_Str()));
+
+					return false;
 				}
 
 				outMesh->m_indices.push_back(subMesh.m_firstVertexIndex + face.mIndices[0]);
@@ -196,8 +137,89 @@ namespace RedLightbulb
 		//children
 		for (int i = 0; i < node->mNumChildren; i++)
 		{
-			processNode(scene, node->mChildren[i], outMesh);
+			if (processNode(scene, node->mChildren[i], outMesh) == false)
+			{
+				return false;
+			}
 		}
-		return false;
+
+		return true;
+	}
+
+	bool MeshManager::importMaterial(const aiScene* scene, const aiMesh* mesh, sPtr<Mesh> outMesh, SubMesh& outSubMesh)
+	{
+		auto& texManager = TextureManager::getInstance();
+		auto& matManager = MaterialManager::getInstance();
+
+		std::shared_ptr<MaterialLit> materialLit = std::make_shared<MaterialLit>();
+
+		aiMaterial* subMeshMaterial = scene->mMaterials[mesh->mMaterialIndex];
+		auto name = subMeshMaterial->GetName().C_Str();
+		materialLit->name = name;
+
+		aiColor3D baseColor;
+		if (subMeshMaterial->Get(AI_MATKEY_COLOR_DIFFUSE, baseColor) == aiReturn_SUCCESS)
+		{
+			materialLit->baseColor = Math::Vec3f(baseColor.r, baseColor.g, baseColor.b);
+		}
+
+		aiString baseColorTexturePath;
+		if (subMeshMaterial->Get(AI_MATKEY_TEXTURE(AI_MATKEY_BASE_COLOR_TEXTURE) baseColorTexturePath) == aiReturn_SUCCESS)
+		{
+			if (auto* baseColorTexture = scene->GetEmbeddedTexture(baseColorTexturePath.C_Str()))
+			{
+				auto* arrayData = baseColorTexture->pcData;
+				unsigned char* arrayData1 = reinterpret_cast<unsigned char*>(arrayData);
+
+				auto texture = texManager.loadFromMemory(arrayData1, baseColorTexture->mWidth, baseColorTexture->mFilename.C_Str(), TextureType::Single2D);
+
+				materialLit->baseColorTexture = texture;
+			}
+			else
+			{
+				auto texture = texManager.loadFromFile(baseColorTexturePath.C_Str(), "", TextureType::Single2D);
+
+				materialLit->baseColorTexture = texture;
+			}
+		}
+
+		aiString normalTexturePath;
+		if (subMeshMaterial->Get(AI_MATKEY_TEXTURE(aiTextureType_NORMALS, 0), normalTexturePath) == aiReturn_SUCCESS)
+		{
+			if (auto* normalTexture = scene->GetEmbeddedTexture(normalTexturePath.C_Str()))
+			{
+				auto* arrayData = normalTexture->pcData;
+				unsigned char* arrayData1 = reinterpret_cast<unsigned char*>(arrayData);
+
+				auto texture = texManager.loadFromMemory(arrayData1, normalTexture->mWidth, normalTexture->mFilename.C_Str(), TextureType::Single2D);
+
+				materialLit->normalTexture = texture;
+			}
+			else
+			{
+				auto texture = texManager.loadFromFile(normalTexturePath.C_Str(), "", TextureType::Single2D);
+
+				materialLit->normalTexture = texture;
+			}
+		}
+
+		float metallic;
+		if (subMeshMaterial->Get(AI_MATKEY_METALLIC_FACTOR, metallic) == aiReturn_SUCCESS)
+		{
+			materialLit->metallic = metallic;
+		}
+
+		float roughness;
+		if (subMeshMaterial->Get(AI_MATKEY_ROUGHNESS_FACTOR, roughness) == aiReturn_SUCCESS)
+		{
+			materialLit->roughness = roughness;
+		}
+
+		matManager.addMaterial(materialLit, materialLit->name);
+
+		outSubMesh.m_materialIndex = outMesh->m_materials.size();
+		outMesh->m_materials.push_back(materialLit);
+
+		return true;
 	}
 }

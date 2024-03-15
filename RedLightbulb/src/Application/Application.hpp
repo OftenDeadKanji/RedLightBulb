@@ -28,6 +28,11 @@ public:
 	void processInputEvents();
 	void updateCamera();
 private:
+	void loadMeshes();
+
+	void setupUnlitMeshes();
+	void setupLitMeshes();
+
 	bool m_isInitialised = false;
 
 	RedLightbulb::Core m_engine;

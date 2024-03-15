@@ -42,62 +42,10 @@ void Application::init()
 	m_camera.lookAt(Vec3f(0.0f, 0.0f, 1.0f), Math::Vec3f(0.0f, 0.0f, 0.0f));
 	m_camera.update();
 
-	sPtr<Mesh> keyMesh = std::make_shared<Mesh>();
-	if (!MeshManagerInst.load("res/Meshes/keyTextured.glb", "Key", keyMesh))
-	{
-	
-	}
+	loadMeshes();
 
-	auto keyMaterials = keyMesh->getMaterials();
-	std::vector<sPtr<MaterialUnlit>> keyUnlitMaterials;
-	for (auto& material : keyMaterials)
-	{
-		auto unlit = std::make_shared<MaterialUnlit>(material->toUnlit());
-		unlit->name += "Unlit";
-
-		MaterialManagerInst.addMaterial(unlit, unlit->name);
-
-		keyUnlitMaterials.push_back(unlit);
-	}
-
-	sPtr<Mesh> r2d2Mesh = std::make_shared<Mesh>();
-	if (!MeshManagerInst.load("res/Meshes/r2d2.glb", "R2D2", r2d2Mesh))
-	{
-	
-	}
-	auto r2d2Materials = r2d2Mesh->getMaterials();
-	std::vector<sPtr<MaterialLit>> r2d2LitMaterials;
-	for (auto& material : r2d2Materials)
-	{
-		auto lit = std::make_shared<MaterialLit>(material->toLit());
-		lit->name += "Lit";
-
-		MaterialManagerInst.addMaterial(lit, lit->name);
-
-		r2d2LitMaterials.push_back(lit);
-	}
-
-	{
-		UnlitShadingModel::InstanceT instance;
-		instance.transform = Math::Mat4f::Identity();
-
-		instance.transform.col(3) = Math::Vec4f(-0.1f, 0.0f, 0.0f, 1.0f);
-		RendererInst.addUnlitMesh(keyMesh, keyUnlitMaterials, instance);
-
-		instance.transform.col(3) = Math::Vec4f(0.1f, 0.1f, 0.0f, 1.0f);
-		RendererInst.addUnlitMesh(keyMesh, keyUnlitMaterials, instance);
-	}
-
-	{
-		LitShadingModel::InstanceT instance;
-		instance.transform = Math::Mat4f::Identity();
-	
-		instance.transform.col(3) = Math::Vec4f(0.0f, -0.2f, 0.0f, 1.0f);
-		RendererInst.addLitMesh(r2d2Mesh, r2d2LitMaterials, instance);
-	
-		instance.transform.col(3) = Math::Vec4f(0.0f, 0.2f, 0.0f, 1.0f);
-		RendererInst.addLitMesh(r2d2Mesh, r2d2LitMaterials, instance);
-	}
+	setupUnlitMeshes();
+	setupLitMeshes();
 
 	m_timer.setNewTimePoint();
 
@@ -222,5 +170,67 @@ void Application::updateCamera()
 	m_camera.addLocalRotation(cameraRotation);
 	
 	m_camera.update();
+}
+
+void Application::loadMeshes()
+{
+	MeshManagerInst.loadMesh("res/Meshes/keyTextured.glb", "Key");
+	MeshManagerInst.loadMesh("res/Meshes/r2d2.glb", "R2D2");
+}
+
+void Application::setupUnlitMeshes()
+{
+	if (auto keyMesh = MeshManagerInst.getMesh("Key"))
+	{
+		auto keyMaterials = keyMesh->getMaterials();
+		std::vector<sPtr<MaterialUnlit>> keyUnlitMaterials;
+		for (auto& material : keyMaterials)
+		{
+			auto unlit = std::make_shared<MaterialUnlit>(material->toUnlit());
+			unlit->name += "Unlit";
+
+			MaterialManagerInst.addMaterial(unlit, unlit->name);
+
+			keyUnlitMaterials.push_back(unlit);
+		}
+
+		{
+			UnlitShadingModel::InstanceT instance;
+			instance.transform = Math::Mat4f::Identity();
+
+			instance.transform.col(3) = Math::Vec4f(-0.1f, 0.0f, 0.0f, 1.0f);
+			RendererInst.addUnlitMesh(keyMesh, keyUnlitMaterials, instance);
+
+			instance.transform.col(3) = Math::Vec4f(0.1f, 0.1f, 0.0f, 1.0f);
+			RendererInst.addUnlitMesh(keyMesh, keyUnlitMaterials, instance);
+		}
+	}
+}
+
+void Application::setupLitMeshes()
+{
+	if (auto r2d2Mesh = MeshManagerInst.getMesh("R2D2"))
+	{
+		auto r2d2Materials = r2d2Mesh->getMaterials();
+		std::vector<sPtr<MaterialLit>> r2d2LitMaterials;
+		for (auto& material : r2d2Materials)
+		{
+			auto lit = std::make_shared<MaterialLit>(material->toLit());
+			lit->name += "Lit";
+
+			MaterialManagerInst.addMaterial(lit, lit->name);
+
+			r2d2LitMaterials.push_back(lit);
+		}
+
+		LitShadingModel::InstanceT instance;
+		instance.transform = Math::Mat4f::Identity();
+
+		instance.transform.col(3) = Math::Vec4f(0.0f, -0.2f, 0.0f, 1.0f);
+		RendererInst.addLitMesh(r2d2Mesh, r2d2LitMaterials, instance);
+
+		instance.transform.col(3) = Math::Vec4f(0.0f, 0.2f, 0.0f, 1.0f);
+		RendererInst.addLitMesh(r2d2Mesh, r2d2LitMaterials, instance);
+	}
 }
 

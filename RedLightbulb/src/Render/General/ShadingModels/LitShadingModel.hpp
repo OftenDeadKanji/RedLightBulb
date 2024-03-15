@@ -5,7 +5,6 @@
 
 namespace RedLightbulb
 {
-
 	struct InstanceLit
 	{
 		Math::Mat4f transform;

@@ -19,6 +19,11 @@ namespace Utilities
 	private:
 		static std::string logStatusToString(LogStatus status);
 	};
+
+	#define LogInfo(Message)     Utilities::Logger::log(Message, Utilities::Logger::LogStatus::Info)
+	#define LogWarning(Message)  Utilities::Logger::log(Message, Utilities::Logger::LogStatus::Warning)
+	#define LogError(Message)    Utilities::Logger::log(Message, Utilities::Logger::LogStatus::Error)
 }
+
 
 #endif

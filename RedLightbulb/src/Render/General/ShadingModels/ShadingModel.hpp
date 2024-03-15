@@ -33,7 +33,7 @@ namespace RedLightbulb
 
 		void setDefaultMaterial(sPtr<MaterialT> material);
 
-		virtual void render(const Camera& camera) = 0;
+		virtual void render(const Camera& camera);
 
 		virtual void addMesh(sPtr<Mesh> mesh, std::vector<sPtr<MaterialT>>& perSubMeshes, InstanceT instance);
 	protected:
@@ -48,6 +48,12 @@ namespace RedLightbulb
 	inline void ShadingModel<MaterialType, InstanceType>::setDefaultMaterial(sPtr<MaterialT> material)
 	{
 		m_defaultMaterial = material;
+	}
+
+	template<class MaterialType, class InstanceType>
+	inline void ShadingModel<MaterialType, InstanceType>::render(const Camera& camera)
+	{
+		
 	}
 
 	template<class MaterialType, class InstanceType>

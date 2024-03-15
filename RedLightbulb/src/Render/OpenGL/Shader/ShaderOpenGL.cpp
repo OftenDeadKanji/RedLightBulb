@@ -35,7 +35,8 @@ namespace RedLightbulb
 		{
 			char log[1024];
 			glGetShaderInfoLog(vertexShader, 1024, nullptr, log);
-			std::cout << "[ERROR] " << m_name << " - Vertex shader compilation failed: " << log << "\n";
+
+			LogError(std::format("Vertex shader compilation failed: {}", log));
 		}
 
 		glShaderSource(fragmentShader, 1, &fragmentShaderCodeC, nullptr);
@@ -46,7 +47,8 @@ namespace RedLightbulb
 		{
 			char log[1024];
 			glGetShaderInfoLog(fragmentShader, 1024, nullptr, log);
-			std::cout << "[ERROR] " << m_name << " - Fragment shader compilation failed: " << log << "\n";
+
+			LogError(std::format("Fragment shader compilation failed: {}", log));
 		}
 
 		m_id = glCreateProgram();
@@ -60,17 +62,22 @@ namespace RedLightbulb
 		{
 			char log[1024];
 			glGetProgramInfoLog(m_id, 1024, nullptr, log);
-			std::cout << "[ERROR] " << m_name << " - shader linkage failed: " << log << "\n";
-		}
 
-		std::cout << std::flush;
+			LogError(std::format("Shader linkage failed: ", log));
+		}
 
 		glDeleteShader(vertexShader);
 		glDeleteShader(fragmentShader);
 	}
 
 	void ShaderOpenGL::destroy()
-	{}
+	{
+		if (m_isInitialized)
+		{
+			glDeleteProgram(m_id);
+			m_id = 0;
+		}
+	}
 
 	void ShaderOpenGL::bind()
 	{
@@ -81,30 +88,5 @@ namespace RedLightbulb
 	{
 		GLuint location = glGetUniformLocation(m_id, name.c_str());
 		glUniform1i(location, value);
-	}
-
-	void ShaderOpenGL::loadVertexShaderFile(const std::string& vertexShaderFile)
-	{
-		std::ifstream shaderFile(vertexShaderFile);
-
-		shaderFile.seekg(0, std::ios::end);
-		size_t size = shaderFile.tellg();
-
-		std::string buffer(size, ' ');
-
-		shaderFile.seekg(0);
-		shaderFile.read(&buffer[0], size);
-	}
-	void ShaderOpenGL::loadFragmentShaderFile(const std::string& vertexShaderFile)
-	{
-		std::ifstream shaderFile(vertexShaderFile);
-
-		shaderFile.seekg(0, std::ios::end);
-		size_t size = shaderFile.tellg();
-
-		std::string buffer(size, ' ');
-
-		shaderFile.seekg(0);
-		shaderFile.read(&buffer[0], size);
 	}
 }
