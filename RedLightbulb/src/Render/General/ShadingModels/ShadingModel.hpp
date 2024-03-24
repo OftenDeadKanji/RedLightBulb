@@ -11,9 +11,12 @@ namespace RedLightbulb
 	template<class MaterialType, class InstanceType>
 	class ShadingModel
 	{
+		static_assert(std::is_base_of<Shader, ShaderType>::value, "ShaderType must derive from RedLightbulb::Shader");
+
 	public:
 		using MaterialT = MaterialType;
 		using InstanceT = InstanceType;
+		using ShaderT = ShaderType;
 
 		struct PerMaterialsSet
 		{
@@ -33,7 +36,7 @@ namespace RedLightbulb
 
 		void setDefaultMaterial(sPtr<MaterialT> material);
 
-		virtual void render(const Camera& camera);
+		virtual void render(const Camera& camera) = 0;
 
 		virtual void addMesh(sPtr<Mesh> mesh, std::vector<sPtr<MaterialT>>& perSubMeshes, InstanceT instance);
 	protected:
@@ -42,18 +45,13 @@ namespace RedLightbulb
 
 		std::vector<PerMesh> m_meshes;
 		sPtr<MaterialT> m_defaultMaterial;
+
 	};
 
 	template<class MaterialType, class InstanceType>
 	inline void ShadingModel<MaterialType, InstanceType>::setDefaultMaterial(sPtr<MaterialT> material)
 	{
 		m_defaultMaterial = material;
-	}
-
-	template<class MaterialType, class InstanceType>
-	inline void ShadingModel<MaterialType, InstanceType>::render(const Camera& camera)
-	{
-		
 	}
 
 	template<class MaterialType, class InstanceType>
